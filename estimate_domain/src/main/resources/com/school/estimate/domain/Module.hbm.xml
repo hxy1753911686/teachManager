@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.school.estimate.domain">
+	<class name="Module" table="MODULE" dynamic-insert="true" dynamic-update="true">
+		<id name="id" column="MODULE_ID">
+			<generator class="uuid"/>
+		</id>
+
+		<property name="name" column="NAME"/>
+		<property name="ico" column="ICO"/>
+		<property name="url" column="CURL"/>
+		<property name="state" column="STATE"/>
+		<property name="remark" column="REMARK"/>
+		<property name="orderNo" column="ORDER_NO"/>
+		
+		<!-- <list name="roles" table="ROLE_MODULE">
+			<key column="MODULE_ID"></key>
+			<index column="ROLE_ID" type="string" ></index>
+	        <many-to-many class="Role" ></many-to-many>
+		</list> -->
+		
+		<set name="roles" table="ROLE_MODULE">
+	        <key column="MODULE_ID"></key>
+	        <many-to-many class="Role" column="ROLE_ID" order-by="ORDER_NO"></many-to-many>
+	    </set>
+		
+		
+	</class>
+</hibernate-mapping>    

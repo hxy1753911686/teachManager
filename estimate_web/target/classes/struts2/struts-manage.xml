@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.ui.theme" value="simple"/>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+
+	<package name="manage" namespace="/manage" extends="struts-default">
+
+		<action name="teacherAction_*" method="{1}" class="teacherAction">
+			<result name="list">/page/manage/Teacher/jTeacherList.jsp</result>
+			<result name="toCreate">/page/manage/Teacher/jTeacherCreate.jsp</result>
+			<result name="toUpdate">/page/manage/Teacher/jTeacherUpdate.jsp</result>
+			<result name="tolist" type="redirectAction">teacherAction_toList</result>
+			<result name="role" >/page/manage/Teacher/jTeacherRole.jsp</result>
+		</action>
+		<action name="moduleAction_*" method="{1}" class="moduleAction">
+			<result name="list">/page/manage/Module/jModuleList.jsp</result>
+		</action>
+		<action name="roleAction_*" method="{1}" class="roleAction">
+			<result name="list">/page/manage/Role/jRoleList.jsp</result>
+		</action>
+		<action name="userAction_*" method="{1}" class="userAction">
+			<result name="toRole">/page/manage/Teacher/jTeacherRole.jsp</result>
+			<result name="toUserSetting">/userSetting.jsp</result>
+			<result name="toIndex" type="redirectAction" >
+				<param name="namespace">/</param>
+				<param name="actionName">pageAction_toIndex</param>
+			</result>
+		</action>
+		<action name="classesAction_*" method="{1}" class="classesAction">
+			<result name="list">/page/manage/Class/jClassesList.jsp</result>
+			<result name="toCreate">/page/manage/Class/jClassesCreate.jsp</result>
+			<result name="toUpdate">/page/manage/Class/jClassesUpdate.jsp</result>
+			<result name="toView">/page/manage/Class/jClassesView.jsp</result>
+			<result name="old">/page/manage/Class/jClassesOld.jsp</result>
+			<result name="toTeacher">/page/manage/Class/jClassesTeacher.jsp</result>
+			<result name="toList" type="redirectAction">classesAction_toList</result>
+			<result name="returnView" type="redirectAction">classesAction_toView?id=${id}</result>
+		</action>
+		<action name="studentAction_*" method="{1}" class="studentAction">
+			<result name="toView">/page/manage/Student/jStudentView.jsp</result>
+			<result name="toCreate">/page/manage/Student/jStudentCreate.jsp</result>
+			<result name="toUpdate">/page/manage/Student/jStudentUpdate.jsp</result>
+			<result name="toClass" type="redirectAction">classesAction_toView?id=${classesId}</result>
+		</action>
+		
+		<!-- <action name="homeAction_*" method="{1}" class="homeAction">
+			<result name="fmain">/WEB-INF/pages/home/fmain.jsp</result>
+			<result name="title">/WEB-INF/pages/home/title.jsp</result>
+			<result name="toleft">/WEB-INF/pages/${moduleName}/left.jsp</result>
+			<result name="tomain">/WEB-INF/pages/${moduleName}/main.jsp</result>
+		</action> -->
+		
+	</package>
+
+</struts>
+	
