@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.ui.theme" value="simple"/>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+
+	<package name="main" namespace="/main" extends="default">
+
+		<action name="estimateAction_*" method="{1}" class="estimateAction">
+			<result name="toList">/404.jsp</result>
+			<result name="toClassStudent">/page/main/jBanList.jsp</result>
+			<result name="toBanEstimate">/page/main/jBanEstimate.jsp</result>
+			<result name="toClass" type="redirectAction">estimateAction_toClassStudent</result>
+			<result name="toSubjectList">/page/main/jSubjectList.jsp</result>
+			<result name="toBanSubjectList">/page/main/jBanSubjectList.jsp</result>
+			<result name="toSubjectClass">/page/main/jClassStudent.jsp</result>
+			<result name="toSubjectEstimate">/page/main/jSubjectEstimate.jsp</result>
+			<result name="toChineseEstimate">/page/main/jChineseEstimate.jsp</result>
+			<result name="toSportsEstimate">/page/main/jSportsEstimate.jsp</result>
+			<result name="toMusicEstimate">/page/main/jMusicEstimate.jsp</result>
+			<result name="toArtEstimate">/page/main/jArtEstimate.jsp</result>
+			<result name="toClassSubject" type="redirectAction">
+				<param name="namespace">/main</param>
+				<param name="actionName">estimateAction_toClass</param>
+				<param name="classId">${classId}</param>
+				<param name="subjectId">${subjectId}</param>
+			</result>
+			<result name="toStudentView">/page/main/jStudentView.jsp</result>
+			<result name="viewSelf">/page/student/jViewSelf.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>
+	

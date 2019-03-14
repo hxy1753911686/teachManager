@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.ui.theme" value="simple"/>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+
+	<package name="default" namespace="/" extends="struts-default">
+		<!--全局结果视图-->
+		<!-- <global-results>
+			<result name="error" type="chain">
+12                 <param name="actionName">errorProcessor</param>
+13             </result>
+		</global-results> -->
+		<!--全局异常处理-->
+		<!-- <global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error"></exception-mapping>
+		</global-exception-mappings> -->
+		
+		<!-- <action name="errorProcessor" class="com.school.estimate.exception.GlobalException">
+             <result>/404.jsp</result>
+         </action> -->
+		
+		<action name="loginAction_*" method="{1}" class="loginAction">
+			<result name="login">login.jsp</result>
+			<result name="logout">login.jsp</result>
+			<result name="success" type="redirectAction">pageAction_toIndex</result>
+		</action>
+		
+		<action name="pageAction_*" method="{1}" class="pageAction">
+			<result	name="index">index.jsp</result>
+		</action>
+		
+		<action name="printAction_*" method="{1}" class="printAction">
+			<result	name="list">/page/print/jClassesPrint.jsp</result>
+		</action>
+		
+		<!-- <action name="logout" method="logout" class="loginAction">
+			<result name="logout">/WEB-INF/pages/sysadmin/login/logout.jsp</result>
+		</action>
+		
+		
+		
+		<action name="homeAction_*" method="{1}" class="homeAction">
+			<result name="fmain">/WEB-INF/pages/home/fmain.jsp</result>
+			<result name="title">/WEB-INF/pages/home/title.jsp</result>
+			<result name="toleft">/WEB-INF/pages/${moduleName}/left.jsp</result>
+			<result name="tomain">/WEB-INF/pages/${moduleName}/main.jsp</result>
+		</action> -->
+		
+	</package>
+
+	<!-- 分模块开发 -->
+	<include file="struts2/struts-manage.xml"></include>
+	<include file="struts2/struts-main.xml"></include>
+	
+</struts>
+	

@@ -1,8 +1,0 @@
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:15 +0800] "GET /estimate HTTP/1.1" 302 - http-bio-8090-exec-1 0
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:16 +0800] "GET /estimate/ HTTP/1.1" 302 - http-bio-8090-exec-3 721
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:17 +0800] "GET /estimate/login.jsp;jsessionid=A55D49D6130A25C57E2DC600E7A3660F HTTP/1.1" 200 3128 http-bio-8090-exec-4 1097
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:17 +0800] "GET /estimate/js/bootstrap.min.js HTTP/1.1" 200 37045 http-bio-8090-exec-6 221
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:17 +0800] "GET /estimate/js/jquery-1.11.0.min.js HTTP/1.1" 200 96383 http-bio-8090-exec-2 233
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:18 +0800] "GET /estimate/css/bootstrap.min.css HTTP/1.1" 200 121200 http-bio-8090-exec-5 318
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:18 +0800] "GET /estimate/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028 http-bio-8090-exec-9 227
-0:0:0:0:0:0:0:1 - - [01/May/2018:10:26:19 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8090-exec-10 0

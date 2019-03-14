@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.estimate.dao.StudentDao">
+    <resultMap id="BaseResultMap" type="com.school.estimate.domain.Student">
+        <result column="id" property="id"  />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="accessId" property="accessID" />
+        <result column="birth" property="birth" />
+        <result column="is_out" property="is_out" />
+    </resultMap>
+
+    <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
+    <parameterMap id="Student" type="com.school.estimate.domain.Student" />
+
+    <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+            name,gender,accessID,birth
+        from estimate.student
+        where name like CONCAT(CONCAT('%', #{name}), '%')
+        order by id;
+    </select>
+
+    <select id="findStudentById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+            name,gender,accessID,birth,is_out
+        from estimate.student
+        where id = #{id}
+    </select>
+
+    <select id="findAllStudent" resultMap="BaseResultMap" resultType="Student">
+        select
+            name,gender,accessID,birth
+        from estimate.student
+        order by id;
+    </select>
+
+    <insert id="saveStudent" parameterMap="Student" useGeneratedKeys="true" keyProperty="id">
+        insert into student(id, name,gender,accessID,birth,is_out) values(#{id},#{name},#{gender},#{accessId},#{birth},false );
+    </insert>
+
+    <update id="updateStudent" parameterMap="Student">
+        update estimate.student
+        set
+        <if test="name!=null">
+            name = #{name},
+        </if>
+        <if test="gender!=null">
+            gender = #{gender},
+        </if>
+        <if test="accessId!=null">
+            accessID = #{accessId}
+        </if>
+        <if test="birth!=null">
+            birth = #{birth}
+        </if>
+        <if test="is_out!=null">
+            is_out = #{is_out}
+        </if>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudent" parameterType="java.lang.Long">
+        delete from estimate.student where id = #{id}
+    </delete>
+
+</mapper>
