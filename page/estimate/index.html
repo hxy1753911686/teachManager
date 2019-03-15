@@ -1,0 +1,153 @@
+<!doctype html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<!-- 用来把content关联到http头部 -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 用来把content关联到一个name名称上 -->
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>教务管理系统</title>
+
+		<!-- Set render engine for 360 browser -->
+		<meta name="renderer" content="webkit">
+
+		<!-- No Baidu Siteapp-->
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+		<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+		<!-- Add to homescreen for Chrome on Android -->
+		<meta name="mobile-web-app-capable" content="yes">
+
+		<!-- 可动态替换为校徽 -->
+		<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+		<!-- Add to homescreen for Safari on iOS -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+		<link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+		<!-- Tile icon for Win8 (144x144 + tile color) -->
+		<meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+		<meta name="msapplication-TileColor" content="#0e90d2">
+		
+		<link rel="stylesheet" href="assets/css/admin.css">
+		<link rel="stylesheet" href="assets/css/amazeui.min.css">
+		<link rel="stylesheet" href="assets/css/amazeui.flat.min.css">
+		<link rel="stylesheet" href="assets/css/app.css">
+	</head>
+	<body>
+
+		<header class="am-topbar am-topbar-inverse">
+			<h1 class="am-topbar-brand">
+				<div class="am-topbar-brand-logo">
+					<img href="#" alt="学校logo" src="assets/i/examples/admin-opera.png" />
+					<font>某某某某学校</font>
+				</div>
+
+			</h1>
+			<h1 class="am-topbar-brand">|</h1>
+
+			<div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+				<ul class="am-nav am-nav-pills am-topbar-nav">
+					<!-- 侧边切换 data-am-offcanvas用来触发侧边栏 -->
+					<!-- <li class="am-acblock blockAlign-center">
+						<a href="#doc-oc-demo3" data-am-offcanva class="am-icon-list am-icon-lg"></a>
+					</li> -->
+					<!-- 首页 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-home am-icon-lg"></a></li>
+					<!-- 综合信息 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-file-text-o am-icon-lg"></a></li>
+					<!-- 教务管理 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-tasks am-icon-lg"></a></li>
+					<!-- 信息管理 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-info am-icon-lg"></a></li>
+					<!-- 日志管理 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-bug am-icon-lg"></a></li>
+					<!-- 设置 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-cogs am-icon-lg"></a></li>
+				</ul>
+
+				<div class="am-topbar-right">
+					<button class="am-btn am-btn-danger am-topbar-btn am-btn-sm"><i class="am-icon-sign-out"></i>退出</button>
+				</div>
+
+				<div class="am-topbar-right">
+					<button class="am-btn am-btn-success am-topbar-btn am-btn-sm"><i class="am-icon-sign-in am-icon-fw"></i>登录</button>
+				</div>
+			</div>
+
+
+		</header>
+		<div class="left-sidebar">
+			<!-- 用户信息 -->
+			<div class="tpl-sidebar-user-panel" style="align">
+					<div class="tpl-user-panel-profile-picture">
+						<img src="assets/i/examples/admin-chrome.png" alt="头像">
+					</div>
+					<span class="user-panel-logged-in-text">
+						<i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
+						禁言小张
+					</span>
+					<a href="javascript:;" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 账号设置</a>
+			</div>
+
+			<!-- 菜单 -->
+			<ul class="sidebar-nav">
+				<li class="sidebar-nav-link">
+					<a href="index.html" class="active">
+						<i class="am-icon-home sidebar-nav-link-logo"></i> 首页
+					</a>
+				</li>
+				<li class="sidebar-nav-link">
+					<a href="tables.html">
+						<i class="am-icon-table sidebar-nav-link-logo"></i> 表格
+					</a>
+				</li>
+				<li class="sidebar-nav-link">
+					<a href="calendar.html">
+						<i class="am-icon-calendar sidebar-nav-link-logo"></i> 日历
+					</a>
+				</li>
+				<li class="sidebar-nav-link">
+					<a href="form.html">
+						<i class="am-icon-wpforms sidebar-nav-link-logo"></i> 表单
+
+					</a>
+				</li>
+				<li class="sidebar-nav-link">
+					<a href="chart.html">
+						<i class="am-icon-bar-chart sidebar-nav-link-logo"></i> 图表
+
+					</a>
+				</li>
+
+				<li class="sidebar-nav-link">
+					<a href="404.html">
+						<i class="am-icon-tv sidebar-nav-link-logo"></i> 404错误
+					</a>
+				</li>
+
+			</ul>
+		</div>
+		<div class="am-panel am-panel-default main-panel-position">
+		  <div class="am-panel-hd">面板标题</div>
+		  <div class="am-panel-bd .am-scrollable-vertical" >
+			面板内容
+			
+			<p></p>
+			12
+			31
+			
+			
+		  </div>
+		</div>
+		
+
+		<script src="assets/js/jquery-3.3.1.min.js"></script>
+		<script src="assets/js/amazeui.min.js"></script>
+	</body>
+</html>
