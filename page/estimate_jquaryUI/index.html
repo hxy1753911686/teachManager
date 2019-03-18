@@ -2,51 +2,54 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>为啥没效果</title>
+		<title>通过div及jquary.load的组合框架</title>
 		<link rel="stylesheet" href="css/jquery-ui.min.css" />
 		<link rel="stylesheet" href="css/jquery-ui.structure.min.css" />
 		<link rel="stylesheet" href="css/jquery-ui.theme.min.css" />
+		<link rel="stylesheet" href="css/topbar.css" />
+		<link rel="stylesheet" href="css/maincontent.css" />
+		<link rel="stylesheet" href="css/leftsider.css" />
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
-		<script>
-		$(function() {
-		  $( "#date" ).datepicker();
-		  $( "#accordion" ).accordion();
-		});
-		</script>
+
+		<style type="text/css">
+			body {
+				background: #eff3f5;
+			}
+
+			.super-bar {
+				position: fixed;
+				top: 66px;
+				left: 5px;
+				right: 5px;
+				bottom: 5px;
+				/* border:1px solid #000000; */
+			}
+			
+			
+		</style>
+
 	</head>
 	<body>
-		<input type="text" name="date" id="date" />
-		
-		<div id="accordion">
-		  <h3>First header</h3>
-		  <div>First content panel</div>
-		  <h3>Second header</h3>
-		  <div>Second content panel</div>
+
+		<div id="pageTop" class="top"></div>
+		<div class="super-bar">
+			<div id="pageLeft" ></div>
+			<div id="pageMain" ></div>
 		</div>
-		
+
+		<script>
+			$(function() {
+				$("#pageTop").load("topbar.html #topbar",null,function(){
+					alert("加载成功");
+				});
+				$("#pageLeft").load("leftsider.html #leftSider",null, function(){
+					alert("加载成功");
+				});
+				$("#pageMain").load("maincontent.html #maincontent",null,function(){
+					alert("加载成功");
+				});
+			});
+		</script>
 	</body>
 </html>
-
-<!-- <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>jQuery UI 日期选择器（Datepicker） - 默认功能</title>
-  <link rel="stylesheet" href="css/jquery-ui.min.css" />
-  <script src="js/jquery.js"></script>
-  <script src="js/jquery-ui.min.js"></script>
-  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
-  <script>
-  $(function() {
-    $( "#datepicker" ).datepicker();
-  });
-  </script>
-</head>
-<body>
- 
-<p>日期：<input type="text" id="datepicker"></p>
- 
- 
-</body>
-</html> -->
