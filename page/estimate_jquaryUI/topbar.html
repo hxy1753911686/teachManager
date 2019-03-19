@@ -5,29 +5,43 @@
 		<title></title>
 	</head>
 	<body>
-		<div id="topbar" class="top">
-			<h1 class="topbar-brand topbar-brand-size">
-				<div class="topTitle">
-					<img align="absmiddle" href="#" alt="学校logo" src="images/ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+		<header id="topbar" class="am-topbar am-topbar-inverse">
+			<h1 class="am-topbar-brand">
+				<div class="am-topbar-brand-logo">
+					<img href="#" alt="学校logo" src="images/ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
 					<font>某某某某学校</font>
 				</div>
+			
 			</h1>
-			<h1 class="topbar-brand topbar-brand-length">|</h1>
-			<ul>
-
-				<li><a href="#">一级菜单</a></li>
-				<li><a href="#">一级菜单</a></li>
-				<li><a href="#">一级菜单</a></li>
-				<li><a href="#"><b>一级菜单</b></a></li>
-				<li><a href="#">一级菜单</a></li>
-				<li>
-					<a href="#">一级菜单</a>
-					<ul>
-						<li><a href="#">二级菜单</a></li>
-						<li><a href="#">二级菜单</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+			<h1 class="am-topbar-brand">|</h1>
+			<div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+				<ul class="am-nav am-nav-pills am-topbar-nav">
+					<!-- 侧边切换 data-am-offcanvas用来触发侧边栏 -->
+					<!-- <li class="am-acblock blockAlign-center">
+						<a href="#doc-oc-demo3" data-am-offcanva class="am-icon-list am-icon-lg"></a>
+					</li> -->
+					<!-- 首页 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-home am-icon-lg"></a></li>
+					<!-- 综合信息 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-file-text-o am-icon-lg"></a></li>
+					<!-- 教务管理 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-tasks am-icon-lg"></a></li>
+					<!-- 信息管理 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-info am-icon-lg"></a></li>
+					<!-- 日志管理 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-bug am-icon-lg"></a></li>
+					<!-- 设置 -->
+					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-cogs am-icon-lg"></a></li>
+				</ul>
+			
+				<div class="am-topbar-right">
+					<button class="am-btn am-btn-danger am-topbar-btn am-btn-sm"><i class="am-icon-sign-out"></i>退出</button>
+				</div>
+			
+				<div class="am-topbar-right">
+					<button class="am-btn am-btn-success am-topbar-btn am-btn-sm"><i class="am-icon-sign-in am-icon-fw"></i>登录</button>
+				</div>
+			</div>
+		</header>
 	</body>
 </html>
