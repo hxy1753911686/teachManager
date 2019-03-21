@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8" />
 		<title>通过div及jquary.load的组合框架</title>
-		<link rel="stylesheet" href="css/jquery-ui.min.css" />
-		<link rel="stylesheet" href="css/jquery-ui.structure.min.css" />
-		<link rel="stylesheet" href="css/jquery-ui.theme.min.css" />
-		<link rel="stylesheet" href="css/topbar.css" />
-		<link rel="stylesheet" href="css/maincontent.css" />
-		<link rel="stylesheet" href="css/leftsider.css" />
-		<link rel="stylesheet" href="css/admin.css">
-		<link rel="stylesheet" href="css/amazeui.min.css">
-		<link rel="stylesheet" href="css/amazeui.flat.min.css">
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery-ui.min.js"></script>
-		<script src="js/leftsider.js"></script>
+		<link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}" />
+		<link rel="stylesheet" href="css/jquery-ui.structure.min.css" th:href="@{/css/jquery-ui.structure.min.css}"  />
+		<link rel="stylesheet" href="css/jquery-ui.theme.min.css" th:href="@{/css/jquery-ui.theme.min.css}"  />
+		<link rel="stylesheet" href="css/topbar.css" th:href="@{/css/topbar.css}"  />
+		<link rel="stylesheet" href="css/maincontent.css" th:href="@{/css/maincontent.css}"  />
+		<link rel="stylesheet" href="css/leftsider.css" th:href="@{/css/leftsider.css}"  />
+		<link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}"  >
+		<link rel="stylesheet" href="css/amazeui.min.css" th:href="@{/css/amazeui.min.css}"   >
+		<link rel="stylesheet" href="css/amazeui.flat.min.css" th:href="@{/css/amazeui.flat.min.css}"  >
+		<script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+		<script src="js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}" ></script>
+		<script src="js/leftsider.js" th:src="@{/js/leftsider.js}" ></script>
 
 		<style type="text/css">
 			body {
@@ -36,24 +36,30 @@
 	</head>
 	<body>
 
-		<div id="pageTop"></div>
+		<div id="pageTop" >
+			<header class="am-topbar am-topbar-inverse" th:include="topbar::topbarNav"></header>
+		</div>
 		<div class="super-bar">
-			<div id="pageLeft" ></div>
-			<div id="pageMain" ></div>
+			<div id="pageLeft"  >
+				<div class="left-sidebar" th:include="leftsider::leftSiderNav"></div>
+			</div>
+			<div id="pageMain"  >
+				<div class="main-content" th:include="maincontent::mainContentNav"></div>
+			</div>
 		</div>
 
-		<script>
-			$(function() {
-				$("#pageTop").load("topbar.html #topbar",null,function(){
-					alert("加载成功");
-				});
-				$("#pageLeft").load("leftsider.html #leftSider",null, function(){
-					alert("加载成功");
-				});
-				$("#pageMain").load("maincontent.html #maincontent",null,function(){
-					alert("加载成功");
-				});
-			});
-		</script>
+		<!--<script>-->
+			<!--$(function() {-->
+				<!--$("#pageTop").load("topbar.html #topbar",null,function(){-->
+					<!--alert("加载成功");-->
+				<!--});-->
+				<!--$("#pageLeft").load("leftsider.html #leftSider",null, function(){-->
+					<!--alert("加载成功");-->
+				<!--});-->
+				<!--$("#pageMain").load("maincontent.html #maincontent",null,function(){-->
+					<!--alert("加载成功");-->
+				<!--});-->
+			<!--});-->
+		<!--</script>-->
 	</body>
 </html>
