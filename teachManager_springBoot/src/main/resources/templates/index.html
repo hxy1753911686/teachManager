@@ -35,18 +35,18 @@
 
 	</head>
 	<body>
-
-		<div id="pageTop" >
-			<header class="am-topbar am-topbar-inverse" th:include="topbar::topbarNav"></header>
-		</div>
-		<div class="super-bar">
-			<div id="pageLeft"  >
-				<div class="left-sidebar" th:include="leftsider::leftSiderNav"></div>
-			</div>
-			<div id="pageMain"  >
-				<div class="main-content" th:include="maincontent::mainContentNav"></div>
-			</div>
-		</div>
+		<div th:fragment="pageSource"></div>
+		<!--<div id="pageTop" >-->
+			<!--<header class="am-topbar am-topbar-inverse" th:include="topbar::topbarNav"></header>-->
+		<!--</div>-->
+		<!--<div class="super-bar">-->
+			<!--<div id="pageLeft"  >-->
+				<!--<div class="left-sidebar" th:include="leftsider::leftSiderNav"></div>-->
+			<!--</div>-->
+			<!--<div id="pageMain"  >-->
+				<!--<div class="main-content" th:include="maincontent::mainContentNav"></div>-->
+			<!--</div>-->
+		<!--</div>-->
 
 		<!--<script>-->
 			<!--$(function() {-->

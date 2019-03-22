@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.estimate.dao.RoleDao">
+    <resultMap id="BaseResultMap" type="com.school.estimate.domain.Role">
+        <result column="id" property="id"  />
+        <result column="roleCode" property="role_code" />
+        <result column="roleName" property="role_name" />
+    </resultMap>
+
+    <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
+    <parameterMap id="Role" type="com.school.estimate.domain.Role" />
+
+    <select id="findByName" resultType="Role" parameterType="java.lang.String">
+        select
+            id,role_code,role_name
+        from estimate.role
+        where role_name like CONCAT(CONCAT('%', #{roleName}), '%')
+        order by id;
+    </select>
+
+    <select id="findRoleById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+            id,role_code,role_name
+        from estimate.role
+        where id = #{id}
+    </select>
+
+    <select id="findAllRole" resultMap="BaseResultMap" resultType="Role">
+        select
+            id,role_code,role_name
+        from estimate.role
+        order by id;
+    </select>
+
+    <insert id="saveRole" parameterMap="Role" useGeneratedKeys="true" keyProperty="id">
+        insert into role(id,role_code,role_name) values(#{id},#{roleCode},#{roleName});
+    </insert>
+
+    <update id="updateRole" parameterMap="Role">
+        update estimate.role
+        set
+        <if test="roleCode!=null">
+            role_code = #{roleCode},
+        </if>
+        <if test="roleName!=null">
+            role_name = #{roleName},
+        </if>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRole" parameterType="java.lang.Long">
+        delete from estimate.role where id = #{id}
+    </delete>
+
+    <!-- TODO: -->
+    <select id="findRolesOfUserId" resultMap="BaseResultMap" resultType="Role" parameterMap="Role">
+        select
+            id,role_code,role_name
+        from estimate.role
+        order by id;
+    </select>
+
+</mapper>

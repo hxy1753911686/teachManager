@@ -19,6 +19,6 @@ public class StudentController {
     public String gotoIndex(Model model) {
         List<Student> list = studentService.findAllStudent();
         model.addAttribute("studentList", list);
-        return "/index";
+        return "/maincontent";
     }
 }

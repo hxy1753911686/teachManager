@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.estimate.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.school.estimate.domain.User">
+        <result column="id" property="id"  />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="phone" property="phone" />
+        <result column="email" property="email" />
+        <result column="createTime" property="create_time" />
+        <result column="loginTime" property="login_time" />
+        <result column="lastLoginTime" property="last_login_time" />
+        <result column="count" property="count" />
+    </resultMap>
+
+    <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
+    <parameterMap id="User" type="com.school.estimate.domain.User" />
+
+    <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+            id,username,password,phone,email,create_time,login_time,last_login_time,count
+        from estimate.users
+        where username like CONCAT(CONCAT('%', #{username}), '%')
+        order by id;
+    </select>
+
+    <select id="findUserById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+            id,username,password,phone,email,create_time,login_time,last_login_time,count
+        from estimate.users
+        where id = #{id}
+    </select>
+
+    <select id="findAllUser" resultMap="BaseResultMap" resultType="User">
+        select
+            id,username,password,phone,email,create_time,login_time,last_login_time,count
+        from estimate.users
+        order by id;
+    </select>
+
+    <insert id="saveUser" parameterMap="User" useGeneratedKeys="true" keyProperty="id">
+        insert into users(id,username,password,phone,email,create_time,login_time,last_login_time,count) values(#{id},#{username},#{password},#{phone},#{email},now(),null,null,0);
+    </insert>
+
+    <update id="updateUser" parameterMap="User">
+        update estimate.users
+        set
+        <if test="username!=null">
+            username = #{username},
+        </if>
+        <if test="password!=null">
+            password = #{password},
+        </if>
+        <if test="phone!=null">
+            phone = #{phone}
+        </if>
+        <if test="email!=null">
+            email = #{email}
+        </if>
+        <if test="loginTime!=null">
+            login_time = #{loginTime}
+        </if>
+        <if test="lastLoginTime!=null">
+            last_login_time = #{lastLoginTime}
+        </if>
+        <if test="count!=null">
+            count = #{count}
+        </if>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="java.lang.Long">
+        delete from estimate.users where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="utf-8" />
-		<title></title>
-	</head>
-	<body>
-		<div id="maincontent" class="main-content" th:fragment="mainContentNav">
-			123457
-		</div>
-	</body>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+</head>
+<body>
+<div th:include="index.html"></div>
+<header class="am-topbar am-topbar-inverse" th:include="topbar::topbarNav"></header>
+<div class="super-bar">
+    <div class="left-sidebar" th:include="leftsider::leftSiderNav"></div>
+    <div id="maincontent" class="main-content" th:fragment="mainContentNav">
+        123457
+    </div>
+</div>
+
+</body>
 </html>
