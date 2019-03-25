@@ -14,5 +14,5 @@ public interface RoleDao {
     Long deleteRole(@Param("id") Long id);
 
     //根据用户ID获取用户所有角色
-    List<Role> findRolesOfUserId(Long id);
+    List<Role> findRolesOfUserId(@Param("id") Long id);
 }

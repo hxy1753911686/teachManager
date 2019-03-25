@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.estimate.dao.PermissionDao">
+    <resultMap id="BaseResultMap" type="com.school.estimate.domain.Permission">
+        <result column="id" property="id"  />
+        <result column="name" property="p_name" />
+        <result column="parentId" property="parent_id" />
+        <result column="permissionLevel" property="p_level" />
+        <result column="url" property="url" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
+    <parameterMap id="Permission" type="com.school.estimate.domain.Permission" />
+    <parameterMap id="Role" type="com.school.estimate.domain.Role" />
+
+    <select id="findByName" resultType="Permission" parameterType="java.lang.String">
+        select
+            id,p_name,parent_id,p_level,url,description
+        from estimate.permission
+        where p_name like CONCAT(CONCAT('%', #{name}), '%')
+        order by id;
+    </select>
+
+    <select id="findPermissionById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+            id,p_name,parent_id,p_level,url,description
+        from estimate.permission
+        where id = #{id}
+    </select>
+
+    <select id="findAllPermission" resultMap="BaseResultMap" resultType="Permission">
+        select
+            id,p_name,parent_id,p_level,url,description
+        from estimate.permission
+        order by id;
+    </select>
+
+    <insert id="savePermission" parameterMap="Permission" useGeneratedKeys="true" keyProperty="id">
+        insert into permission(id,p_name,parent_id,p_level,url,description) values(#{id},#{name},#{parentId},#{permissionLevel},#{url},#{description});
+    </insert>
+
+    <update id="updatePermission" parameterMap="Permission">
+        update estimate.permission
+        set
+        <if test="name!=null">
+            p_name = #{name},
+        </if>
+        <if test="parentId!=null">
+            parent_id = #{parentId},
+        </if>
+        <if test="permissionLevel!=null">
+            p_level = #{permissionLevel},
+        </if>
+        <if test="url!=null">
+            url = #{url},
+        </if>
+        <if test="description!=null">
+            description = #{description},
+        </if>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePermission" parameterType="java.lang.Long">
+        delete from estimate.permission where id = #{id}
+    </delete>
+
+    <select id="findPermissionsOfRoleId" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.Long">
+        select
+            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.description
+        from estimate.permission p,role_permission r
+        where r.role_id = #{id} and r.permission_id = p.id
+        order by p.id;
+    </select>
+
+    <select id="getPermissionByUrl" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.String">
+        select
+            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.description
+        from estimate.permission
+        where permission.url = #{url};
+    </select>
+
+    <select id="getRolesByPermissionId" resultMap="BaseResultMap" resultType="Role" parameterType="java.lang.Long">
+        select
+            r.id,r.role_code,r.role_name
+        from estimate.role e,role_permission r
+        where r.permission_id = #{id}
+        and e.id = r.role_id
+        order by e.id;
+    </select>
+
+</mapper>

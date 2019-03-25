@@ -15,7 +15,7 @@
         select
             id,role_code,role_name
         from estimate.role
-        where role_name like CONCAT(CONCAT('%', #{roleName}), '%')
+        where role_name like CONCAT(CONCAT('%', #{name}), '%')
         order by id;
     </select>
 
@@ -53,12 +53,12 @@
         delete from estimate.role where id = #{id}
     </delete>
 
-    <!-- TODO: -->
-    <select id="findRolesOfUserId" resultMap="BaseResultMap" resultType="Role" parameterMap="Role">
+    <select id="findRolesOfUserId" resultMap="BaseResultMap" resultType="Role" parameterType="java.lang.Long">
         select
-            id,role_code,role_name
-        from estimate.role
-        order by id;
+            r.id,r.role_code,r.role_name
+        from estimate.role r,user_role u
+        where u.user_id = #{id} and u.role_id = r.id
+        order by r.id;
     </select>
 
 </mapper>
