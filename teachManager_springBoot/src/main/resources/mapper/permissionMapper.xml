@@ -76,7 +76,7 @@
 
     <select id="getPermissionByUrl" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.String">
         select
-            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.description
+            id,p_name,parent_id,p_level,url,description
         from estimate.permission
         where permission.url = #{url};
     </select>

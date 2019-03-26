@@ -39,7 +39,7 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
         int size = roles.size();
         String[] values = new String[size];
         for (int i = 0; i < size; i++) {
-            values[i] = roles.get(i).getRoleName();
+            values[i] = roles.get(i).getRoleCode();
         }
         return SecurityConfig.createList(values);
     }

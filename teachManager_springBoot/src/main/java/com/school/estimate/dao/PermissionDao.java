@@ -17,6 +17,6 @@ public interface PermissionDao {
 
     //根据角色ID获取角色所有权限
     List<Permission> findPermissionsOfRoleId(@Param("id") Long id);
-    Permission getPermissionByUrl(@Param("id") String url);
+    Permission getPermissionByUrl(@Param("url") String url);
     List<Role> getRolesByPermissionId(@Param("id")Long id);
 }
