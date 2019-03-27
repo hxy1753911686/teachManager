@@ -1,6 +1,9 @@
 # teachManager
 早期个人项目（很烂的项目），开启重构及更新为springboot项目
 
+使用的技术（请自从品尝）：
+* spring security
+
 
 [写在最前,请鼠标悬停查看](#teachManager  "...我发现我20,21,22号的提交，在contributions竟然没有进度，就去百度寻求原因，发现我电脑上提交的邮箱和github不一致（用的是公司gitlab的邮箱）。
 如果有喜欢给人生刷点儿绿的小伙伴有幸看到这里，请谨记，在commits里看一下，提交人的名称和头像与你github账号是否一致！！！")
