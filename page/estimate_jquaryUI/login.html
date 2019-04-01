@@ -15,16 +15,16 @@
 
 		<style>
 			.header {
-      text-align: center;
-    }
-    .header h1 {
-      font-size: 200%;
-      color: #333;
-      margin-top: 30px;
-    }
-    .header p {
-      font-size: 14px;
-    }
+			  text-align: center;
+			}
+			.header h1 {
+			  font-size: 200%;
+			  color: #333;
+			  margin-top: 30px;
+			}
+			.header p {
+			  font-size: 14px;
+			}
 		</style>
 
 	</head>
@@ -45,11 +45,19 @@
 				</div>
 
 				<form method="post" class="am-form">
-					<label for="email">邮箱:</label>
-					<input type="email" name="" id="email" value="">
+					<label for="email">账号:</label>
+					<div class="am-input-group">
+					  <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+					  <input type="text" class="am-form-field" name="username" id="username" value="" placeholder="用户名/邮箱/手机号">
+					</div>
+					
 					<br>
 					<label for="password">密码:</label>
-					<input type="password" name="" id="password" value="">
+						<div class="am-input-group">
+						  <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+						  <input type="password" class="am-form-field" name="password" id="password" value="" placeholder="密码">
+						</div>
+					
 					<br>
 					<label for="remember-me">
 						<input id="remember-me" type="checkbox">
