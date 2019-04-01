@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<title>登录</title>
+		<link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}" />
+		<link rel="stylesheet" href="css/jquery-ui.structure.min.css" th:href="@{/css/jquery-ui.structure.min.css}"  />
+		<link rel="stylesheet" href="css/jquery-ui.theme.min.css" th:href="@{/css/jquery-ui.theme.min.css}"  />
+		<link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}"  >
+		<link rel="stylesheet" href="css/amazeui.min.css" th:href="@{/css/amazeui.min.css}"   >
+		<link rel="stylesheet" href="css/amazeui.flat.min.css" th:href="@{/css/amazeui.flat.min.css}"  >
+		<script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+		<script src="js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}" ></script>
+
+		<style>
+			.header {
+			  text-align: center;
+			}
+			.header h1 {
+			  font-size: 200%;
+			  color: #333;
+			  margin-top: 30px;
+			}
+			.header p {
+			  font-size: 14px;
+			}
+		</style>
+
+	</head>
+	<body>
+
+		<div id="loginBar" class="header">
+			<div class="am-g">
+				<h1>XXXX学校教务管理系统</h1>
+				<p>请选择对应登录入口<br />学生初始密码为身份证后六位</p>
+			</div>
+			<hr />
+		</div>
+		<div class="am-g">
+			<div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+				<div style="margin: 0 -20px 0 -20px ;">
+					<h3>登录</h3>
+					<hr>
+				</div>
+
+				<form method="post" class="am-form">
+					<label for="username">账号:</label>
+					<div class="am-input-group">
+					  <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+					  <input type="text" class="am-form-field" name="username" id="username" value="" placeholder="用户名/邮箱/手机号">
+					</div>
+					
+					<br>
+					<label for="password">密码:</label>
+						<div class="am-input-group">
+						  <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+						  <input type="password" class="am-form-field" name="password" id="password" value="" placeholder="密码">
+						</div>
+					
+					<br>
+					<label for="remember-me">
+						<input id="remember-me" type="checkbox">
+						记住密码
+					</label>
+					<br />
+					<div class="am-cf">
+						<input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
+						<input type="submit" name="" value="忘记密码 ? " class="am-btn am-btn-danger am-btn-sm am-fr">
+					</div>
+				</form>
+				<hr>
+				<p>感谢 <a href="http://amazeui.org/">AmazeUI</a> 提供的技术支持</p>
+			</div>
+		</div>
+
+	</body>
+</html>

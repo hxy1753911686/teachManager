@@ -78,7 +78,7 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
                 })
                 .and()
                 .formLogin()            //配置登录页面，用户名及密码参数
-                //.loginPage("/login")        //登录页面，不配置则为security默认页面
+                .loginPage("/login")        //登录页面，不配置则为security默认页面
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()        //所有人可以访问
