@@ -116,6 +116,7 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
                         out.close();
                     }
                 })
+                .defaultSuccessUrl("/index")       //如果用successForwardUrl,要求跳转的请求为post请求
                 .and()
                 .logout()
                 .permitAll()
