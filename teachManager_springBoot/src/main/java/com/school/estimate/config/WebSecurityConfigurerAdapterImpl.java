@@ -107,6 +107,7 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+                        //登录成功跳转
                         httpServletResponse.setContentType("application/json;charset=utf-8");
                         PrintWriter out = httpServletResponse.getWriter();
 //                        ObjectMapper objectMapper = new ObjectMapper();
