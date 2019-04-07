@@ -3,8 +3,6 @@ package com.school.estimate.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,13 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.ui.ModelMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +57,7 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
     @Override
     //配置哪些页面不需要认证
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/").antMatchers("/css/**");
+        web.ignoring().antMatchers("/").antMatchers("/css/**").antMatchers("/fonts/**").antMatchers("/js/**");
     }
 
     @Override
@@ -84,26 +82,13 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
                 .permitAll()        //所有人可以访问
 
                 //登录成功及失败处理
-                .failureHandler(new AuthenticationFailureHandler() {
-                    @Override
-                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                        httpServletResponse.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = httpServletResponse.getWriter();
-                        StringBuffer sb = new StringBuffer();
-                        sb.append("{\"status\":\"error\",\"msg\":\"");
-                        if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
-                            sb.append("用户名或密码输入错误，登录失败!");
-                        } else if (e instanceof DisabledException) {
-                            sb.append("账户被禁用，登录失败，请联系管理员!");
-                        } else {
-                            sb.append("登录失败!");
-                        }
-                        sb.append("\"}");
-                        out.write(sb.toString());
-                        out.flush();
-                        out.close();
-                    }
-                })
+//                .failureHandler(new AuthenticationFailureHandler() {
+//                    @Override
+//                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+//                        ModelMap map = new ModelMap();
+//                        map.put("loginError","用户名或密码错误");
+//                    }
+//                })
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -117,6 +102,7 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
                         out.close();
                     }
                 })
+                .failureForwardUrl("/loginError")
                 .defaultSuccessUrl("/index")       //如果用successForwardUrl,要求跳转的请求为post请求
                 .and()
                 .logout()

@@ -15,4 +15,10 @@ public class LoginController {
     public String loginPage() {
         return "/login";
     }
+
+    @RequestMapping(value = "/loginError",method = RequestMethod.POST)
+    public String loginError(Model model) {
+        model.addAttribute("loginError","用户名或密码错误");
+        return "/login";
+    }
 }
