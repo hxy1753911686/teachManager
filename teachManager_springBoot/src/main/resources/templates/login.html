@@ -39,15 +39,20 @@
 		<div class="am-g">
 			<div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
 				<div style="margin: 0 -20px 0 -20px ;">
-					<h3>登录</h3>
+					<h3 class="floatleft">登录</h3>
+					<div class="floatleft errorInfo" th:if="${loginError != null}">
+						<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+							<span class="am-icon-exclamation" style="float: left; margin-right: .3em;"></span>
+							<p><strong>Alert:12</strong></p>
+						</div>
+						<!-- TODO:用其他文字显示方式 -->
+						<!--<input type="text" disabled="true"  id="errorMessage" th:value="${loginError}" style="color: red">-->
+					</div>
 					<hr>
 				</div>
 
 				<form method="post" class="am-form">
-					<div th:if="${loginError != null}">
-						<!-- TODO:用其他文字显示方式 -->
-						<input type="text" disabled="true"  id="errorMessage" th:value="${loginError}" style="color: red">
-					</div>
+
 					<label for="username">账号:</label>
 					<div class="am-input-group">
 					  <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>

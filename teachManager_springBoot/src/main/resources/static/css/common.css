@@ -1,0 +1,12 @@
+/*
+	错误提示框
+ */
+.errorInfo {
+	clear: right;
+	width: 20px;
+}
+
+
+.floatleft {
+	float: left;
+}
