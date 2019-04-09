@@ -1,0 +1,55 @@
+/*
+登录界面
+ */
+.login-common {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.login-common:after,.login-common:before {
+	content: ' ';
+	display: table;
+}
+
+.login-common:after {
+	clear:both;
+}
+
+.login-main {
+	float: none;
+	margin-left: 20.5rem;
+	margin-right: 20.5rem;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+	position: relative;
+}
+
+/*
+	错误提示框
+ */
+
+.error-main {
+	height: auto;
+	font-size:50%;
+	display: inline-block;
+	padding: 0.7rem;
+	border: solid 1px;
+	border-radius: 6px;
+}
+
+.alert-danger {
+	display: inline-block;
+	width: auto;
+	background: #f2f2f3;
+	font-family: Open Sans;
+	line-height: 1;
+	padding: 15px;
+	border: 1px solid #d7d9db;
+	/*border-left-width: 50px;*/
+	border-radius: 4px;
+	/*border-left-color: #d9534f;*/
+	color: #b52b27;
+}
+.alert-danger:before {
+	content: ' ';
+}
