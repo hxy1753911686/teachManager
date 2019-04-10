@@ -90,4 +90,13 @@
         order by e.id;
     </select>
 
+    <select id="findFirstPermissByRoleName" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.String">
+        select
+            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.description
+        from estimate.permission p,role_permission e,role r
+        where r.role_code = #{roleName}
+          and r.id = e.role_id and p.id = e.permission_id
+          and p.p_level = 1;
+    </select>
+
 </mapper>

@@ -89,21 +89,21 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
 //                        map.put("loginError","用户名或密码错误");
 //                    }
 //                })
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                        //登录成功跳转
-                        httpServletResponse.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = httpServletResponse.getWriter();
+//                .successHandler(new AuthenticationSuccessHandler() {
+//                    @Override
+//                    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+//                        //登录成功跳转
+//                        httpServletResponse.setContentType("application/json;charset=utf-8");
+//                        PrintWriter out = httpServletResponse.getWriter();
 //                        ObjectMapper objectMapper = new ObjectMapper();
-                        String s = "{\"status\":\"success\",\"msg\":"  + "}";
-                        out.write(s);
-                        out.flush();
-                        out.close();
-                    }
-                })
+//                        String s = "{\"status\":\"success\",\"msg\":"  + "}";
+//                        out.write(s);
+//                        out.flush();
+//                        out.close();
+//                    }
+//                })
                 .failureForwardUrl("/loginError")
-                .defaultSuccessUrl("/index")       //如果用successForwardUrl,要求跳转的请求为post请求
+                .successForwardUrl("/loginSuccess")       //如果用successForwardUrl,要求跳转的请求为post请求
                 .and()
                 .logout()
                 .permitAll()

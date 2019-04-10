@@ -4,6 +4,9 @@
 		<meta charset="utf-8" />
 		<title></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<script>
+			$('#homePage').tooltip('首页');
+		</script>
 	</head>
 	<body>
 		<header id="topbar" class="am-topbar am-topbar-inverse" th:fragment="topbarNav">
@@ -22,7 +25,7 @@
 						<a href="#doc-oc-demo3" data-am-offcanva class="am-icon-list am-icon-lg"></a>
 					</li> -->
 					<!-- 首页 -->
-					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-home am-icon-lg"></a></li>
+					<li class="am-acblock  blockAlign-center"><a id="homePage" href="#" class="am-icon-home am-icon-lg" title="首页" ></a></li>
 					<!-- 综合信息 -->
 					<li class="am-acblock  blockAlign-center"><a href="#" class="am-icon-file-text-o am-icon-lg"></a></li>
 					<!-- 教务管理 -->

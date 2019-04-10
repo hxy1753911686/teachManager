@@ -59,4 +59,9 @@ public class PermissionServiceImpl implements PermissionService {
     public List<Role> getRolesByPermissionId(Long id) {
         return permissionDao.getRolesByPermissionId(id);
     }
+
+    @Override
+    public List<Permission> findFirstPermissByRoleName(String roleName) {
+        return permissionDao.findFirstPermissByRoleName(roleName);
+    }
 }

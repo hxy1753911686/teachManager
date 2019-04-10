@@ -25,4 +25,7 @@ public interface PermissionService {
     Permission getPermissionByUrl(String url);
 
     List<Role> getRolesByPermissionId(Long id);
+
+    //根据roleName获取
+    List<Permission> findFirstPermissByRoleName(String roleName);
 }

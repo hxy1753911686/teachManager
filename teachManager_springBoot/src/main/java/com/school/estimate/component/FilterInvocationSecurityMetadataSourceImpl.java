@@ -30,7 +30,7 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
 
         Permission permission = permissionService.getPermissionByUrl(requestUrl);
 
-        //如果permission说明未加权限，所有人都可以访问(给页面加LOGIN的权限)
+        //如果无permission说明未加权限，所有人都可以访问(给页面加LOGIN的权限)
         if(permission == null){
             return SecurityConfig.createList("ROLE_LOGIN");
         }
