@@ -1,0 +1,1 @@
+INSERT INTO estimate.users (id, username, password, phone, email, create_time, login_time, last_login_time, count) VALUES (1, 'zhangsan', '123456', '123456', '', null, null, null, null);

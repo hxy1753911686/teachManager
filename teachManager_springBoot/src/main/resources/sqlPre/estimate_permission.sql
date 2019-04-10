@@ -1,0 +1,1 @@
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, description) VALUES (1, '首页', null, 1, '<null>', null);
