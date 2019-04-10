@@ -26,7 +26,12 @@ public class LoginController {
     private PermissionService permissionService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(String username,Model model) {
+    public String loginPage(){
+        return "/login";
+    }
+
+    @RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)
+    public String loginSuccess(String username,Model model) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
@@ -42,14 +47,14 @@ public class LoginController {
                 //TODO：
                 if(permissionList.contains(permission)){
                     continue;
+                }else{
+                    permissionList.add(permission);
                 }
             }
 
-
-
-
+            model.addAttribute("permissionList",permissionList);
         }
-        return "/login";
+        return "/index";
     }
 
     @RequestMapping(value = "/loginError",method = RequestMethod.POST)

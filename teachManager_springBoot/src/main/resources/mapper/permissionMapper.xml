@@ -2,18 +2,23 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.school.estimate.dao.PermissionDao">
+    <!-- property对应的java的，column对应的是数据库 -->
     <resultMap id="BaseResultMap" type="com.school.estimate.domain.Permission">
-        <result column="id" property="id"  />
-        <result column="name" property="p_name" />
-        <result column="parentId" property="parent_id" />
-        <result column="permissionLevel" property="p_level" />
+        <id column="id" property="id"  />
+        <result column="p_name" property="name" />
+        <result column="parent_id" property="parentId" />
+        <result column="p_level" property="permissionLevel" />
         <result column="url" property="url" />
         <result column="description" property="description" />
     </resultMap>
-
+    <resultMap id="Role" type="com.school.estimate.domain.Role">
+        <id column="id" property="id"  />
+        <result column="role_code" property="roleCode" />
+        <result column="role_name" property="roleName" />
+    </resultMap>
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
     <parameterMap id="Permission" type="com.school.estimate.domain.Permission" />
-    <parameterMap id="Role" type="com.school.estimate.domain.Role" />
+
 
     <select id="findByName" resultType="Permission" parameterType="java.lang.String">
         select
@@ -81,9 +86,9 @@
         where permission.url = #{url};
     </select>
 
-    <select id="getRolesByPermissionId" resultMap="BaseResultMap" resultType="Role" parameterType="java.lang.Long">
+    <select id="getRolesByPermissionId" resultMap="Role" parameterType="java.lang.Long">
         select
-            r.id,r.role_code,r.role_name
+             e.id,e.role_code,e.role_name
         from estimate.role e,role_permission r
         where r.permission_id = #{id}
         and e.id = r.role_id

@@ -8,9 +8,9 @@
         <result column="password" property="password" />
         <result column="phone" property="phone" />
         <result column="email" property="email" />
-        <result column="createTime" property="create_time" />
-        <result column="loginTime" property="login_time" />
-        <result column="lastLoginTime" property="last_login_time" />
+        <result column="create_time" property="createTime" />
+        <result column="login_time" property="loginTime" />
+        <result column="last_login_time" property="lastLoginTime" />
         <result column="count" property="count" />
     </resultMap>
 

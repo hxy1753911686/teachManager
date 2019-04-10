@@ -46,11 +46,12 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
      */
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //从内存中获取，测试的时候用,预先设置好用户名密码及其权限
-        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("root").password(new BCryptPasswordEncoder().encode("123123")).roles("USER");
+        //auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("root").password(new BCryptPasswordEncoder().encode("123123")).roles("USER");
         //如果要继续添加，则继续跟.and().withUser().....
 
         //另一种方式为通过userDetailsService接口获取
-        //auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        //.passwordEncoder(new BCryptPasswordEncoder())  暂时先不使用加密
+        auth.userDetailsService(userDetailsService);
 
     }
 
