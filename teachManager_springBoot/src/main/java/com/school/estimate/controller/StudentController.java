@@ -15,10 +15,10 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String gotoIndex(Model model) {
-        List<Student> list = studentService.findAllStudent();
-        model.addAttribute("studentList", list);
-        return "/maincontent";
-    }
+//    @RequestMapping(value = "/index", method = RequestMethod.GET)
+//    public String gotoIndex(Model model) {
+//        List<Student> list = studentService.findAllStudent();
+//        model.addAttribute("studentList", list);
+//        return "/maincontent";
+//    }
 }

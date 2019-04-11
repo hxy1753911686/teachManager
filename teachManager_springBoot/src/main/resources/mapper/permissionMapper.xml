@@ -9,6 +9,8 @@
         <result column="parent_id" property="parentId" />
         <result column="p_level" property="permissionLevel" />
         <result column="url" property="url" />
+        <result column="icon" property="icon" />
+        <result column="html_id" property="htmlID" />
         <result column="description" property="description" />
     </resultMap>
     <resultMap id="Role" type="com.school.estimate.domain.Role">
@@ -22,7 +24,7 @@
 
     <select id="findByName" resultType="Permission" parameterType="java.lang.String">
         select
-            id,p_name,parent_id,p_level,url,description
+            id,p_name,parent_id,p_level,url,icon,html_id,description
         from estimate.permission
         where p_name like CONCAT(CONCAT('%', #{name}), '%')
         order by id;
@@ -30,20 +32,20 @@
 
     <select id="findPermissionById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
-            id,p_name,parent_id,p_level,url,description
+            id,p_name,parent_id,p_level,url,icon,html_id,description
         from estimate.permission
         where id = #{id}
     </select>
 
     <select id="findAllPermission" resultMap="BaseResultMap" resultType="Permission">
         select
-            id,p_name,parent_id,p_level,url,description
+            id,p_name,parent_id,p_level,url,icon,html_id,description
         from estimate.permission
         order by id;
     </select>
 
     <insert id="savePermission" parameterMap="Permission" useGeneratedKeys="true" keyProperty="id">
-        insert into permission(id,p_name,parent_id,p_level,url,description) values(#{id},#{name},#{parentId},#{permissionLevel},#{url},#{description});
+        insert into permission(id,p_name,parent_id,p_level,url,icon,html_id,description) values(#{id},#{name},#{parentId},#{permissionLevel},#{url},#{icon},#{htmlID},#{description});
     </insert>
 
     <update id="updatePermission" parameterMap="Permission">
@@ -61,6 +63,12 @@
         <if test="url!=null">
             url = #{url},
         </if>
+        <if test="icon!=null">
+            icon = #{icon},
+        </if>
+        <if test="htmlID!=null">
+            html_id = #{htmlID},
+        </if>
         <if test="description!=null">
             description = #{description},
         </if>
@@ -73,7 +81,7 @@
 
     <select id="findPermissionsOfRoleId" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.Long">
         select
-            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.description
+            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.icon,p.html_id,p.description
         from estimate.permission p,role_permission r
         where r.role_id = #{id} and r.permission_id = p.id
         order by p.id;
@@ -81,7 +89,7 @@
 
     <select id="getPermissionByUrl" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.String">
         select
-            id,p_name,parent_id,p_level,url,description
+            id,p_name,parent_id,p_level,url,icon,html_id,description
         from estimate.permission
         where permission.url = #{url};
     </select>
@@ -97,7 +105,7 @@
 
     <select id="findFirstPermissByRoleName" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.String">
         select
-            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.description
+            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.icon,p.html_id,p.description
         from estimate.permission p,role_permission e,role r
         where r.role_code = #{roleName}
           and r.id = e.role_id and p.id = e.permission_id

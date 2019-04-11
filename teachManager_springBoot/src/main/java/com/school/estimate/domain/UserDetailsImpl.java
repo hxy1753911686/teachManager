@@ -38,7 +38,7 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         for(Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+            authorities.add(new SimpleGrantedAuthority(role.getRoleCode()));
         }
         return authorities;
     }
@@ -56,7 +56,7 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     //判断账号是否过期，from redis
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

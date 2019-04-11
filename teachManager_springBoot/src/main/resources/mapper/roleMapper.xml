@@ -4,8 +4,8 @@
 <mapper namespace="com.school.estimate.dao.RoleDao">
     <resultMap id="BaseResultMap" type="com.school.estimate.domain.Role">
         <result column="id" property="id"  />
-        <result column="roleCode" property="role_code" />
-        <result column="roleName" property="role_name" />
+        <result column="role_code" property="roleCode" />
+        <result column="role_name" property="roleName" />
     </resultMap>
 
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->

@@ -1,1 +1,2 @@
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, description) VALUES (1, '首页', null, 1, '<null>', null);
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, description) VALUES (1, '首页', null, 1, '/index', 'am-icon-home', 'homePage', null);
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, description) VALUES (2, '信息管理', null, 1, null, 'am-icon-cubes', 'messManage', null);

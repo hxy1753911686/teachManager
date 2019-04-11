@@ -9,6 +9,8 @@ create table permission
   parent_id   int          null comment '父ID，null或空则为菜单',
   p_level     int          not null comment '1,2,3',
   url         varchar(50)  null comment 'url',
+  icon        varchar(20)  null comment '页面上显示的图标',
+  html_id     varchar(20)  null comment 'html上的id，用来触发事件',
   description varchar(200) null comment '权限描述'
 )
   comment '权限';

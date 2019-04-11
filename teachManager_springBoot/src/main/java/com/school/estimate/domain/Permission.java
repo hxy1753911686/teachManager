@@ -8,17 +8,21 @@ public class Permission implements Serializable {
     private Integer parentId;
     private Integer permissionLevel;       //three level
     private String url;
+    private String icon;
+    private String htmlID;
     private String description;
 
     public Permission() {
     }
 
-    public Permission(Integer id, String name, Integer parentId, Integer permissionLevel, String url, String description) {
+    public Permission(Integer id, String name, Integer parentId, Integer permissionLevel, String url, String icon, String htmlID, String description) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
         this.permissionLevel = permissionLevel;
         this.url = url;
+        this.icon = icon;
+        this.htmlID = htmlID;
         this.description = description;
     }
 
@@ -68,5 +72,21 @@ public class Permission implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getHtmlID() {
+        return htmlID;
+    }
+
+    public void setHtmlID(String htmlID) {
+        this.htmlID = htmlID;
     }
 }

@@ -1,10 +1,10 @@
 package com.school.estimate.controller;
 
 import com.school.estimate.domain.Permission;
-import com.school.estimate.domain.Student;
 import com.school.estimate.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -26,12 +26,43 @@ public class LoginController {
     private PermissionService permissionService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(){
+    public String loginPage() {
         return "/login";
     }
 
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String gotoIndex(String username, Model model) {
+        //获取当前登录的用户
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+
+        List<Permission> permissionList = new ArrayList<>();
+        for (GrantedAuthority authoritie : authorities) {
+            //获取角色名称
+            String roleName = authoritie.getAuthority();
+
+            //存放一级菜单
+            List<Permission> list = permissionService.findFirstPermissByRoleName(roleName);
+
+            for (Permission permission : list) {
+                if (permissionList.contains(permission)) {
+                    continue;
+                } else {
+                    permissionList.add(permission);
+                }
+            }
+
+            model.addAttribute("permissionList", permissionList);
+        }
+
+
+        return "/maincontent";
+    }
+
     @RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)
-    public String loginSuccess(String username,Model model) {
+    public String loginSuccess(String username, Model model) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
@@ -43,23 +74,22 @@ public class LoginController {
             //存放一级菜单
             List<Permission> list = permissionService.findFirstPermissByRoleName(roleName);
 
-            for(Permission permission:list){
-                //TODO：
-                if(permissionList.contains(permission)){
+            for (Permission permission : list) {
+                if (permissionList.contains(permission)) {
                     continue;
-                }else{
+                } else {
                     permissionList.add(permission);
                 }
             }
 
-            model.addAttribute("permissionList",permissionList);
+            model.addAttribute("permissionList", permissionList);
         }
-        return "/index";
+        return "/maincontent";
     }
 
-    @RequestMapping(value = "/loginError",method = RequestMethod.POST)
+    @RequestMapping(value = "/loginError", method = RequestMethod.POST)
     public String loginError(Model model) {
-        model.addAttribute("loginError","用户名或密码错误");
+        model.addAttribute("loginError", "用户名或密码错误");
         return "/login";
     }
 }
