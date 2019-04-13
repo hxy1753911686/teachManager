@@ -28,7 +28,7 @@
             <th:block th:each="permission : ${permissionList}">
                 <li class="am-acblock  blockAlign-center"><a th:id="${permission.htmlID}" href="#"
                                                              th:class="|${permission.icon} am-icon-lg|"
-                                                             th:title="${permission.name}"></a></li>
+                                                             th:title="${permission.name}" th:onclick="|makeMenu(${permission.permissionLevel},${permission.id})|"></a></li>
             </th:block>
 
             <!--<li class="am-acblock  blockAlign-center"><a id="homePage" href="#" class="am-icon-home am-icon-lg"-->
