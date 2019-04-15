@@ -12,7 +12,12 @@ $(function () {
                 level: farLevel
             },
             success: function (result) {
-                //拼接lefsider
+                debugger;
+                alert('成功');
+                alert(result);
+            },
+            error : function () {
+                alert('失败');
             }
         })
     }
