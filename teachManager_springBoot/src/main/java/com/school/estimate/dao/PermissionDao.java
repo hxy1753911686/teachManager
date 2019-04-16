@@ -20,6 +20,7 @@ public interface PermissionDao {
     Permission getPermissionByUrl(@Param("url") String url);
     List<Role> getRolesByPermissionId(@Param("id")Long id);
 
-    //根据roleName获取
-    List<Permission> findFirstPermissByRoleName(@Param("roleName") String roleName);
+    //根据roleName获取一级菜单
+    List<Permission> findPermissByRoleName(@Param("roleName") String roleName);
+
 }

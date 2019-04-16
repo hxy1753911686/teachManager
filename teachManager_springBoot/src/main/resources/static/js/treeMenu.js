@@ -14,11 +14,28 @@ $(function () {
             success: function (result) {
                 debugger;
                 alert('成功');
-                alert(result);
+                var comm = " ";
+                //先绘制2级菜单
+                $.each(result, function (index, item) {
+                    comm = drawSecondMenu(comm, item);
+                });
+
+                document.getElementById("menuCol").innerHTML = comm;
             },
-            error : function () {
+            error: function () {
                 alert('失败');
             }
         })
+    }
+
+    function drawSecondMenu(comm, item) {
+        var con = comm;
+        if (item.permissionLevel == 2) {
+            con += "<li class=\"sidebar-nav-link\"> <a href=\"javascript:;\">" +
+                "<i class=\"" + item.icon + " sidebar-nav-link-logo\"></i>" + item.name + "</a>  </li>";
+            return con;
+        }else{
+            return con;
+        }
     }
 })

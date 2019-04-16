@@ -1,11 +1,13 @@
 .main-content {
-	border: 1px solid #0b6fa2;
-	border-radius: 6px;
-	height: 565px;
-	position: absolute;
-	top: 5px;
-	left: 280px;
+	/*border: 1px solid #0b6fa2;*/
+	/*border-radius: 6px;*/
+	/*height: 565px;*/
+	position: fixed;
+	top: 0px;
+	left: 200px;
 	right: 0px;
+	bottom: 0px;
+	margin-top: 85px;
 	background-color: #FFFFFF;
 	overflow: auto;
 	padding: 5px;
@@ -20,12 +22,28 @@
 	height: 1px;
 }
 .main-content::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-        border-radius: 10px;
+        /*border-radius: 10px;*/
          -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
         background: #1A94E6;
     }
 .main-content::-webkit-scrollbar-track {/*滚动条里面轨道*/
         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-        border-radius: 10px;
+        /*border-radius: 10px;*/
         background:#C6E2FF;
     }
+
+
+/*
+按钮行
+ */
+.buttonbar {
+	position: fixed;
+	top: 0px;
+	left: 200px;
+	right: 0px;
+	height: 35px;
+	margin-top: 50px;
+	background-color:#E7E6E4;
+	overflow: auto;
+	padding: 5px;
+}

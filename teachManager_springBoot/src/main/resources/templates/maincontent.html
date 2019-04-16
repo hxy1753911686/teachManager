@@ -9,8 +9,13 @@
 <header class="am-topbar am-topbar-inverse" th:include="topbar::topbarNav"></header>
 <div class="super-bar">
     <div class="left-sidebar" th:include="leftsider::leftSiderNav"></div>
+    <div id="buttonBar" class="buttonbar">
+        <button class="am-btn am-btn-default am-radius am-btn-xs" >首页
+        <a href="javascript: void(0)" class="am-close am-close-spin" ></a>
+        </button>
+    </div>
     <div id="maincontent" class="main-content" th:fragment="mainContentNav">
-        123457
+
     </div>
 </div>
 

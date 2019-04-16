@@ -44,14 +44,19 @@ public class LoginController {
             String roleName = authoritie.getAuthority();
 
             //存放一级菜单
-            List<Permission> list = permissionService.findFirstPermissByRoleName(roleName);
+            List<Permission> list = permissionService.findPermissByRoleName(roleName);
 
             for (Permission permission : list) {
-                if (permissionList.contains(permission)) {
+                if (permission.getPermissionLevel() != 1) {
                     continue;
                 } else {
-                    permissionList.add(permission);
+                    if (permissionList.contains(permission)) {
+                        continue;
+                    } else {
+                        permissionList.add(permission);
+                    }
                 }
+
             }
 
             model.addAttribute("permissionList", permissionList);
@@ -72,13 +77,17 @@ public class LoginController {
             String roleName = authoritie.getAuthority();
 
             //存放一级菜单
-            List<Permission> list = permissionService.findFirstPermissByRoleName(roleName);
+            List<Permission> list = permissionService.findPermissByRoleName(roleName);
 
             for (Permission permission : list) {
-                if (permissionList.contains(permission)) {
+                if (permission.getPermissionLevel() != 1) {
                     continue;
                 } else {
-                    permissionList.add(permission);
+                    if (permissionList.contains(permission)) {
+                        continue;
+                    } else {
+                        permissionList.add(permission);
+                    }
                 }
             }
 
