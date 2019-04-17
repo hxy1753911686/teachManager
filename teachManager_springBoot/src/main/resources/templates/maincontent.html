@@ -10,9 +10,19 @@
 <div class="super-bar">
     <div class="left-sidebar" th:include="leftsider::leftSiderNav"></div>
     <div id="buttonBar" class="buttonbar">
-        <button class="am-btn am-btn-default am-radius am-btn-xs" >首页
-        <a href="javascript: void(0)" class="am-close am-close-spin" ></a>
-        </button>
+        <ul>
+            <li>
+                <button class="am-btn am-btn-default am-radius am-btn-xs">首页
+                    <!--<a href="javascript: void(0)" class="am-close am-close-spin">×</a>-->
+                </button>
+            </li>
+            <li>
+                <button class="am-btn am-btn-default am-radius am-btn-xs">用户管理
+                    <a href="javascript: void(0)" class="am-close am-close-spin">×</a>
+                </button>
+            </li>
+        </ul>
+
     </div>
     <div id="maincontent" class="main-content" th:fragment="mainContentNav">
 

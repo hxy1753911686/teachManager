@@ -2,6 +2,7 @@
 	width:180px;
 	height: 50px;
 	text-align: center;
+	color: dimgrey;
 } 
 
 
@@ -93,4 +94,11 @@
 	width: auto;
 	clear: none;
 	box-sizing: border-box;
+}
+
+/*
+添加一级菜单颜色
+ */
+.am-acblock a:before {
+	color: #999999;
 }

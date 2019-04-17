@@ -3587,7 +3587,7 @@ input[type=radio][disabled] {
 }
 
 .am-topbar-inverse {
-	background-color: #6699CC;
+	background-color: #fff;
 	border-color: #0b6fa2;
 	color: #eee
 }
