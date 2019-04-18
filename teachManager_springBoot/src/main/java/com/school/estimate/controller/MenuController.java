@@ -40,9 +40,21 @@ public class MenuController {
             //获取并存放2/3级菜单
             List<Permission> list = permissionService.findPermissByRoleName(roleName);
 
+            List idList = new ArrayList();
+            idList.add(id.intValue());
+            for(Permission permission : list){
+                //找到1级菜单下的2级菜单，储存parentID
+                if (permission.getParentId() != null && permission.getParentId() == id.intValue()){
+                    idList.add(permission.getId().intValue());
+                }
+            }
+
             for (Permission permission : list) {
                 int permissionLevel = permission.getPermissionLevel();
-                if(permissionLevel == 2 || permissionLevel == 3){
+
+                if((permissionLevel == 2 || permissionLevel == 3)
+                        && idList.contains(permission.getParentId().intValue())){
+
                     if (permissionList.contains(permission)) {
                         continue;
                     } else {

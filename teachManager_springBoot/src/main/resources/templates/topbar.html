@@ -25,7 +25,7 @@
             </li> -->
             <!-- 首页 -->
             <th:block th:each="permission : ${permissionList}">
-                <li class="am-acblock  blockAlign-center"><a th:id="${permission.htmlID}" href="#"
+                <li class="am-acblock  blockAlign-center"><a th:id="${permission.htmlID}" href="javascript:void(0);"
                                                              th:class="|${permission.icon} am-icon-lg|"
                                                              th:title="${permission.name}" th:onclick="|makeMenu(${permission.permissionLevel},${permission.id})|"></a></li>
             </th:block>
