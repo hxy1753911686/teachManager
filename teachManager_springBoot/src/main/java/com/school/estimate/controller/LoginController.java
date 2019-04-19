@@ -68,32 +68,7 @@ public class LoginController {
 
     @RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)
     public String loginSuccess(String username, Model model) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-
-        List<Permission> permissionList = new ArrayList<>();
-        for (GrantedAuthority authoritie : authorities) {
-            //获取角色名称
-            String roleName = authoritie.getAuthority();
-
-            //存放一级菜单
-            List<Permission> list = permissionService.findPermissByRoleName(roleName);
-
-            for (Permission permission : list) {
-                if (permission.getPermissionLevel() != 1) {
-                    continue;
-                } else {
-                    if (permissionList.contains(permission)) {
-                        continue;
-                    } else {
-                        permissionList.add(permission);
-                    }
-                }
-            }
-
-            model.addAttribute("permissionList", permissionList);
-        }
-        return "/maincontent";
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/loginError", method = RequestMethod.POST)

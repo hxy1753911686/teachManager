@@ -57,7 +57,7 @@ $(function () {
     function drawSecondMenu(comm, item) {
         var con = comm;
         if (item.permissionLevel == 2) {
-            con += "<li class=\"sidebar-nav-link\"> <a href=\"javascript:void(0);\" id= " + item.htmlID + " >" +
+            con += "<li class=\"sidebar-nav-link\"> <a href=\"javascript:void(0);\" id= " + item.htmlID + " onclick = \" doPost('"+ item.url +"'); \" >" +
                 "<i class=\"" + item.icon + " sidebar-nav-link-logo\"></i>" + item.name + "</a>  </li>";
             return con;
         } else {
