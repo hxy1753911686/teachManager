@@ -24,6 +24,9 @@ post = function(URL, PARAMS)
     }
 }
 
-doPost = function (url) {
+//arguments为不定参数，用来接收未知个数的参数
+doPost = function (url , arguments) {
+    //拆分arguments，拼接PARAMS
+
     
 }

@@ -39,7 +39,7 @@ $(function () {
                         var ulTag = parTag.children("ul");
 
                         //在ul标签下追加三级菜单
-                        ulTag.append("<li class=\"sidebar-nav-link\"><a href=\"javascript:void(0)\" id=" + item.id + ">" +
+                        ulTag.append("<li class=\"sidebar-nav-link\"><a href=\"javascript:void(0)\" id=" + item.htmlID + " onclick= \" doPost(' " + item.url + " '); \" >" +
                             "<span class=\"am-icon-angle-right sidebar-nav-link-logo\"></span> " + item.name + "</a></li>");
 
                         //更新2级菜单a标签
