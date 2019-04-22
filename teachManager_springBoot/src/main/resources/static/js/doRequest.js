@@ -1,22 +1,20 @@
-//左边栏2/3级菜单post请求
-//调用方式  post(url, {html :prnhtml,cm1:'sdsddsd',cm2:'haha'});
-post = function(URL, PARAMS)
-{
-    if(typeof url == "undefined" || url == null || url == ""){
+//左边栏2/3级菜单get请求
+//调用方式  get(url, {html :prnhtml,cm1:'sdsddsd',cm2:'haha'});
+get = function (URL, PARAMS) {
+    if (typeof URL == "undefined" || URL == null || URL == "") {
         return;
-    }else{
+    } else {
         var temp = document.createElement("form");
         temp.action = URL;
         temp.method = "get";
         temp.style.display = "none";
-        for (var x in PARAMS)
-        {
-            var opt = document.createElement("textarea");
-            opt.name = x;
-            opt.value = PARAMS[x];
-            //alert(opt.name);
-            temp.appendChild(opt);
-        }
+        // for (var x in PARAMS) {
+        //     var opt = document.createElement("textarea");
+        //     opt.name = x;
+        //     opt.value = PARAMS[x];
+        //     //alert(opt.name);
+        //     temp.appendChild(opt);
+        // }
         document.body.appendChild(temp);
         temp.submit();
         document.getElementById("rollback").submit();
@@ -25,8 +23,6 @@ post = function(URL, PARAMS)
 }
 
 //arguments为不定参数，用来接收未知个数的参数
-doPost = function (url , arguments) {
-    //拆分arguments，拼接PARAMS
-
-    
+doMenuGet = function (url) {
+    get(url);
 }
