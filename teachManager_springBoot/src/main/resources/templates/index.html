@@ -1,67 +1,137 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta charset="utf-8" />
-		<title>教务管理系统</title>
-		<link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}" />
-		<link rel="stylesheet" href="css/jquery-ui.structure.min.css" th:href="@{/css/jquery-ui.structure.min.css}"  />
-		<link rel="stylesheet" href="css/jquery-ui.theme.min.css" th:href="@{/css/jquery-ui.theme.min.css}"  />
-		<link rel="stylesheet" href="css/topbar.css" th:href="@{/css/topbar.css}"  />
-		<link rel="stylesheet" href="css/maincontent.css" th:href="@{/css/maincontent.css}"  />
-		<link rel="stylesheet" href="css/leftsider.css" th:href="@{/css/leftsider.css}"  />
-		<link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}"  >
-		<link rel="stylesheet" href="css/amazeui.min.css" th:href="@{/css/amazeui.min.css}"   >
-		<link rel="stylesheet" href="css/amazeui.flat.min.css" th:href="@{/css/amazeui.flat.min.css}"  >
-		<script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
-		<script src="js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}" ></script>
-		<script src="js/leftsider.js" th:src="@{/js/leftsider.js}" ></script>
-		<script src="js/treeMenu.js" th:src="@{/js/treeMenu.js}" ></script>
-		<script src="js/doRequest.js" th:src="@{/js/doRequest.js}" ></script>
-
-		<style type="text/css">
-			body {
-				margin: 0px;
-				padding: 0px;
-				background: #eff3f5;
-			}
-
-			.super-bar {
-				position: relative;
-				/* margin-top: -17px; */
-				 background-color:#8B8970 ;
-				/* border:1px solid #000000; */
-			}
-			
-			
-		</style>
-
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 教务管理系统</title>
+		<link rel="stylesheet" href="layui/css/layui.css" th:href="@{/layui/css/layui.css}"  >
+		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" />
+		<script type="text/javascript" src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+		<script type="text/javascript" th:src="@{/layui/layui.all.js}" ></script>
 	</head>
-	<body>
-		<div th:fragment="pageSource"></div>
-		<!--<div id="pageTop" >-->
-			<!--<header class="am-topbar am-topbar-inverse" th:include="topbar::topbarNav"></header>-->
-		<!--</div>-->
-		<!--<div class="super-bar">-->
-			<!--<div id="pageLeft"  >-->
-				<!--<div class="left-sidebar" th:include="leftsider::leftSiderNav"></div>-->
-			<!--</div>-->
-			<!--<div id="pageMain"  >-->
-				<!--<div class="main-content" th:include="maincontent::mainContentNav"></div>-->
-			<!--</div>-->
-		<!--</div>-->
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">教务管理系统</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
 
-		<!--<script>-->
-			<!--$(function() {-->
-				<!--$("#pageTop").load("topbar.html #topbar",null,function(){-->
-					<!--alert("加载成功");-->
-				<!--});-->
-				<!--$("#pageLeft").load("leftsider.html #leftSider",null, function(){-->
-					<!--alert("加载成功");-->
-				<!--});-->
-				<!--$("#pageMain").load("maincontent.html #maincontent",null,function(){-->
-					<!--alert("加载成功");-->
-				<!--});-->
-			<!--});-->
-		<!--</script>-->
+					<th:block th:each="permission : ${permissionList}">
+						<li class="layui-nav-item">
+							<a th:id="${permission.htmlID}" href="javascript:void(0);"
+							   th:onclick="|makeMenu(${permission.permissionLevel},${permission.id})|">
+								<font th:text="${permission.name}"></font>
+							</a>
+						</li>
+						<!--<li class="am-acblock  blockAlign-center"><a th:id="${permission.htmlID}" href="javascript:void(0);"-->
+																	 <!--th:class="|${permission.icon} am-icon-lg|"-->
+																	 <!--th:title="${permission.name}" ></a></li>-->
+					</th:block>
+					<!---->
+					<!--<li class="layui-nav-item"><a href="">商品管理</a></li>-->
+					<!--<li class="layui-nav-item"><a href="">用户</a></li>-->
+					<!--<li class="layui-nav-item">-->
+						<!--<a href="javascript:;">其它系统</a>-->
+						<!--<dl class="layui-nav-child">-->
+							<!--<dd><a href="">邮件管理</a></dd>-->
+							<!--<dd><a href="">消息管理</a></dd>-->
+							<!--<dd><a href="">授权管理</a></dd>-->
+						<!--</dl>-->
+					<!--</li>-->
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+							贤心
+						</a>
+						<dl class="layui-nav-child">
+							<dd><a href="">基本资料</a></dd>
+							<dd><a href="">安全设置</a></dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+						<a href="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="test">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="javascript:;">所有商品</a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;">列表一</a></dd>
+								<dd><a href="javascript:;">列表二</a></dd>
+								<dd><a href="javascript:;">列表三</a></dd>
+								<dd><a href="">超链接</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">解决方案</a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;">列表一</a></dd>
+								<dd><a href="javascript:;">列表二</a></dd>
+								<dd><a href="">超链接</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">解决方案</a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;">列表一</a></dd>
+								<dd><a href="javascript:;">列表二</a></dd>
+								<dd><a href="">超链接</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">解决方案</a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;">列表一</a></dd>
+								<dd><a href="javascript:;">列表二</a></dd>
+								<dd><a href="">超链接</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="">云市场</a></li>
+						<li class="layui-nav-item"><a href="">发布商品</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div class="layui-tab" lay-allowClose="true">
+				  <ul class="layui-tab-title">
+					<li class="layui-this">网站设置</li>
+					<li>用户基本管理</li>
+					<li>权限分配</li>
+					<li>全部历史商品管理文字长一点试试</li>
+					<li>订单管理</li>
+				  </ul>
+				  <div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">1</div>
+					<div class="layui-tab-item">2</div>
+					<div class="layui-tab-item">3</div>
+					<div class="layui-tab-item">4</div>
+					<div class="layui-tab-item">5</div>
+					<div class="layui-tab-item">6</div>
+				  </div>
+				</div>
+			</div>
+
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© layui.com - 底部固定区域
+			</div>
+		</div>
+		<script src="layui/layui.js"></script>
+		<script>
+			//JavaScript代码区域
+			layui.use('element', function() {
+				var element = layui.element;
+
+			});
+		</script>
 	</body>
 </html>

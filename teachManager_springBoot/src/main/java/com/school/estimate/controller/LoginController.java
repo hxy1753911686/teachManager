@@ -63,7 +63,7 @@ public class LoginController {
         }
 
 
-        return "/maincontent";
+        return "/index";
     }
 
     @RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)
@@ -73,7 +73,7 @@ public class LoginController {
 
     @RequestMapping(value = "/loginError", method = RequestMethod.POST)
     public String loginError(Model model) {
-        model.addAttribute("loginError", "用户名或密码错误");
+//        model.addAttribute("loginError", "用户名或密码错误");
         return "/login";
     }
 }
