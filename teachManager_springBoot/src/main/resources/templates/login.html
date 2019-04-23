@@ -1,94 +1,191 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="UTF-8"/>
     <title>登录</title>
-    <link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}"/>
-    <link rel="stylesheet" href="css/jquery-ui.structure.min.css" th:href="@{/css/jquery-ui.structure.min.css}"/>
-    <link rel="stylesheet" href="css/jquery-ui.theme.min.css" th:href="@{/css/jquery-ui.theme.min.css}"/>
-    <link rel="stylesheet" href="css/admin.css" th:href="@{/css/admin.css}">
-    <link rel="stylesheet" href="css/amazeui.min.css" th:href="@{/css/amazeui.min.css}">
-    <link rel="stylesheet" href="css/amazeui.flat.min.css" th:href="@{/css/amazeui.flat.min.css}">
-    <link rel="stylesheet" href="css/commonAndLogin.css" th:href="@{/css/commonAndLogin.css}">
-    <script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
-    <script src="js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <!-- viewport响应式web，device-width为设备宽度 -->
+    <!--<meta name="viewport"-->
+          <!--content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>-->
+    <!-- 珍爱生命，谨防百度 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-    <style>
-        .header {
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 200%;
-            color: #333;
-            margin-top: 30px;
-        }
-
-        .header p {
-            font-size: 14px;
-        }
-    </style>
-    <script>
-            closeErrWindow = function (obj) {
-                $('#errorInf').attr("style","display:none");
-            }
-    </script>
+    <link rel="stylesheet" href="layui/css/layui.css" th:href="@{/layui/css/layui.css}"/>
+    <script type="text/javascript" src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.all.js}" ></script>
 
 </head>
-<body>
+<style type="text/css">
 
-<div id="loginBar" class="header">
-    <div class="login-common">
-        <h1>XXXX学校教务管理系统</h1>
-        <p>请选择对应登录入口</p>
-    </div>
-    <hr>
+    .login-bg {
+        background: #eeeeee no-repeat center;
+        background-size: cover;
+        overflow: hidden;
+    }
+
+    .leftLogo {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 120px;
+        height: 420px;
+        width: 350px;
+        background-color: #23262E;
+        box-sizing: border-box;
+        border-radius: 4px 0px 0px 4px;
+        margin-right: 0px;
+
+        float: left;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .login {
+        margin-top: 120px;
+        height: 420px;
+        width: 420px;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 0px 4px 4px 0px;
+        box-sizing: border-box;
+        margin-left: 0px;
+        float: left;
+
+    }
+
+    .login a.logo {
+        display: block;
+        height: 58px;
+        width: 167px;
+        margin: 0 auto 30px auto;
+        background-size: 167px 42px;
+    }
+
+    .login input[type=text],
+    .login input[type=file],
+    .login input[type=password],
+    .login input[type=email], select {
+        border: 1px solid #DCDEE0;
+        vertical-align: middle;
+        border-radius: 3px;
+        height: 50px;
+        padding: 0px 16px;
+        font-size: 14px;
+        color: #555555;
+        outline: none;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .login input[type=text]:focus,
+    .login input[type=file]:focus,
+    .login input[type=password]:focus,
+    .login input[type=email]:focus, select:focus {
+        border: 1px solid #27A9E3;
+    }
+
+    .login input[type=submit],
+    .login input[type=button] {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 12px 24px;
+        margin: 0px;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #23262E;
+        border-radius: 3px;
+        border: none;
+        -webkit-appearance: none;
+        outline: none;
+        width: 100%;
+    }
+
+    .login hr.hr25 {
+        height: 25px;
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        background-color: #ffffff;
+    }
+
+    .login hr.hr20 {
+        height: 20px;
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        background-color: #ffffff;
+    }
+</style>
+<body class="login-bg">
+<div class="leftLogo">
+    <img src="images/shentie.png" th:src="@{/images/shentie.png}" class="layui-circle"
+         style="width: 150px;height: 150px;margin-top: 100px;">
+    <p style="font-size: 25px;color: #FFFFFF;">xxxx教务管理系统</p>
 </div>
-<div class="login-common">
-    <div class="login-main">
-        <div style="margin: 0 -20px 0 -20px ;">
-            <h3 style="display:inline-block;margin-right: 3rem">登录</h3>
+<div class="login">
 
-            <div id="errorInf" class="am-alert am-alert-danger" style="display: inline-block;width: auto" data-am-alert th:if="${loginError != null}" >
-                <button type="button" class="am-close" onclick="closeErrWindow()" >&times;</button>
-                <p style="display: inline-block" th:text="${loginError}">输入错误</p>
+
+    <form method="post" class="layui-form">
+        <input style="margin-top: 30px;" id="username" name="username" placeholder="用户名/邮箱/手机号" autocomplete="off"
+               type="text" lay-verify="username" class="layui-input">
+        <hr class="hr25">
+        <input id="password" name="password" lay-verify="password" placeholder="密码" autocomplete="off" type="password"
+               class="layui-input">
+        <hr class="hr25">
+        <div class="layui-inline">
+            <label class="layui-form-label">登录入口</label>
+            <div class="layui-input-block">
+                <input type="radio" name="signInlet" value="teacher" title="教师">
+                <input type="radio" name="signInlet" value="student" title="学生" checked>
             </div>
-
-            <hr>
         </div>
-
-
-        <form method="post" class="am-form">
-
-            <label for="username">账号:</label>
-            <div class="am-input-group">
-                <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
-                <input type="text" class="am-form-field" name="username" id="username" value=""
-                       placeholder="用户名/邮箱/手机号">
-            </div>
-
-            <br>
-            <label for="password">密码:</label>
-            <div class="am-input-group">
-                <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
-                <input type="password" class="am-form-field" name="password" id="password" value="" placeholder="密码">
-            </div>
-
-            <br>
-            <label for="remember-me">
-                <input id="remember-me" type="checkbox">
-                记住密码
-            </label>
-            <br/>
-            <div class="am-cf">
-                <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-                <input type="submit" name="" value="忘记密码 ? " class="am-btn am-btn-danger am-btn-sm am-fr">
-            </div>
-        </form>
-        <hr>
-        <p>感谢 <a href="http://amazeui.org/">AmazeUI</a> 提供的技术支持</p>
-    </div>
+        <hr class="hr20">
+        <input value="登录" lay-submit lay-filter="login" type="submit">
+        <hr class="hr20">
+        <div style="text-align: right;">
+            <a href="javascript:void(0)">忘记密码</a>
+            <a href="javascript:void(0)" style="margin-left: 20px;">忘记用户名</a>
+        </div>
+    </form>
 </div>
+
+<script>
+    var layer;
+    $(function () {
+        var winWidth = $(window).width();
+        $(".leftLogo").attr("style", "margin-left:" + (winWidth - 770) / 2 + "px");
+
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form;
+            form.verify({
+                username: function (v) {
+                    if (v.trim() == '') {
+                        return "用户名不能为空";
+                    }
+                },
+                password: function (v) {
+                    if (v.trim() == '') {
+                        return "密码不能为空";
+                    }
+                }
+            });
+
+            form.render();
+        });
+        layer = layui.layer;
+    })
+
+    if (window != top)
+        top.location.href = location.href;
+</script>
+
 
 </body>
 </html>
