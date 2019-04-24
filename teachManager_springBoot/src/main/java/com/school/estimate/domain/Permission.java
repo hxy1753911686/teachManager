@@ -10,12 +10,13 @@ public class Permission implements Serializable {
     private String url;
     private String icon;
     private String htmlID;
+    private Integer dataID;
     private String description;
 
     public Permission() {
     }
 
-    public Permission(Integer id, String name, Integer parentId, Integer permissionLevel, String url, String icon, String htmlID, String description) {
+    public Permission(Integer id, String name, Integer parentId, Integer permissionLevel, String url, String icon, String htmlID, Integer dataID, String description) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
@@ -23,7 +24,16 @@ public class Permission implements Serializable {
         this.url = url;
         this.icon = icon;
         this.htmlID = htmlID;
+        this.dataID = dataID;
         this.description = description;
+    }
+
+    public Integer getDataID() {
+        return dataID;
+    }
+
+    public void setDataID(Integer dataID) {
+        this.dataID = dataID;
     }
 
     public Integer getId() {

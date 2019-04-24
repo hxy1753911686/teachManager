@@ -1,4 +1,4 @@
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, description) VALUES (1, '首页', null, 1, '/index', 'am-icon-home', 'homePage', null);
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, description) VALUES (2, '信息管理', null, 1, null, 'am-icon-cubes', 'messManage', null);
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, description) VALUES (3, '用户管理', 2, 2, '/manage/user', 'am-icon-users', 'userManage', '信息管理下的子功能');
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, description) VALUES (4, '用户管理下边的管理', 3, 3, null, 'am-icon-user', 'nonUserManage', '测试数据用的');
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (1, '首页', null, 1, '/index', 'am-icon-home', 'homePage', 1, null);
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (2, '管理员业务', null, 1, null, 'am-icon-cubes', 'Manager', 2, null);
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (3, '信息管理', 2, 2, '', 'am-icon-users', 'messManage', 3, '管理员所属的信息管理');
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (4, '用户管理', 3, 3, '/manage/user', 'am-icon-user', 'userManage', 4, '管理登录用户');

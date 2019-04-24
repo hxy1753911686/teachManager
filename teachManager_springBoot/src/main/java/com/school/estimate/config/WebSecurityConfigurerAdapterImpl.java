@@ -66,7 +66,13 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
      * 安全定义策略
      */
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()    //标准开头,以下每个小模块之间使用.and()分割
+        /*
+            解决：
+            Refused to display 'http://127.0.0.1:8070/default_sso_heartbeat.html'
+            in a frame because it set 'X-Frame-Options' to 'DENY'.
+         */
+        http.headers().frameOptions().disable().and()
+                .authorizeRequests()    //标准开头,以下每个小模块之间使用.and()分割
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {

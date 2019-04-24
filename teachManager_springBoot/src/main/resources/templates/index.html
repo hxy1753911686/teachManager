@@ -3,11 +3,13 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<title>layout 教务管理系统</title>
+		<title>教务管理系统</title>
 		<link rel="stylesheet" href="layui/css/layui.css" th:href="@{/layui/css/layui.css}"  >
 		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" />
 		<script type="text/javascript" src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
-		<script type="text/javascript" th:src="@{/layui/layui.all.js}" ></script>
+		<!--<script type="text/javascript" th:src="@{/layui/layui.all.js}" ></script>-->
+		<script type="text/javascript" src="layui/layui.js" th:src="@{/layui/layui.js}" ></script>
+        <script type="text/javascript" th:src="@{/js/treeMenu.js}" ></script>
 	</head>
 	<body class="layui-layout-body">
 		<div class="layui-layout layui-layout-admin">
@@ -59,12 +61,14 @@
 			<div class="layui-side layui-bg-black">
 				<div class="layui-side-scroll">
 					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-					<ul class="layui-nav layui-nav-tree" lay-filter="test">
-						<li class="layui-nav-item layui-nav-itemed">
+					<ul id="menuCol" class="layui-nav layui-nav-tree" lay-filter="leftsider">
+                        <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;" data-id="1003" data-url="/index" data-title="云市场" data-type="tabAdd">云市场</a></li>
+
+                        <li class="layui-nav-item layui-nav-itemed">
 							<a class="" href="javascript:;">所有商品</a>
 							<dl class="layui-nav-child">
-								<dd><a href="javascript:;">列表一</a></dd>
-								<dd><a href="javascript:;">列表二</a></dd>
+								<dd><a href="javascript:;" data-id="1001" data-url="/manage/user" data-title="列表一" data-type="tabAdd" >列表一</a></dd>
+								<dd><a href="javascript:;" data-id="1002" data-url="/index" data-title="列表二" data-type="tabAdd" >列表二</a></dd>
 								<dd><a href="javascript:;">列表三</a></dd>
 								<dd><a href="">超链接</a></dd>
 							</dl>
@@ -93,7 +97,6 @@
 								<dd><a href="">超链接</a></dd>
 							</dl>
 						</li>
-						<li class="layui-nav-item"><a href="">云市场</a></li>
 						<li class="layui-nav-item"><a href="">发布商品</a></li>
 					</ul>
 				</div>
@@ -101,21 +104,10 @@
 
 			<div class="layui-body">
 				<!-- 内容主体区域 -->
-				<div class="layui-tab" lay-allowClose="true">
+				<div class="layui-tab" lay-allowClose="true" lay-filter="mainContent" style="margin-top: 0px">
 				  <ul class="layui-tab-title">
-					<li class="layui-this">网站设置</li>
-					<li>用户基本管理</li>
-					<li>权限分配</li>
-					<li>全部历史商品管理文字长一点试试</li>
-					<li>订单管理</li>
 				  </ul>
 				  <div class="layui-tab-content">
-					<div class="layui-tab-item layui-show">1</div>
-					<div class="layui-tab-item">2</div>
-					<div class="layui-tab-item">3</div>
-					<div class="layui-tab-item">4</div>
-					<div class="layui-tab-item">5</div>
-					<div class="layui-tab-item">6</div>
 				  </div>
 				</div>
 			</div>
@@ -125,13 +117,59 @@
 				© layui.com - 底部固定区域
 			</div>
 		</div>
-		<script src="layui/layui.js"></script>
+
 		<script>
 			//JavaScript代码区域
 			layui.use('element', function() {
+                var $ = layui.jquery;
 				var element = layui.element;
+				var active = {
+                    tabAdd: function(url,id,name) {
+                        //新增一个Tab项 传入三个参数，分别对应其标题，tab页面的地址，还有一个规定的id，是标签中data-id的属性值
+                        //关于tabAdd的方法所传入的参数可看layui的开发文档中基础方法部分
+                        element.tabAdd('mainContent', {
+                            title: name,
+                            content: '<iframe data-frameid="'+id+'" scrolling="no" frameborder="0" src="'+url+'" style="width:100%;"></iframe>',
+                            id: id //规定好的id
+                        })
+                        var h = $(window).height();
+                        $("iframe").css("height",h+"px");
+                        element.render('tab');
 
+                    },
+                    tabChange: function(id) {
+                        //切换到指定Tab项
+                        element.tabChange('mainContent', id); //根据传入的id传入到指定的tab项
+                    }
+				}
+                $('.layui-nav-tree [data-id]').on('click',function () {
+                    debugger;
+                    var dataid = $(this);
+
+                    //这时会判断右侧.layui-tab-title属性下的有lay-id属性的li的数目，即已经打开的tab项数目
+                    if ($(".layui-tab-title li[lay-id]").length <= 0) {
+                        //如果比零小，则直接打开新的tab项
+                        active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"),dataid.attr("data-title"));
+                    } else {
+                        //否则判断该tab项是否以及存在
+
+                        var isData = false; //初始化一个标志，为false说明未打开该tab项 为true则说明已有
+                        $.each($(".layui-tab-title li[lay-id]"), function () {
+                            //如果点击左侧菜单栏所传入的id 在右侧tab项中的lay-id属性可以找到，则说明该tab项已经打开
+                            if ($(this).attr("lay-id") == dataid.attr("data-id")) {
+                                isData = true;
+                            }
+                        })
+                        if (isData == false) {
+                            //标志为false 新增一个tab项
+                            active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"),dataid.attr("data-title"));
+                        }
+                    }
+                    //最后不管是否新增tab，最后都转到要打开的选项页面上
+                    active.tabChange(dataid.attr("data-id"));
+                })
 			});
+
 		</script>
 	</body>
 </html>

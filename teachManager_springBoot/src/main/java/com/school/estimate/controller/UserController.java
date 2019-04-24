@@ -1,16 +1,16 @@
-package com.school.estimate.controller.manage;
+package com.school.estimate.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/manage/user")
-public class UserController extends manageBaseController{
+@RequestMapping("/manage")
+public class UserController{
 
-    @RequestMapping(value = "",method = RequestMethod.GET)
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
     public String gotoIndex(){
         System.err.print("进来了");
-        return "manage/user/userManage";
+        return "/manage/user/userList";
     }
 }

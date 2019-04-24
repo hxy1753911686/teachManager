@@ -11,9 +11,13 @@ create table permission
   url         varchar(50)  null comment 'url',
   icon        varchar(20)  null comment '页面上显示的图标',
   html_id     varchar(20)  null comment 'html上的id，用来触发事件',
-  description varchar(200) null comment '权限描述'
+  data_id     int          not null,
+  description varchar(200) null comment '权限描述',
+  constraint permission_data_id_uindex
+    unique (data_id)
 )
   comment '权限';
+
 
 create table role
 (
