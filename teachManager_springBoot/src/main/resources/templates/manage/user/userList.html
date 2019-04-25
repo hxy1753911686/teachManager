@@ -8,44 +8,179 @@
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
-    <script type="text/javascript" th:src="@{/js/jquary.js}"></script>
+    <link rel="stylesheet" th:href="@{/font-awesome-4.7.0/css/font-awesome.css}">
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 
+    <style>
+        .search {
+            padding: 2px 5px;
+            position: relative;
+            top: 2px;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>
-<div class="lenos-search">
-    <div class="select">
-        用户名：
-        <div class="layui-inline">
-            <input class="layui-input" height="20px" id="uname" autocomplete="off">
-        </div>
-        邮箱：
-        <div class="layui-inline">
-            <input class="layui-input" height="20px" id="email" autocomplete="off">
-        </div>
-        <button class="select-on layui-btn layui-btn-sm" data-type="select"><i class="layui-icon"></i>
-        </button>
-        <button class="layui-btn layui-btn-sm icon-position-button" id="refresh" style="float: right;"
-                data-type="reload">
-            <i class="layui-icon">ဂ</i>
-        </button>
+<div class="search">
+    用户名：
+    <div class="layui-inline">
+        <input class="layui-input" id="uname" autocomplete="off" style="width: 150px;height: 30px">
     </div>
+    手机号：
+    <div class="layui-inline">
+        <input class="layui-input" id="phone" autocomplete="off" style="width: 120px;height: 30px">
+    </div>
+    邮箱：
+    <div class="layui-inline">
+        <input type="email" class="layui-input" id="email" autocomplete="off" style="width: 150px;height: 30px">
+    </div>
+    <button class="select-on layui-btn layui-btn-sm" data-type="select"><i class="layui-icon"></i>
+    </button>
+</div>
+<table class="layui-hide" id="userList" lay-filter="userList"></table>
 
-    <!--</div>-->
-    <div class="layui-col-md12" style="height:40px;margin-top:3px;">
-        <div class="layui-btn-group">
-            <button class="layui-btn layui-btn-normal" data-type="add">
-                <i class="layui-icon">&#xe608;</i>新增
-            </button>
-            <button class="layui-btn layui-btn-normal" data-type="update">
-                <i class="layui-icon">&#xe642;</i>编辑
-            </button>
-            <button class="layui-btn layui-btn-normal" data-type="detail">
-                <i class="layui-icon">&#xe605;</i>查看
-            </button>
-        </div>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="newUser">新增</button>
+        <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">查看</button>-->
+        <button class="layui-btn layui-btn-sm" lay-event="delList">批量删除</button>
     </div>
+</script>
+
+<script type="text/html" id="operateBar">
+    <a class="layui-btn layui-btn-xs" lay-event="look">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#userList'
+            , url: '/manage/user/userList'
+            , toolbar: '#toolbar'
+            , title: '用户数据表'
+            , cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true}
+                    , {field: 'username', title: '用户名', width: 120}
+                    , {field: 'phone', title: '手机号', width: 150}
+                    , {field: 'email', title: '邮箱', width: 180}
+                    , {field: 'createTime', title: '创建时间', width: 120}
+                    , {field: 'loginTime', title: '登录时间', width: 120}
+                    , {field: 'lastLoginTime', title: '上次登录时间', width: 120}
+                    , {field: 'count', title: '登录次数', width: 120}
+                    , {fixed: 'right', title: '操作', toolbar: '#operateBar', width: 180}
+                ]
+            ]
+            , page: true
+        });
+
+        var laypage = layui.laypage;
+        laypage.render({})
+
+
+        //头工具栏事件
+        table.on('toolbar(userList)', function (obj) {
+            debugger;
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'newUser':
+                    layer.open({
+                        id: 'addUser',
+                        type: 2,
+                        title: '新增用户',
+                        content: '/index',
+                        area: ['800px', '600px'],
+                        maxmin: true
+                    })
+                    break;
+                case 'delList':
+                    layer.confirm('确认要删除吗?', function (index) {
+                        var data = checkStatus.data;
+                        var idList = " ";
+                        $.each(data, function (index, item) {
+                            if(idList == " "){
+                                idList = item.id;
+                            }else{
+                                idList += "," + item.id;
+                            }
+                        })
+                        //发送post请求删除数据
+                        $.post({
+                            url: '/manage/user/delMulUser',
+                            data: {
+                                idList: idList
+                            },
+                            success: function (result) {
+                                layer.msg('删除成功',{icon:1});
+                                layer.close(index);
+                                layer.reload('userList');
+                            },
+                            error: function (result) {
+                                layer.msg(
+                                    '无法删除', {icon: 2}
+                                );
+                                layer.close(index);
+                            }
+                        })
+                        // alert(idList);
+
+                    });
+
+
+                    // layer.msg('选中了：' + data.length + ' 个');
+                    break;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(userList)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.prompt({
+                    formType: 2
+                    , value: data.email
+                }, function (value, index) {
+                    obj.update({
+                        email: value
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+    });
+</script>
+<!--</div>-->
+<!--<div class="layui-col-md12" style="height:40px;margin-top:3px;">-->
+<!--<div class="layui-btn-group">-->
+<!--<button class="layui-btn layui-btn-radius layui-btn-normal" data-type="add">-->
+<!--<i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;新增-->
+<!--</button>-->
+<!--<button class="layui-btn layui-btn-radius layui-btn-normal" data-type="update">-->
+<!--<i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;编辑-->
+<!--</button>-->
+<!--<button class="layui-btn layui-btn-radius layui-btn-normal" data-type="detail">-->
+<!--<i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;查看-->
+<!--</button>-->
+<!--<button class="layui-btn layui-btn-radius layui-btn-danger" data-type="delList">-->
+<!--<i class="fa fa-reply-all"></i>&nbsp;&nbsp;&nbsp;批量删除-->
+<!--</button>-->
+<!--</div>-->
+<!--</div>-->
 
 </body>
 

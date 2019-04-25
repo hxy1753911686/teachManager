@@ -1,16 +1,59 @@
 package com.school.estimate.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.school.estimate.domain.User;
+import com.school.estimate.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/manage")
-public class UserController{
+@RequestMapping("/manage/user")
+public class UserController {
 
-    @RequestMapping(value = "/user",method = RequestMethod.GET)
-    public String gotoIndex(){
-        System.err.print("进来了");
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String gotoIndex() {
         return "/manage/user/userList";
+    }
+
+    @RequestMapping(value = "/userList")
+    @ResponseBody
+    public String getUserList(int page, int limit) {
+        int start = (page - 1) * limit;
+        int size = limit;
+        List<User> userList = userService.findUserByPage(start, size);
+        List<User> allUser = userService.findAllUser();
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "0");
+        map.put("msg", "");
+        map.put("count", allUser.size());
+        map.put("data", userList);
+        String mapJson = JSONArray.toJSONString(map);
+        return mapJson;
+    }
+
+    @RequestMapping(value = "/delMulUser",method = RequestMethod.POST)
+    @ResponseBody
+    public String delMulUser(String idList) {
+        System.err.println(idList);
+
+//        List<User> allUser = userService.findAllUser();
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("code", "0");
+//        map.put("msg", "");
+//        map.put("count", allUser.size());
+//        map.put("data", userList);
+//        String mapJson = JSONArray.toJSONString(map);
+        return "200";
     }
 }

@@ -36,7 +36,15 @@
         select
             id,username,password,phone,email,create_time,login_time,last_login_time,count
         from estimate.users
-        order by id;
+        order by id
+    </select>
+
+    <select id="findUserByPage" resultMap="BaseResultMap" resultType="User">
+        select
+            id,username,password,phone,email,create_time,login_time,last_login_time,count
+        from estimate.users
+        order by id
+        limit #{start},#{size}
     </select>
 
     <insert id="saveUser" parameterMap="User" useGeneratedKeys="true" keyProperty="id">
