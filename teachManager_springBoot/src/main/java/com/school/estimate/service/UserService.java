@@ -1,6 +1,7 @@
 package com.school.estimate.service;
 
 import com.school.estimate.domain.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,5 +18,6 @@ public interface UserService {
 
     Long updateUser(User user);
 
-    Long deleteUser(Long id);
+    @Transactional
+    Long deleteUser(Long id) throws Exception;
 }

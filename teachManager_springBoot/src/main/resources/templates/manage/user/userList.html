@@ -64,6 +64,7 @@
         table.render({
             elem: '#userList'
             , url: '/manage/user/userList'
+            , id: 'userList'
             , toolbar: '#toolbar'
             , title: '用户数据表'
             , cols: [
@@ -82,9 +83,6 @@
             ]
             , page: true
         });
-
-        var laypage = layui.laypage;
-        laypage.render({})
 
 
         //头工具栏事件
@@ -122,7 +120,7 @@
                             success: function (result) {
                                 layer.msg('删除成功',{icon:1});
                                 layer.close(index);
-                                layer.reload('userList');
+                                table.reload('userList');
                             },
                             error: function (result) {
                                 layer.msg(

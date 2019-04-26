@@ -45,7 +45,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long deleteUser(Long id) {
+    public Long deleteUser(Long id) throws Exception {
+        if (id.intValue() == 8){
+            throw new Exception("不能删除");
+        }
         return userDao.deleteUser(id);
     }
 }

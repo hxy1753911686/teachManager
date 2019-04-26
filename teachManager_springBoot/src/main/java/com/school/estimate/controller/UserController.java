@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,18 +42,19 @@ public class UserController {
         return mapJson;
     }
 
-    @RequestMapping(value = "/delMulUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/delMulUser", method = RequestMethod.POST)
     @ResponseBody
-    public String delMulUser(String idList) {
+    public String delMulUser(String idList) throws Exception {
         System.err.println(idList);
+        try{
+            String[] idArr = idList.split(",");
+            for (String s : idArr) {
+                userService.deleteUser(Long.parseLong(s));
+            }
+        }catch (Exception e){
+            throw e;
+        }
 
-//        List<User> allUser = userService.findAllUser();
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("code", "0");
-//        map.put("msg", "");
-//        map.put("count", allUser.size());
-//        map.put("data", userList);
-//        String mapJson = JSONArray.toJSONString(map);
         return "200";
     }
 }
