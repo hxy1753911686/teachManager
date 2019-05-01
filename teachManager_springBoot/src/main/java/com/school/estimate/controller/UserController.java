@@ -57,4 +57,17 @@ public class UserController {
 
         return "200";
     }
+
+    @RequestMapping(value = "/addUser",method = RequestMethod.GET)
+    public String gotoAddUser(){
+        return "manage/user/addUser";
+    }
+
+    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    @ResponseBody
+    public String addUser(User user){
+        Long successLine = userService.saveUser(user);
+        //service中存储通用密码
+        return successLine.toString();
+    }
 }
