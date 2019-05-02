@@ -97,7 +97,10 @@
                         title: '新增用户',
                         content: '/manage/user/addUser',
                         area: ['800px', '600px'],
-                        maxmin: true
+                        maxmin: true,
+                        end:function () {
+                            table.reload('userList');
+                        }
                     })
                     break;
                 case 'delList':
@@ -160,6 +163,8 @@
                 });
             }
         });
+
+
     });
 </script>
 <!--</div>-->

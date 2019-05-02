@@ -66,7 +66,7 @@ public class UserController {
     @RequestMapping(value = "/addUser",method = RequestMethod.POST)
     @ResponseBody
     public String addUser(User user){
-        Long successLine = userService.saveUser(user);
+         Long successLine = userService.saveUser(user);
         //service中存储通用密码
         return successLine.toString();
     }

@@ -22,10 +22,10 @@
     </style>
 </head>
 <body>
-<form class="layui-form" action="/manage/user/addUser">
+<form class="layui-form" action="/manage/user/addUser" method="post">
     <!--  密码默认6个6  -->
     <div class="layui-form-item">
-        <label class="layui-form-label">姓名</label>
+        <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
             <input type="text" id="username" name="username" required lay-verify="required"
                    placeholder="请输入用户名" autocomplete="off" class="layui-input"/>
@@ -35,7 +35,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">手机号</label>
         <div class="layui-input-inline">
-            <input type="tel" id="phone" name="phone" placeholder="请输入手机号"
+            <input type="tel" id="phone" name="phone" placeholder="请输入手机号" lay-verify="phone"
                    class="layui-input" maxlength="11"/>
         </div>
     </div>
@@ -43,13 +43,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">邮箱</label>
         <div class="layui-input-block">
-        <input type="email" id="email" name="email" placeholder="请输入邮箱" class="layui-input"/>
+        <input type="email" id="email" name="email" placeholder="请输入邮箱"
+               class="layui-input" lay-verify="email"/>
         </div>
         </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" layui-submit lay-filter="addUserForm">新增</button>
+            <input type="button" class="layui-btn" lay-submit lay-filter="addUserForm" value="新增"></input>
             <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-reply"></i></button>
         </div>
     </div>
@@ -58,10 +59,12 @@
     layui.use('form', function () {
         var form = layui.form;
 
-        form.on('submit(addUserForm)', function (data) {
-            //监听提交
-            layer.alert(data);
-        })
+         form.on('submit(addUserForm)', function (data) {
+             //监听提交
+             debugger;
+             alert(data);
+             // form.close();
+         })
     })
 </script>
 </body>

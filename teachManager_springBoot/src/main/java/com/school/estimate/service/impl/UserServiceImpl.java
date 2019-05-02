@@ -4,8 +4,13 @@ import com.school.estimate.dao.UserDao;
 import com.school.estimate.domain.User;
 import com.school.estimate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,12 +36,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findUserByPage(Integer start, Integer size) {
-        return userDao.findUserByPage(start,size);
+        return userDao.findUserByPage(start, size);
     }
 
     @Override
     public Long saveUser(User user) {
-        return userDao.saveUser(user);
+        Long line = null;
+        try {
+            //使用BCryptPasswordEncoder保存初始密码
+            String encode = new BCryptPasswordEncoder().encode("666666");
+            user.setPassword(encode);
+            line = userDao.saveUser(user);
+        } catch (Exception e) {
+            //已添加事务注解，输出日志
+            System.err.println(e);
+            return new Long(0);
+        }
+        return line;
     }
 
     @Override
@@ -46,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long deleteUser(Long id) throws Exception {
-        if (id.intValue() == 8){
+        if (id.intValue() == 8) {
             throw new Exception("不能删除");
         }
         return userDao.deleteUser(id);
