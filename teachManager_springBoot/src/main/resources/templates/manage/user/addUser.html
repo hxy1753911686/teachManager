@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-<form class="layui-form" action="/manage/user/addUser" method="post">
+<form class="layui-form">
     <!--  密码默认6个6  -->
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
@@ -61,9 +61,22 @@
 
          form.on('submit(addUserForm)', function (data) {
              //监听提交
-             debugger;
-             alert(data);
-             // form.close();
+             console.log(data);
+             $.ajax({
+                 type: "POST",
+                 url: "/manage/user/addUser",
+                 data: {
+                     username: data.field.username,
+                     phone: data.field.phone,
+                     email: data.field.email
+                 },
+                 success: function (result) {
+                    //关闭新增用户界面
+                     debugger;
+                     var index = parent.layer.getFrameIndex(window.name);
+                     parent.layer.close(index);
+                 }
+             })
          })
     })
 </script>
