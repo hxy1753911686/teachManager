@@ -5,6 +5,7 @@ import com.school.estimate.domain.User;
 import com.school.estimate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,7 +46,7 @@ public class UserController {
     @RequestMapping(value = "/delMulUser", method = RequestMethod.POST)
     @ResponseBody
     public String delMulUser(String idList) throws Exception {
-        System.err.println(idList);
+//        System.err.println(idList);
         try{
             String[] idArr = idList.split(",");
             for (String s : idArr) {
@@ -55,6 +56,13 @@ public class UserController {
             throw e;
         }
 
+        return "200";
+    }
+
+    @RequestMapping(value = "delUser",method = RequestMethod.POST)
+    @ResponseBody
+    public String delUser(Long id) throws Exception {
+        userService.deleteUser(id);
         return "200";
     }
 

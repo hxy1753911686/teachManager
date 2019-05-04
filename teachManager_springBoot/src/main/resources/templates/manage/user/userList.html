@@ -145,11 +145,27 @@
         //监听行工具事件
         table.on('tool(userList)', function (obj) {
             var data = obj.data;
-            //console.log(obj)
+            // console.log(obj)
             if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del();
-                    layer.close(index);
+                layer.confirm('确认删除此用户吗？', function (index) {
+                    // console.log(index);
+                    $.post({
+                        url: '/manage/user/delUser',
+                        data: {
+                            id:data.id
+                            },
+                        success: function (result) {
+                            layer.msg('删除成功',{icon:1});
+                            layer.close(index);
+                            table.reload('userList');
+                        },
+                        error: function (result) {
+                            layer.msg(
+                                '无法删除', {icon: 2}
+                            );
+                            layer.close(index);
+                        }
+                    })
                 });
             } else if (obj.event === 'edit') {
                 layer.prompt({
