@@ -17,6 +17,7 @@ public interface UserService {
     @Transactional
     Long saveUser(User user);
 
+    @Transactional
     Long updateUser(User user);
 
     @Transactional

@@ -5,6 +5,7 @@ import com.school.estimate.domain.User;
 import com.school.estimate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,35 +48,49 @@ public class UserController {
     @ResponseBody
     public String delMulUser(String idList) throws Exception {
 //        System.err.println(idList);
-        try{
+        try {
             String[] idArr = idList.split(",");
             for (String s : idArr) {
                 userService.deleteUser(Long.parseLong(s));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
 
         return "200";
     }
 
-    @RequestMapping(value = "delUser",method = RequestMethod.POST)
+    @RequestMapping(value = "delUser", method = RequestMethod.POST)
     @ResponseBody
     public String delUser(Long id) throws Exception {
         userService.deleteUser(id);
         return "200";
     }
 
-    @RequestMapping(value = "/addUser",method = RequestMethod.GET)
-    public String gotoAddUser(){
+    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
+    public String gotoAddUser() {
         return "manage/user/addUser";
     }
 
-    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public String addUser(User user){
-         Long successLine = userService.saveUser(user);
+    public String addUser(User user) {
+        Long successLine = userService.saveUser(user);
         //service中存储通用密码
         return successLine.toString();
+    }
+
+    @RequestMapping(value = "updateUser", method = RequestMethod.GET)
+    public String gotoUpdateUser(Long id, Model model) {
+        User user = userService.findUserById(id);
+        model.addAttribute("user", user);
+        return "manage/user/updateUser";
+    }
+
+    @RequestMapping(value = "updateUser", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateUser(User user) {
+        userService.updateUser(user);
+        return "200";
     }
 }

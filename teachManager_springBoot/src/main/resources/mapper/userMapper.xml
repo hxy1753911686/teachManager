@@ -55,22 +55,22 @@
         update estimate.users
         set
         <if test="username!=null">
-            username = #{username},
+            username = '#{username}',
         </if>
         <if test="password!=null">
             password = #{password},
         </if>
         <if test="phone!=null">
-            phone = #{phone}
+            phone = '#{phone}',
         </if>
         <if test="email!=null">
-            email = #{email}
+            email = '#{email}',
         </if>
         <if test="loginTime!=null">
-            login_time = #{loginTime}
+            login_time = #{loginTime},
         </if>
         <if test="lastLoginTime!=null">
-            last_login_time = #{lastLoginTime}
+            last_login_time = #{lastLoginTime},
         </if>
         <if test="count!=null">
             count = #{count}

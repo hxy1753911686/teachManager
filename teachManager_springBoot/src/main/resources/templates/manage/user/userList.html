@@ -98,7 +98,7 @@
                         content: '/manage/user/addUser',
                         area: ['800px', '600px'],
                         maxmin: true,
-                        end:function () {
+                        end: function () {
                             table.reload('userList');
                         }
                     })
@@ -108,9 +108,9 @@
                         var data = checkStatus.data;
                         var idList = " ";
                         $.each(data, function (index, item) {
-                            if(idList == " "){
+                            if (idList == " ") {
                                 idList = item.id;
-                            }else{
+                            } else {
                                 idList += "," + item.id;
                             }
                         })
@@ -121,7 +121,7 @@
                                 idList: idList
                             },
                             success: function (result) {
-                                layer.msg('删除成功',{icon:1});
+                                layer.msg('删除成功', {icon: 1});
                                 layer.close(index);
                                 table.reload('userList');
                             },
@@ -132,12 +132,8 @@
                                 layer.close(index);
                             }
                         })
-                        // alert(idList);
-
                     });
 
-
-                    // layer.msg('选中了：' + data.length + ' 个');
                     break;
             }
         });
@@ -145,17 +141,17 @@
         //监听行工具事件
         table.on('tool(userList)', function (obj) {
             var data = obj.data;
-            // console.log(obj)
+            // console.log(data);
             if (obj.event === 'del') {
                 layer.confirm('确认删除此用户吗？', function (index) {
                     // console.log(index);
                     $.post({
                         url: '/manage/user/delUser',
                         data: {
-                            id:data.id
-                            },
+                            id: data.id
+                        },
                         success: function (result) {
-                            layer.msg('删除成功',{icon:1});
+                            layer.msg('删除成功', {icon: 1});
                             layer.close(index);
                             table.reload('userList');
                         },
@@ -168,15 +164,18 @@
                     })
                 });
             } else if (obj.event === 'edit') {
-                layer.prompt({
-                    formType: 2
-                    , value: data.email
-                }, function (value, index) {
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
-                });
+                layer.open({
+                    id: 'updateUser',
+                    type: 2,
+                    title: '修改用户',
+                    content: '/manage/user/updateUser?id=' + data.id,
+                    area: ['800px', '600px'],
+                    maxmin: true,
+                    end: function () {
+                        var pageNo = $(".layui-laypage-skip").find("input").val();
+                        table.reload('userList', {page: {curr: pageNo}});
+                    }
+                })
             }
         });
 
