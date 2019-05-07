@@ -74,9 +74,30 @@
                     , {field: 'username', title: '用户名', width: 120}
                     , {field: 'phone', title: '手机号', width: 150}
                     , {field: 'email', title: '邮箱', width: 180}
-                    , {field: 'createTime', title: '创建时间', width: 120}
-                    , {field: 'loginTime', title: '登录时间', width: 120}
-                    , {field: 'lastLoginTime', title: '上次登录时间', width: 120}
+                    , {field: 'createTime', title: '创建时间', width: 120,templet: function(d){
+                        // console.log(d);
+                        // 对表格时间添加模板
+                        if(d.createTime == undefined || d.createTime == null){
+                            return "";
+                        }
+                        return layui.util.toDateString(d.createTime,'yyyy-MM-dd HH:mm:ss');
+                    }}
+                    , {field: 'loginTime', title: '登录时间', width: 120,templet: function(d){
+                        // console.log(d);
+                        // 对表格时间添加模板
+                        if(d.loginTime == undefined || d.loginTime == null){
+                            return "";
+                        }
+                        return layui.util.toDateString(d.loginTime,'yyyy-MM-dd HH:mm:ss');
+                    }}
+                    , {field: 'lastLoginTime', title: '上次登录时间', width: 120,templet: function(d){
+                        // console.log(d);
+                        // 对表格时间添加模板
+                        if(d.lastLoginTime == undefined || d.lastLoginTime == null){
+                            return "";
+                        }
+                        return layui.util.toDateString(d.lastLoginTime,'yyyy-MM-dd HH:mm:ss');
+                    }}
                     , {field: 'count', title: '登录次数', width: 120}
                     , {fixed: 'right', title: '操作', toolbar: '#operateBar', width: 180}
                 ]
@@ -172,6 +193,7 @@
                     area: ['800px', '600px'],
                     maxmin: true,
                     end: function () {
+                        //修改成功后，更新表格
                         var pageNo = $(".layui-laypage-skip").find("input").val();
                         table.reload('userList', {page: {curr: pageNo}});
                     }
