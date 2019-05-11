@@ -3,6 +3,7 @@
 
 使用的技术（请自从品尝）：
 * spring security
+* layui + amazeUI + ajax
 
 
 [写在最前,请鼠标悬停查看](#teachManager  "...我发现我20,21,22号的提交，在contributions竟然没有进度，就去百度寻求原因，发现我电脑上提交的邮箱和github不一致（用的是公司gitlab的邮箱）。
