@@ -1,7 +1,7 @@
 # teachManager
 早期个人项目（很烂的项目），开启重构及更新为springboot项目
 
-使用的技术（请自从品尝）：
+使用的技术（请自行品尝）：
 * spring security
 * layui + amazeUI + ajax
 
