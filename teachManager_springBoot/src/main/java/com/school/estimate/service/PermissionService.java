@@ -3,6 +3,7 @@ package com.school.estimate.service;
 import com.school.estimate.domain.Permission;
 import com.school.estimate.domain.Role;
 import com.school.estimate.domain.Student;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public interface PermissionService {
 
     List<Student> findAllPermission();
 
+    @Transactional
     Long savePermission(Permission permission);
 
     Long updatePermission(Permission permission);
