@@ -5,11 +5,14 @@ import com.school.estimate.domain.Permission;
 import com.school.estimate.domain.Student;
 import com.school.estimate.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,10 +47,60 @@ public class PermissionController {
         return "/manage/permission/addPermission";
     }
 
-    @RequestMapping(value = "savePermission", method = RequestMethod.POST)
+    @RequestMapping(value = "addPermission", method = RequestMethod.POST)
     public String savePermission(Permission permission) {
         Long aLong = permissionService.savePermission(permission);
         return aLong.toString();
+    }
+
+    @RequestMapping(value = "permissionSelect", method = RequestMethod.POST)
+    @ResponseBody
+    public String permissionSelect(Long permissionLevel) {
+
+        List list = new ArrayList();
+        List<Permission> permissionFa = permissionService.getPermissionByLevel(null, new Long(1));
+        if(permissionFa != null && permissionFa.size() > 0){
+            for (Permission permission : permissionFa) {
+                Map permissionMap = new HashMap();
+                permissionMap.put("id", permission.getId());
+                permissionMap.put("name", permission.getName());
+                permissionMap.put("spread", "false");
+//                permissionMap.put("checked", "true");
+                //获取child
+                List childList = getChild(permission.getId().longValue());
+                if (childList != null && childList.size() > 0) {
+                    permissionMap.put("children", childList);
+                }
+
+                list.add(permissionMap);
+
+            }
+        }
+        String selectJson = JSONArray.toJSONString(list);
+        return selectJson;
+    }
+
+    private List getChild(Long farId) {
+        List list = new ArrayList();
+        List<Permission> childPermission = permissionService.getPermissionByLevel(farId, null);
+        if (childPermission != null && childPermission.size() > 0) {
+            for (Permission permission : childPermission) {
+                Map permissionMap = new HashMap();
+                permissionMap.put("id", permission.getId());
+                permissionMap.put("name", permission.getName());
+                permissionMap.put("spread", "false");
+//                permissionMap.put("checked", "true");
+                //获取child
+                List childMap = getChild(permission.getId().longValue());
+                if (childMap != null && childMap.size() > 0) {
+                    permissionMap.put("children", childMap);
+                }
+                list.add(permissionMap);
+            }
+        } else {
+            return null;
+        }
+        return list;
     }
 
 }

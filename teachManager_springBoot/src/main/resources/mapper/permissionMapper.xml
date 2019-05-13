@@ -98,6 +98,21 @@
         where permission.url = #{url};
     </select>
 
+    <select id="getPermissionByLevel" resultMap="BaseResultMap" resultType="Permission" parameterType="Map">
+        select
+            id,p_name,parent_id,p_level,url,icon,html_id,data_id,description
+        from estimate.permission
+        where 1=1
+        <if test="parentId!=null">
+            and permission.parent_id = #{parentId}
+        </if>
+        <if test="level!=null">
+            and permission.p_level = #{level}
+        </if>;
+
+
+    </select>
+
     <select id="getRolesByPermissionId" resultMap="Role" parameterType="java.lang.Long">
         select
              e.id,e.role_code,e.role_name

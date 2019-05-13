@@ -8,7 +8,9 @@ import com.school.estimate.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -43,6 +45,23 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Long deletePermission(Long id) {
         return permissionDao.deletePermission(id);
+    }
+
+    @Override
+    public List<Permission> getPermissionByLevel(Long parentId, Long level) {
+        Map<String, Object> map = new HashMap<>();
+        if (parentId != null && parentId.intValue() > 0) {
+            map.put("parentId", parentId);
+        }
+        if (level != null && level.intValue() > 0) {
+            map.put("level", level);
+        }
+
+        if (level == null && parentId == null) {
+            return null;
+        }
+
+        return permissionDao.getPermissionByLevel(map);
     }
 
     @Override

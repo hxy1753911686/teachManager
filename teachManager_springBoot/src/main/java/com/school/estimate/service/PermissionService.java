@@ -6,6 +6,7 @@ import com.school.estimate.domain.Student;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PermissionService {
     List<Permission> findByName(String name);
@@ -20,6 +21,10 @@ public interface PermissionService {
     Long updatePermission(Permission permission);
 
     Long deletePermission(Long id);
+
+    List<Permission> getPermissionByLevel(Long parentId,Long level);
+
+
 
     //根据角色ID获取角色所有权限
     List<Permission> findPermissionsOfRoleId(Long id);
