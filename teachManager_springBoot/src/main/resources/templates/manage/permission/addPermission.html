@@ -95,16 +95,51 @@
     </div>
 </form>
 <script>
-    //TODO: layui的tree需要从后台ajax异步获取json数据，并放入nodes中
 
-    layui.use(['form','tree'], function () {
-        var form = layui.form;
-        var tree = layui.tree;
+    $.ajax({
+        type:'POST',
+        url:'/manage/permission/permissionSelect',
+        data:{
+            permissionLevel:1
+        },
+        success:function (result) {
+            console.log(result);
+            layui.use(['form','tree'], function () {
+                var form = layui.form;
+                var tree = layui.tree;
+                layui.tree({
+                         elem:'#showPermission',
+                         nodes:result
+                     });
+                form.on('submit(addPermissionForm)', function (data) {
 
-        layui.tree({
-            elem:'#showPermission',
-            url:'/manage/permission/permissionSelect?permissionLevel=' + 1
-        })
+                    //监听提交
+                    console.log(data);
+                    $.ajax({
+                        type: "POST",
+                        url: "/manage/permission/addPermission",
+                        data: {
+                            username: data.field.username,
+                            phone: data.field.phone,
+                            email: data.field.email
+                        },
+                        success: function (result) {
+                            //关闭新增用户界面
+                            debugger;
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        }
+                    })
+                })
+            })
+        }
+    })
+
+
+        // layui.tree({
+        //     elem:'#showPermission',
+        //     url:'/manage/permission/permissionSelect?permissionLevel=' + 1
+        // })
         // var treeSelect = layui.treeSelect;
 
 //         treeSelect.render({
@@ -131,26 +166,6 @@
 //             }
 //         });
 
-        form.on('submit(addPermissionForm)', function (data) {
 
-            //监听提交
-            console.log(data);
-            $.ajax({
-                type: "POST",
-                url: "/manage/permission/addPermission",
-                data: {
-                    username: data.field.username,
-                    phone: data.field.phone,
-                    email: data.field.email
-                },
-                success: function (result) {
-                    //关闭新增用户界面
-                    debugger;
-                    var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
-                }
-            })
-        })
-    })
 </script>
 </body>
