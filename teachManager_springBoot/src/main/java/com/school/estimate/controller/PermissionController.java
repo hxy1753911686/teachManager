@@ -64,8 +64,7 @@ public class PermissionController {
                 Map permissionMap = new HashMap();
                 permissionMap.put("id", permission.getId());
                 permissionMap.put("name", permission.getName());
-                permissionMap.put("spread", "false");
-//                permissionMap.put("checked", "true");
+//                permissionMap.put("spread", "false");
                 //获取child
                 List childList = getChild(permission.getId().longValue());
                 if (childList != null && childList.size() > 0) {
@@ -88,8 +87,7 @@ public class PermissionController {
                 Map permissionMap = new HashMap();
                 permissionMap.put("id", permission.getId());
                 permissionMap.put("name", permission.getName());
-                permissionMap.put("spread", "false");
-//                permissionMap.put("checked", "true");
+//                permissionMap.put("spread", "false");
                 //获取child
                 List childMap = getChild(permission.getId().longValue());
                 if (childMap != null && childMap.size() > 0) {
