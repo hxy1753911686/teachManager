@@ -1,0 +1,9 @@
+.ownSelect {
+    border:1px solid #D2D2D2;
+    border-radius: 2px;
+    width: 100%;
+    /*opacity:100%;*/
+    background-color: #FFFFFF;
+    position: absolute;
+    z-index: 99999;
+}

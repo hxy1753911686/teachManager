@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/manage/permission")
@@ -61,7 +58,7 @@ public class PermissionController {
         List<Permission> permissionFa = permissionService.getPermissionByLevel(null, new Long(1));
         if(permissionFa != null && permissionFa.size() > 0){
             for (Permission permission : permissionFa) {
-                Map permissionMap = new HashMap();
+                Map permissionMap = new LinkedHashMap();
                 permissionMap.put("id", permission.getId());
                 permissionMap.put("name", permission.getName());
 //                permissionMap.put("spread", "false");
@@ -84,7 +81,7 @@ public class PermissionController {
         List<Permission> childPermission = permissionService.getPermissionByLevel(farId, null);
         if (childPermission != null && childPermission.size() > 0) {
             for (Permission permission : childPermission) {
-                Map permissionMap = new HashMap();
+                Map permissionMap = new LinkedHashMap();
                 permissionMap.put("id", permission.getId());
                 permissionMap.put("name", permission.getName());
 //                permissionMap.put("spread", "false");

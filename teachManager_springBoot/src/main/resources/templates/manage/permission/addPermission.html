@@ -9,6 +9,7 @@
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/font-awesome-4.7.0/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" th:src="@{/module/config.js}"></script>
@@ -37,15 +38,15 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
+    <div class="layui-form-item" id="inputSelect">
         <label class="layui-form-label">父级菜单</label>
         <!--
             1.预显示菜单为树形菜单（含所有level），点选后自动更新 类型
             2.类型选择后，动态更新父级菜单下拉选项
          -->
-        <div class="layui-input-inline">
-            <input type="text" id="parentId" name="parentId" lay-filter="parentId" class="layui-input"  />
-            <div id="showPermission" class="" hidden="hidden" ></div>
+        <div class="layui-input-inline" >
+            <input type="text" id="parentId" name="parentId" lay-filter="parentId" class="layui-input"/>
+            <div id="showPermission" class="ownSelect" hidden="hidden"></div>
         </div>
     </div>
 
@@ -83,7 +84,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">权限描述</label>
         <div class="layui-input-block">
-            <textarea type="input" id="description" name="description" class="layui-textarea" placeholder="请输入权限描述" ></textarea>
+            <textarea type="input" id="description" name="description" class="layui-textarea"
+                      placeholder="请输入权限描述"></textarea>
         </div>
     </div>
 
@@ -96,53 +98,70 @@
 </form>
 <script>
 
-    $.ajax({
-        type:'POST',
-        url:'/manage/permission/permissionSelect',
-        async:'false',
-        data:{
-            permissionLevel:1
-        },
-        success:function (result) {
+    debugger;
 
-            layui.use(['form','tree'], function () {
-                var form = layui.form;
-                layui.tree({
-                         elem:'#showPermission',
-                         nodes:result
-                          ,
-                         click:function (node) {
-                             console.log(node);
-                         }
-                     });
-                form.on('submit(addPermissionForm)', function (data) {
 
-                    //监听提交
-                    console.log(data);
-                    $.ajax({
-                        type: "POST",
-                        url: "/manage/permission/addPermission",
-                        data: {
-                            username: data.field.username,
-                            phone: data.field.phone,
-                            email: data.field.email
-                        },
-                        success: function (result) {
-                            //关闭新增用户界面
-                            debugger;
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
+    // var getJson = function(){
+        var treejson = '';
+        $.ajax({
+            async: 'false',
+            type: 'POST',
+            url: '/manage/permission/permissionSelect',
+            dataType:'json',
+            data: {
+                permissionLevel: 1
+            },
+            success: function (result) {
+                treejson = result;
+                layui.use(['form', 'tree'], function () {
+                    var form = layui.form;
+                    layui.tree({
+                        elem: '#showPermission',
+                        nodes: treejson,
+                        click: function (node) {
+                            console.log('123' + treejson);
+                            console.log('456' + node);
                         }
+                    });
+                    form.on('submit(addPermissionForm)', function (data) {
+
+                        //监听提交
+                        console.log(data);
+                        $.ajax({
+                            type: "POST",
+                            url: "/manage/permission/addPermission",
+                            data: {
+                                username: data.field.username,
+                                phone: data.field.phone,
+                                email: data.field.email
+                            },
+                            success: function (result) {
+                                //关闭新增用户界面
+                                debugger;
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                            }
+                        })
                     })
+
+
                 })
+            }
+        });
+    // };
+
+    // getJson();
+    console.log(treejson);
 
 
-            })
-        }
-    })
+
 
     $('#parentId').click(function () {
-        $('#showPermission').attr('style','display:none');
+        $('#showPermission').show();
+    })
+
+    $('#inputSelect').blur(function () {
+        $('#showPermission').hide();
     })
 
 </script>
