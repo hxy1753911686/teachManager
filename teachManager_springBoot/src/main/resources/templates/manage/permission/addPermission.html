@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="layui-form-item" id="inputSelect">
+    <div class="layui-form-item">
         <label class="layui-form-label">父级菜单</label>
         <!--
             1.预显示菜单为树形菜单（含所有level），点选后自动更新 类型
@@ -46,7 +46,7 @@
          -->
         <div class="layui-input-inline" >
             <input type="text" id="parentId" name="parentId" lay-filter="parentId" class="layui-input"/>
-            <div id="showPermission" class="ownSelect" hidden="hidden"></div>
+            <div id="showPermission" class="ownSelect" hidden="hidden" tabindex="0" contenteditable="false" ></div>
         </div>
     </div>
 
@@ -150,18 +150,24 @@
         });
     // };
 
-    // getJson();
-    console.log(treejson);
-
-
 
 
     $('#parentId').click(function () {
         $('#showPermission').show();
+        $('#showPermission').focus();
     })
 
-    $('#inputSelect').blur(function () {
-        $('#showPermission').hide();
+    $('#showPermission').blur(function () {
+        //判断showPermission中的元素是否有焦点
+        debugger;
+        var ele = $("#showPermission");
+        var isSelect = ele.children("li").is(":click");
+
+        if(true == isSelect){
+            alert("有焦点");
+        }else {
+            $('#showPermission').hide();
+        }
     })
 
 </script>
