@@ -157,17 +157,12 @@
         $('#showPermission').focus();
     })
 
-    $('#showPermission').blur(function () {
-        //判断showPermission中的元素是否有焦点
-        debugger;
-        var ele = $("#showPermission");
-        var isSelect = ele.children("li").is(":click");
-
-        if(true == isSelect){
-            alert("有焦点");
-        }else {
+    $('#showPermission').blur(function (obj) {
+        //延时执行
+        setTimeout(function () {
             $('#showPermission').hide();
-        }
+        },200);
+
     })
 
 </script>
