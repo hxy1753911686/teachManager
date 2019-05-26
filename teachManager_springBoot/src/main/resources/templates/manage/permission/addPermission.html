@@ -119,8 +119,10 @@
                         elem: '#showPermission',
                         nodes: treejson,
                         click: function (node) {
-                            console.log('123' + treejson);
-                            console.log('456' + node);
+                            debugger;
+                            $('#parentId').val(node.id + ':' + node.name);
+                            $("#permissionLevel").find("option[value='"+node.level+"']").prop("selected",true);
+                            form.render();
                         }
                     });
                     form.on('submit(addPermissionForm)', function (data) {

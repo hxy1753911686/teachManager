@@ -61,6 +61,7 @@ public class PermissionController {
                 Map permissionMap = new LinkedHashMap();
                 permissionMap.put("id", permission.getId());
                 permissionMap.put("name", permission.getName());
+                permissionMap.put("level",permission.getPermissionLevel());
 //                permissionMap.put("spread", "false");
                 //获取child
                 List childList = getChild(permission.getId().longValue());
@@ -84,6 +85,7 @@ public class PermissionController {
                 Map permissionMap = new LinkedHashMap();
                 permissionMap.put("id", permission.getId());
                 permissionMap.put("name", permission.getName());
+                permissionMap.put("level",permission.getPermissionLevel());
 //                permissionMap.put("spread", "false");
                 //获取child
                 List childMap = getChild(permission.getId().longValue());
