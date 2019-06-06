@@ -34,7 +34,20 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Long savePermission(Permission permission) {
-        return permissionDao.savePermission(permission);
+
+        Long aLong;
+        aLong = permissionDao.savePermission(permission);
+        if(aLong < 1){
+            return aLong;
+        }
+
+        Long newId = permissionDao.getNewId();
+        Permission p = new Permission();
+        p.setId(newId.intValue());
+        p.setDataID(newId.intValue());
+        aLong = permissionDao.updatePermission(permission);
+        return aLong;
+
     }
 
     @Override
@@ -84,5 +97,6 @@ public class PermissionServiceImpl implements PermissionService {
     public List<Permission> findPermissByRoleName(String roleName) {
         return permissionDao.findPermissByRoleName(roleName);
     }
+
 
 }

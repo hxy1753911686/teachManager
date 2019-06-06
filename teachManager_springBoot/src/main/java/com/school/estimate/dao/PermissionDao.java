@@ -33,4 +33,5 @@ public interface PermissionDao {
     //根据roleName获取一级菜单
     List<Permission> findPermissByRoleName(@Param("roleName") String roleName);
 
+    Long getNewId();
 }

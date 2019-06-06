@@ -121,7 +121,14 @@
                         click: function (node) {
                             debugger;
                             $('#parentId').val(node.id + ':' + node.name);
-                            $("#permissionLevel").find("option[value='"+node.level+"']").prop("selected",true);
+                            var level = node.level + 1;
+                            if(level > 3){
+                                $('#parentId').val('');
+                                $('#permissionLevel').val('');
+                            }else{
+                                $("#permissionLevel").find("option[value='"+level+"']").prop("selected",true);
+                            }
+
                             form.render();
                         }
                     });
@@ -133,9 +140,13 @@
                             type: "POST",
                             url: "/manage/permission/addPermission",
                             data: {
-                                username: data.field.username,
-                                phone: data.field.phone,
-                                email: data.field.email
+                                name: data.field.name,
+                                parentId: data.field.phone,
+                                permissionLevel: data.field.permissionLevel,
+                                url: data.field.url,
+                                icon: data.field.icon,
+                                htmlID: data.field.htmlID,
+                                description: data.field.description
                             },
                             success: function (result) {
                                 //关闭新增用户界面

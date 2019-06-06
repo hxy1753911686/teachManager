@@ -130,5 +130,9 @@
           and r.id = e.role_id and p.id = e.permission_id;
     </select>
 
+    <select id="getNewId" resultType="java.lang.Long">
+        select LAST_INSERT_ID();
+    </select>
+
 
 </mapper>
