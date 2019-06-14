@@ -23,12 +23,12 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Student findPermissionById(Long id) {
+    public Permission findPermissionById(Long id) {
         return permissionDao.findPermissionById(id);
     }
 
     @Override
-    public List<Student> findAllPermission() {
+    public List<Permission> findAllPermission() {
         return permissionDao.findAllPermission();
     }
 
@@ -42,12 +42,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         Long newId = permissionDao.getNewId();
-        Permission p = new Permission();
-        p.setId(newId.intValue());
-        p.setDataID(newId.intValue());
-        aLong = permissionDao.updatePermission(permission);
-        return aLong;
-
+        return newId;
     }
 
     @Override

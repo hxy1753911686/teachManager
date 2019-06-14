@@ -25,11 +25,10 @@
 </head>
 <body>
 <form class="layui-form">
-    <!--  密码默认6个6  -->
     <div class="layui-form-item">
         <label class="layui-form-label">类型</label>
         <div class="layui-input-inline">
-            <select id="permissionLevel" name="permissionLevel" lay-verify="">
+            <select id="permissionLevel" name="permissionLevel" lay-filter="level">
                 <option value="">请选择</option>
                 <option value="1">一级菜单</option>
                 <option value="2">二级菜单</option>
@@ -133,7 +132,9 @@
                         }
                     });
                     form.on('submit(addPermissionForm)', function (data) {
-
+                        debugger;
+                        var parentStr = data.field.parentId;
+                        var parentId = parentStr.split(':')[0];
                         //监听提交
                         console.log(data);
                         $.ajax({
@@ -141,7 +142,7 @@
                             url: "/manage/permission/addPermission",
                             data: {
                                 name: data.field.name,
-                                parentId: data.field.phone,
+                                parentId: parentId,
                                 permissionLevel: data.field.permissionLevel,
                                 url: data.field.url,
                                 icon: data.field.icon,
@@ -155,6 +156,12 @@
                                 parent.layer.close(index);
                             }
                         })
+                    })
+
+                    form.on('select(level)',function (data) {
+                        if(data.value == 1){
+                            $('#parentId').val('0:NA');
+                        }
                     })
 
 

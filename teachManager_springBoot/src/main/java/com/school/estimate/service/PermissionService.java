@@ -11,9 +11,9 @@ import java.util.Map;
 public interface PermissionService {
     List<Permission> findByName(String name);
 
-    Student findPermissionById(Long id);
+    Permission findPermissionById(Long id);
 
-    List<Student> findAllPermission();
+    List<Permission> findAllPermission();
 
     @Transactional
     Long savePermission(Permission permission);

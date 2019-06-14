@@ -11,9 +11,9 @@ import java.util.Map;
 public interface PermissionDao {
     List<Permission> findByName(@Param("name") String name);
 
-    Student findPermissionById(@Param("id") Long id);
+    Permission findPermissionById(@Param("id") Long id);
 
-    List<Student> findAllPermission();
+    List<Permission> findAllPermission();
 
     Long savePermission(Permission permission);
 

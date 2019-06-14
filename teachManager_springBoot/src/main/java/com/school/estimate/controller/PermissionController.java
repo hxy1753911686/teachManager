@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +30,7 @@ public class PermissionController {
     @RequestMapping(value = "/permissionList")
     @ResponseBody
     public String permissionList() {
-        List<Student> allPermission = permissionService.findAllPermission();
+        List<Permission> allPermission = permissionService.findAllPermission();
         Map<String, Object> map = new HashMap<>();
         map.put("code", "0");
         map.put("msg", "ok");
@@ -45,8 +46,17 @@ public class PermissionController {
     }
 
     @RequestMapping(value = "addPermission", method = RequestMethod.POST)
+    @ResponseBody
     public String savePermission(Permission permission) {
         Long aLong = permissionService.savePermission(permission);
+        if(aLong < 1){
+            return aLong.toString();
+        }
+        Permission p = new Permission();
+        p.setName(permission.getName());
+        p.setId(aLong.intValue());
+        p.setDataID(aLong.intValue());
+        aLong = permissionService.updatePermission(p);
         return aLong.toString();
     }
 
@@ -75,6 +85,23 @@ public class PermissionController {
         }
         String selectJson = JSONArray.toJSONString(list);
         return selectJson;
+    }
+
+    @RequestMapping(value = "updatePermission",method = RequestMethod.GET)
+    public String gotoUpdate(Long id, Model model){
+        Permission permission = permissionService.findPermissionById(id);
+        int parentId = permission.getParentId();
+        String far;
+        if(parentId == 0){
+            far = "0:NA";
+        }else{
+            Permission farPermission = permissionService.findPermissionById(permission.getParentId().longValue());
+            far = farPermission.getParentId() + ":" + farPermission.getName();
+        }
+
+        model.addAttribute("permission",permission);
+        model.addAttribute("far",far);
+        return "/manage/permission/updatePermission";
     }
 
     private List getChild(Long farId) {

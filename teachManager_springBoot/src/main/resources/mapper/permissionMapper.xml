@@ -53,28 +53,28 @@
         update estimate.permission
         set
         <if test="name!=null">
-            p_name = #{name},
+            p_name = #{name}
         </if>
         <if test="parentId!=null">
-            parent_id = #{parentId},
+            ,parent_id = #{parentId}
         </if>
         <if test="permissionLevel!=null">
-            p_level = #{permissionLevel},
+            ,p_level = #{permissionLevel}
         </if>
         <if test="url!=null">
-            url = #{url},
+            ,url = #{url}
         </if>
         <if test="icon!=null">
-            icon = #{icon},
+            ,icon = #{icon}
         </if>
         <if test="htmlID!=null">
-            html_id = #{htmlID},
+            ,html_id = #{htmlID}
         </if>
         <if test="dataID!=null">
-            data_id = #{dataID},
+            ,data_id = #{dataID}
         </if>
         <if test="description!=null">
-            description = #{description},
+            ,description = #{description}
         </if>
         where id = #{id}
     </update>
