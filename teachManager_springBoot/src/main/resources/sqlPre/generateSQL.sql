@@ -15,7 +15,7 @@ create table permission
   description varchar(200) null comment '权限描述',
   constraint permission_data_id_uindex
     unique (data_id)
-)
+)DEFAULT CHARSET=utf8
   comment '权限';
 
 
@@ -25,7 +25,7 @@ create table role
     primary key,
   role_code varchar(30) not null comment '角色名（与权限框架结合）',
   role_name varchar(30) not null comment '角色显示的名称'
-);
+)DEFAULT CHARSET=utf8;
 
 create table role_permission
 (
@@ -33,7 +33,7 @@ create table role_permission
     primary key,
   role_id       int null,
   permission_id int null
-);
+)DEFAULT CHARSET=utf8;
 
 create table student
 (
@@ -44,7 +44,7 @@ create table student
   accessID varchar(32)   null comment '登录标识码，即身份证号，和登录人对应',
   birth    date          null comment '出生日期',
   is_out   tinyint(1)    null comment '是否毕业或退学'
-);
+)DEFAULT CHARSET=utf8;
 
 create table user_role
 (
@@ -52,7 +52,7 @@ create table user_role
     primary key,
   user_id int null,
   role_id int null
-);
+)DEFAULT CHARSET=utf8;
 
 create table users
 (
@@ -67,4 +67,4 @@ create table users
   login_time      datetime    null comment '登录时间',
   last_login_time datetime    null comment '上次登录时间',
   count           int         null comment '登录次数'
-);
+)DEFAULT CHARSET=utf8;
