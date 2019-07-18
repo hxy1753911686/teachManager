@@ -63,7 +63,7 @@
                 treePidName: 'parentId',
                 treeDefaultClose: false,
                 elem: '#permissionList',
-                url: '/manage/permission/permissionList',
+                url: '/estimate/manage/permission/permissionList',
                 cols: [
                     [
                         {field: 'id', title: 'ID', fixed: 'left',width: 60,unresize:'true'},
@@ -89,7 +89,7 @@
                         id: 'addPermission',
                         type: 2,
                         title: '新增权限',
-                        content: '/manage/permission/addPermission',
+                        content: '/estimate/manage/permission/addPermission',
                         area: ['800px', '600px'],
                         maxmin: true,
                         end: function () {
@@ -131,7 +131,7 @@
                     id: 'updateUser',
                     type: 2,
                     title: '修改用户',
-                    content: '/manage/permission/updatePermission?id=' + data.id,
+                    content: '/estimate/manage/permission/updatePermission?id=' + data.id,
                     area: ['800px', '600px'],
                     maxmin: true,
                     end: function () {

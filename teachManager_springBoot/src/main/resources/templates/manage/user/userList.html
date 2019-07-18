@@ -63,7 +63,7 @@
 
         table.render({
             elem: '#userList'
-            , url: '/manage/user/userList'
+            , url: '/estimate/manage/user/userList'
             , id: 'userList'
             , toolbar: '#toolbar'
             , title: '用户数据表'
@@ -116,7 +116,7 @@
                         id: 'addUser',
                         type: 2,
                         title: '新增用户',
-                        content: '/manage/user/addUser',
+                        content: '/estimate/manage/user/addUser',
                         area: ['800px', '600px'],
                         maxmin: true,
                         end: function () {
@@ -137,7 +137,7 @@
                         })
                         //发送post请求删除数据
                         $.post({
-                            url: '/manage/user/delMulUser',
+                            url: '/estimate/manage/user/delMulUser',
                             data: {
                                 idList: idList
                             },
@@ -167,7 +167,7 @@
                 layer.confirm('确认删除此用户吗？', function (index) {
                     // console.log(index);
                     $.post({
-                        url: '/manage/user/delUser',
+                        url: '/estimate/manage/user/delUser',
                         data: {
                             id: data.id
                         },
@@ -189,7 +189,7 @@
                     id: 'updateUser',
                     type: 2,
                     title: '修改用户',
-                    content: '/manage/user/updateUser?id=' + data.id,
+                    content: '/estimate/manage/user/updateUser?id=' + data.id,
                     area: ['800px', '600px'],
                     maxmin: true,
                     end: function () {

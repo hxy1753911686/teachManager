@@ -105,7 +105,7 @@
         $.ajax({
             async: 'false',
             type: 'POST',
-            url: '/manage/permission/permissionSelect',
+            url: '/estimate/manage/permission/permissionSelect',
             dataType:'json',
             data: {
                 permissionLevel: 1
@@ -139,7 +139,7 @@
                         console.log(data);
                         $.ajax({
                             type: "POST",
-                            url: "/manage/permission/addPermission",
+                            url: "/estimate/manage/permission/addPermission",
                             data: {
                                 name: data.field.name,
                                 parentId: parentId,
