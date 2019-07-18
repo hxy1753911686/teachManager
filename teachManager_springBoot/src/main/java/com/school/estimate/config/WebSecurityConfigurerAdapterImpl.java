@@ -58,7 +58,8 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
     @Override
     //配置哪些页面不需要认证
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/").antMatchers("/css/**").antMatchers("/layui/**").antMatchers("/fonts/**").antMatchers("/js/**").antMatchers("/images/**").antMatchers("/font-awesome-4.7.0/**").antMatchers("/module/**");
+        web.ignoring().antMatchers("/css/**").antMatchers("/layui/**").antMatchers("/fonts/**").antMatchers("/js/**").antMatchers("/images/**").antMatchers("/font-awesome-4.7.0/**").antMatchers("/module/**");
+        //antMatchers("/")
     }
 
     @Override

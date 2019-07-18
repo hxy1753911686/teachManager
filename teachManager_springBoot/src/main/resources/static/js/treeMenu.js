@@ -6,7 +6,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: "/makeMenu",
+            url: "/estimate/makeMenu",
             data: {
                 id: farId,
                 level: farLevel
@@ -39,7 +39,7 @@ $(function () {
                         var dlTag = parTag.children("dl");
 
                         //在dl标签下追加三级菜单
-                        dlTag.append("<dd><a id='" + item.htmlID + "' href=\"javascript:;\" data-id='" + item.dataID + "' data-url='" + item.url + "' " +
+                        dlTag.append("<dd><a id='" + item.htmlID + "' href=\"javascript:;\" data-id='" + item.dataID + "' data-url='/estimate" + item.url + "' " +
                             "data-title='" + item.name + "' data-type=\"tabAdd\" >" + item.name + "</a></dd>");
 
                         //删除2级菜单属性
@@ -114,7 +114,7 @@ $(function () {
         var con = comm;
         if (item.permissionLevel == 2) {
             con += "<li class=\"layui-nav-item\"><a id='" + item.htmlID + "' href=\"javascript:;\" data-id='" + item.dataID + "' " +
-                "data-url='" + item.url + "' data-title='" + item.name + "' data-type=\"tabAdd\">" + item.name + "</a></li>";
+                "data-url='/estimate" + item.url + "' data-title='" + item.name + "' data-type=\"tabAdd\">" + item.name + "</a></li>";
             // con += "<li class=\"sidebar-nav-link\"> <a href=\"javascript:void(0);\" id= " + item.htmlID + " onclick = \" doMenuGet('"+ item.url +"'); \" >" +
             //     "<i class=\"" + item.icon + " sidebar-nav-link-logo\"></i>" + item.name + "</a>  </li>";
             return con;
