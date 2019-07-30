@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改权限</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/font-awesome-4.7.0/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/module/config.js}"></script>
+    <style>
+        body {
+            width: auto;
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            right: 50px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-inline">
+            <select id="permissionLevel" name="permissionLevel" lay-filter="level" disabled="disabled">
+                <option value="">请选择</option>
+                <option value="1" th:selected="${permission.permissionLevel == 1}?'true':'false'">一级菜单</option>
+                <option value="2" th:selected="${permission.permissionLevel == 2}?'true':'false'">二级菜单</option>
+                <option value="3" th:selected="${permission.permissionLevel == 3}?'true':'false'">三级菜单</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">父级菜单</label>
+        <!--
+            1.预显示菜单为树形菜单（含所有level），点选后自动更新 类型
+            2.类型选择后，动态更新父级菜单下拉选项
+         -->
+        <div class="layui-input-inline">
+            <input type="text" id="parentId" name="parentId" lay-filter="parentId" class="layui-input" th:value="${far}"
+                   readonly="readonly"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限名称</label>
+        <div class="layui-input-inline">
+            <input type="input" id="name" name="name" placeholder="请输入权限名称" lay-verify="required"
+                   class="layui-input"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">url</label>
+        <div class="layui-input-inline">
+            <input type="input" id="url" name="url" placeholder="请输入url"
+                   class="layui-input"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">icon</label>
+        <div class="layui-input-inline">
+            <!--      后续换成列表选择      -->
+            <input type="input" id="icon" name="icon" class="layui-input"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">htmlID</label>
+        <div class="layui-input-inline">
+            <input type="input" id="htmlID" name="htmlID" class="layui-input" readonly="readonly"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限描述</label>
+        <div class="layui-input-block">
+            <textarea type="input" id="description" name="description" class="layui-textarea"
+                      placeholder="请输入权限描述"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="button" class="layui-btn" lay-submit lay-filter="updatePermissionForm" value="确定"></input>
+            <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-reply"></i></button>
+        </div>
+    </div>
+</form>
+<script>
+
+
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.on('submit(updatePermissionForm)', function (data) {
+            debugger;
+            var parentStr = data.field.parentId;
+            var parentId = parentStr.split(':')[0];
+            //监听提交
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "/estimate/manage/permission/addPermission",
+                data: {
+                    name: data.field.name,
+                    parentId: parentId,
+                    permissionLevel: data.field.permissionLevel,
+                    url: data.field.url,
+                    icon: data.field.icon,
+                    htmlID: data.field.htmlID,
+                    description: data.field.description
+                },
+                success: function (result) {
+                    //关闭新增用户界面
+                    debugger;
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }
+            })
+        })
+
+        form.on('select(level)', function (data) {
+            if (data.value == 1) {
+                $('#parentId').val('0:NA');
+            }
+        })
+
+
+    })
+
+
+</script>
+</body>
