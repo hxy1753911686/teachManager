@@ -59,7 +59,7 @@
             , title: '角色信息表'
             , cols: [
                 [
-                    {type: 'radiobox', fixed: 'left'}
+                    {type: 'radio', fixed: 'left'}
                     ,{field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true}
                     ,{field: 'roleCode', title: '角色CODE', width: 120}
                     ,{field: 'roleName', title: '角色名称',width:120}
@@ -73,50 +73,18 @@
         table.on('toolbar(roleList)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
-                case 'newUser':
+                case 'newRole':
                     layer.open({
-                        id: 'addUser',
+                        id: 'addRole',
                         type: 2,
-                        title: '新增用户',
-                        content: '/estimate/manage/user/addUser',
+                        title: '新增角色',
+                        content: '/estimate/manage/role/addRole',
                         area: ['800px', '600px'],
                         maxmin: true,
                         end: function () {
-                            table.reload('userList');
+                            table.reload('roleList');
                         }
                     })
-                    break;
-                case 'delList':
-                    layer.confirm('确认要删除吗?', function (index) {
-                        var data = checkStatus.data;
-                        var idList = " ";
-                        $.each(data, function (index, item) {
-                            if (idList == " ") {
-                                idList = item.id;
-                            } else {
-                                idList += "," + item.id;
-                            }
-                        })
-                        //发送post请求删除数据
-                        $.post({
-                            url: '/estimate/manage/user/delMulUser',
-                            data: {
-                                idList: idList
-                            },
-                            success: function (result) {
-                                layer.msg('删除成功', {icon: 1});
-                                layer.close(index);
-                                table.reload('userList');
-                            },
-                            error: function (result) {
-                                layer.msg(
-                                    '无法删除', {icon: 2}
-                                );
-                                layer.close(index);
-                            }
-                        })
-                    });
-
                     break;
             }
         });
@@ -126,17 +94,17 @@
             var data = obj.data;
             // console.log(data);
             if (obj.event === 'del') {
-                layer.confirm('确认删除此用户吗？', function (index) {
+                layer.confirm('确认删除此角色吗？', function (index) {
                     // console.log(index);
                     $.post({
-                        url: '/estimate/manage/user/delUser',
+                        url: '/estimate/manage/role/delRole',
                         data: {
                             id: data.id
                         },
                         success: function (result) {
                             layer.msg('删除成功', {icon: 1});
                             layer.close(index);
-                            table.reload('userList');
+                            table.reload('roleList');
                         },
                         error: function (result) {
                             layer.msg(
@@ -148,16 +116,16 @@
                 });
             } else if (obj.event === 'edit') {
                 layer.open({
-                    id: 'updateUser',
+                    id: 'updateRole',
                     type: 2,
-                    title: '修改用户',
-                    content: '/estimate/manage/user/updateUser?id=' + data.id,
+                    title: '修改角色',
+                    content: '/estimate/manage/role/updateRole?id=' + data.id,
                     area: ['800px', '600px'],
                     maxmin: true,
                     end: function () {
                         //修改成功后，更新表格
                         var pageNo = $(".layui-laypage-skip").find("input").val();
-                        table.reload('userList', {page: {curr: pageNo}});
+                        table.reload('roleList', {page: {curr: pageNo}});
                     }
                 })
             }
