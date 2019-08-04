@@ -37,4 +37,17 @@ public class RoleController {
         String jsonString = JSONArray.toJSONString(map);
         return jsonString;
     }
+
+    @RequestMapping(value = "/addRole", method = RequestMethod.GET)
+    public String gotoAddUser() {
+        return "/manage/role/addRole";
+    }
+
+    @RequestMapping(value = "/permissionList")
+    @ResponseBody
+    public String permissionList() {
+        List<Role> allRole = roleService.findAllRole();
+        String jsonString = JSONArray.toJSONString(allRole);
+        return jsonString;
+    }
 }

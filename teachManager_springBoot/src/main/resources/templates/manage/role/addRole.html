@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>新增角色</title>
+    <title>新增权限</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -25,34 +25,12 @@
 </head>
 <body>
 <form class="layui-form">
-    <div class="layui-form-item">
-        <label class="layui-form-label">类型</label>
-        <div class="layui-input-inline">
-            <select id="permissionLevel" name="permissionLevel" lay-filter="level">
-                <option value="">请选择</option>
-                <option value="1">一级菜单</option>
-                <option value="2">二级菜单</option>
-                <option value="3">三级菜单</option>
-            </select>
-        </div>
-    </div>
+
 
     <div class="layui-form-item">
-        <label class="layui-form-label">父级菜单</label>
-        <!--
-            1.预显示菜单为树形菜单（含所有level），点选后自动更新 类型
-            2.类型选择后，动态更新父级菜单下拉选项
-         -->
-        <div class="layui-input-inline" >
-            <input type="text" id="parentId" name="parentId" lay-filter="parentId" class="layui-input"/>
-            <div id="showPermission" class="ownSelect" hidden="hidden" tabindex="0" contenteditable="false" ></div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">权限名称</label>
+        <label class="layui-form-label">角色代号</label>
         <div class="layui-input-inline">
-            <input type="input" id="name" name="name" placeholder="请输入权限名称" lay-verify="required"
+            <input type="input" id="roleCode" name="roleCode" placeholder="请输入角色代号" lay-verify="required"
                    class="layui-input"/>
         </div>
     </div>
@@ -60,130 +38,73 @@
     <div class="layui-form-item">
         <label class="layui-form-label">url</label>
         <div class="layui-input-inline">
-            <input type="input" id="url" name="url" placeholder="请输入url"
+            <input type="input" id="roleName" name="roleName" placeholder="请输入角色名称"
                    class="layui-input"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">icon</label>
-        <div class="layui-input-inline">
-            <!--      后续换成列表选择      -->
-            <input type="input" id="icon" name="icon" class="layui-input"/>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">htmlID</label>
-        <div class="layui-input-inline">
-            <input type="input" id="htmlID" name="htmlID" class="layui-input"/>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">权限描述</label>
+        <label class="layui-form-label">添加权限</label>
         <div class="layui-input-block">
-            <textarea type="input" id="description" name="description" class="layui-textarea"
-                      placeholder="请输入权限描述"></textarea>
+            <div id="permissionList" class="tree tree-box" style="width: 200px; height: 300px; overflow: scroll;"></div>
         </div>
     </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <input type="button" class="layui-btn" lay-submit lay-filter="addPermissionForm" value="新增"></input>
+            <input type="button" class="layui-btn" lay-submit lay-filter="addRole" value="新增"></input>
             <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-reply"></i></button>
         </div>
     </div>
 </form>
 <script>
-
     debugger;
 
-
-    // var getJson = function(){
-        var treejson = '';
+    layui.use(['form', 'tree'], function () {
+        var form = layui.form;
+        tree.render({
+            elem: '#permissionList'
+            , data: '/estimate/manage/role/permissionList'
+            , showCheckbox: true  //是否显示复选框
+            , accordion: true
+            , click: function (obj) {
+                layer.msg(JSON.stringify(obj.data));
+            }
+        })
+    })
+    form.on('submit(addRole)', function (data) {
+        debugger;
+        var parentStr = data.field.parentId;
+        var parentId = parentStr.split(':')[0];
+        //监听提交
+        console.log(data);
         $.ajax({
-            async: 'false',
-            type: 'POST',
-            url: '/estimate/manage/permission/permissionSelect',
-            dataType:'json',
+            type: "POST",
+            url: "/estimate/manage/permission/addPermission",
             data: {
-                permissionLevel: 1
+                name: data.field.name,
+                parentId: parentId,
+                permissionLevel: data.field.permissionLevel,
+                url: data.field.url,
+                icon: data.field.icon,
+                htmlID: data.field.htmlID,
+                description: data.field.description
             },
             success: function (result) {
-                treejson = result;
-                layui.use(['form', 'tree'], function () {
-                    var form = layui.form;
-                    layui.tree({
-                        elem: '#showPermission',
-                        nodes: treejson,
-                        click: function (node) {
-                            debugger;
-                            $('#parentId').val(node.id + ':' + node.name);
-                            var level = node.level + 1;
-                            if(level > 3){
-                                $('#parentId').val('');
-                                $('#permissionLevel').val('');
-                            }else{
-                                $("#permissionLevel").find("option[value='"+level+"']").prop("selected",true);
-                            }
-
-                            form.render();
-                        }
-                    });
-                    form.on('submit(addPermissionForm)', function (data) {
-                        debugger;
-                        var parentStr = data.field.parentId;
-                        var parentId = parentStr.split(':')[0];
-                        //监听提交
-                        console.log(data);
-                        $.ajax({
-                            type: "POST",
-                            url: "/estimate/manage/permission/addPermission",
-                            data: {
-                                name: data.field.name,
-                                parentId: parentId,
-                                permissionLevel: data.field.permissionLevel,
-                                url: data.field.url,
-                                icon: data.field.icon,
-                                htmlID: data.field.htmlID,
-                                description: data.field.description
-                            },
-                            success: function (result) {
-                                //关闭新增用户界面
-                                debugger;
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                            }
-                        })
-                    })
-
-                    form.on('select(level)',function (data) {
-                        if(data.value == 1){
-                            $('#parentId').val('0:NA');
-                        }
-                    })
-
-
-                })
+                //关闭新增用户界面
+                debugger;
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
             }
-        });
-    // };
-
-
-
-    $('#parentId').click(function () {
-        $('#showPermission').show();
-        $('#showPermission').focus();
+        })
     })
 
-    $('#showPermission').blur(function (obj) {
-        //延时执行
-        setTimeout(function () {
-            $('#showPermission').hide();
-        },200);
-
+    form.on('select(level)', function (data) {
+        if (data.value == 1) {
+            $('#parentId').val('0:NA');
+        }
     })
+
 
 </script>
 </body>
