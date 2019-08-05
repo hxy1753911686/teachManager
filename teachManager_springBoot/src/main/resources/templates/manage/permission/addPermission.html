@@ -161,6 +161,8 @@
                     form.on('select(level)',function (data) {
                         if(data.value == 1){
                             $('#parentId').val('0:NA');
+                        }else{
+                            $('#parentId').val('');
                         }
                     })
 
@@ -173,6 +175,7 @@
 
 
     $('#parentId').click(function () {
+        debugger;
         $('#showPermission').show();
         $('#showPermission').focus();
     })

@@ -29,16 +29,21 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label">角色代号</label>
-        <div class="layui-input-inline">
+        <div class="layui-input-inline" style="width: 30px;">
+            <div class="layui-form-mid layui-word-aux">ROLE</div>
+        </div>
+        <div class="layui-form-mid">-</div>
+        <div class="layui-input-inline" style="width: 135px;">
+
             <input type="input" id="roleCode" name="roleCode" placeholder="请输入角色代号" lay-verify="required"
                    class="layui-input"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">url</label>
+        <label class="layui-form-label">角色名称</label>
         <div class="layui-input-inline">
-            <input type="input" id="roleName" name="roleName" placeholder="请输入角色名称"
+            <input type="input" id="roleName" name="roleName" placeholder="请输入角色名称" lay-verify="required"
                    class="layui-input"/>
         </div>
     </div>
@@ -46,7 +51,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">添加权限</label>
         <div class="layui-input-block">
-            <div id="permissionList" class="tree tree-box" style="width: 200px; height: 300px; overflow: scroll;"></div>
+            <div id="permissionList"
+                 style="width: 300px; height: 350px; overflow-y: scroll;border: 1px solid #e6e6e6;border-radius: 2px"></div>
         </div>
     </div>
 
@@ -60,51 +66,64 @@
 <script>
     debugger;
 
-    layui.use(['form', 'tree'], function () {
+    layui.use(['form', 'authtree'], function () {
         var form = layui.form;
-        tree.render({
-            elem: '#permissionList'
-            , data: '/estimate/manage/role/permissionList'
-            , showCheckbox: true  //是否显示复选框
-            , accordion: true
-            , click: function (obj) {
-                layer.msg(JSON.stringify(obj.data));
-            }
-        })
-    })
-    form.on('submit(addRole)', function (data) {
-        debugger;
-        var parentStr = data.field.parentId;
-        var parentId = parentStr.split(':')[0];
-        //监听提交
-        console.log(data);
+        var authtree = layui.authtree;
         $.ajax({
-            type: "POST",
-            url: "/estimate/manage/permission/addPermission",
-            data: {
-                name: data.field.name,
-                parentId: parentId,
-                permissionLevel: data.field.permissionLevel,
-                url: data.field.url,
-                icon: data.field.icon,
-                htmlID: data.field.htmlID,
-                description: data.field.description
-            },
-            success: function (result) {
-                //关闭新增用户界面
-                debugger;
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
+            url: '/estimate/manage/role/permissionList',
+            dataType: 'json',
+            type: 'POST',
+            success: function (data) {
+                var trees = data.data.trees;
+                // 如果后台返回的不是树结构，请使用 authtree.listConvert 转换
+                authtree.render('#permissionList', trees, {
+                    inputname: 'authids[]',
+                    layfilter: 'permissionList',
+                    openall: true,
+                    autowidth: true,
+                });
             }
         })
-    })
 
-    form.on('select(level)', function (data) {
-        if (data.value == 1) {
-            $('#parentId').val('0:NA');
-        }
-    })
 
+        form.on('submit(addRole)', function (data) {
+            debugger;
+            var parentStr = data.field.parentId;
+            var parentId = parentStr.split(':')[0];
+            //监听提交
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "/estimate/manage/permission/addPermission",
+                data: {
+                    name: data.field.name,
+                    parentId: parentId,
+                    permissionLevel: data.field.permissionLevel,
+                    url: data.field.url,
+                    icon: data.field.icon,
+                    htmlID: data.field.htmlID,
+                    description: data.field.description
+                },
+                success: function (result) {
+                    //关闭新增用户界面
+                    debugger;
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }
+            })
+        })
+    })
+    // $.ajax({
+    //     async: 'false',
+    //     type: 'POST',
+    //     url: '/estimate/manage/role/permissionList',
+    //     dataType: 'json',
+    //     success: function (result) {
+    //         debugger;
+    //         var treejson = result;
+    //
+    //     }
+    // })
 
 </script>
 </body>
