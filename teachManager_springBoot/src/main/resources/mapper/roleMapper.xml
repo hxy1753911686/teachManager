@@ -61,4 +61,21 @@
         order by r.id;
     </select>
 
+    <select id="getNewId" resultType="java.lang.Long">
+        select LAST_INSERT_ID();
+    </select>
+
+    <insert id="saveRolePer" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into estimate.role_permission
+        ( id,role_id,permission_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.roleId},
+            #{item.permissionId}
+            )
+        </foreach>
+    </insert>
+
 </mapper>

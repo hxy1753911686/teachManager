@@ -88,21 +88,24 @@
 
         form.on('submit(addRole)', function (data) {
             debugger;
-            var parentStr = data.field.parentId;
-            var parentId = parentStr.split(':')[0];
+            var arrData = data.field;
+            var arr = Object.keys(data.field);
+            var authArr = new Array();
+            var k = 0;
+            for(var i = 0;i < arr.length;i++){
+                var key = arr[i].toString();
+                if(key.indexOf("authids") != -1){
+                    authArr[k++] = arrData[key];
+                }
+            }
             //监听提交
-            console.log(data);
             $.ajax({
                 type: "POST",
-                url: "/estimate/manage/permission/addPermission",
+                url: "/estimate/manage/role/addRole",
                 data: {
-                    name: data.field.name,
-                    parentId: parentId,
-                    permissionLevel: data.field.permissionLevel,
-                    url: data.field.url,
-                    icon: data.field.icon,
-                    htmlID: data.field.htmlID,
-                    description: data.field.description
+                    roleCode: data.field.roleCode,
+                    roleName: data.field.roleName,
+                    authArr: authArr.toString()
                 },
                 success: function (result) {
                     //关闭新增用户界面

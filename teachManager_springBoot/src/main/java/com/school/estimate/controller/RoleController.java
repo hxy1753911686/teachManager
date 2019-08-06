@@ -66,6 +66,17 @@ public class RoleController {
         return jsonString;
     }
 
+    @RequestMapping(value = "/addRole",method = RequestMethod.POST)
+    @ResponseBody
+    public String addRole(Role role,String[] authArr) {
+        Long aLong = roleService.saveRole(role,authArr);
+        if(aLong < 1){
+            return aLong.toString();
+        }
+
+        return aLong.toString();
+    }
+
     private List<Object> getTreeData(List<Permission> permissions) {
         Map<String, Object> map = new LinkedHashMap<>();
         String[] perParArr = new String[permissions.size()];
