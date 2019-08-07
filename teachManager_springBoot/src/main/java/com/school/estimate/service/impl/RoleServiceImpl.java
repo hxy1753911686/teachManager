@@ -64,4 +64,9 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.findRolesOfUserId(id);
     }
 
+    @Override
+    public List<Role_Permission> findPermissionByRoleId(Long id) {
+        return roleDao.findPermissionByRoleId(id);
+    }
+
 }

@@ -43,6 +43,7 @@
 </script>
 
 <script type="text/html" id="operateBar">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     <!--    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
@@ -127,6 +128,15 @@
                         var pageNo = $(".layui-laypage-skip").find("input").val();
                         table.reload('roleList', {page: {curr: pageNo}});
                     }
+                })
+            }else if (obj.event === 'detail') {
+                layer.open({
+                    id: 'roleDetail',
+                    type: 2,
+                    title: '角色详情',
+                    content: '/estimate/manage/role/roleDetail?id=' + data.id,
+                    area: ['800px', '600px'],
+                    maxmin: true,
                 })
             }
         });
