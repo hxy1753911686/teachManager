@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>新增角色</title>
+    <title>角色详情</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -26,61 +26,54 @@
 <body>
 <form class="layui-form">
 
-
+    <input id="roleId" type="hidden" th:value="${role.id}" />
     <div class="layui-form-item">
         <label class="layui-form-label">角色代号</label>
-        <div class="layui-input-inline" style="width: 30px;">
-            <div class="layui-form-mid layui-word-aux">ROLE</div>
-        </div>
-        <div class="layui-form-mid">-</div>
-        <div class="layui-input-inline" style="width: 135px;">
-
-            <input type="input" id="roleCode" name="roleCode" placeholder="请输入角色代号" lay-verify="required"
-                   class="layui-input"/>
+        <div class="layui-input-inline">
+            <div class="layui-form-mid layui-word-aux" ><span th:value="${role.roleCode}"></span></div>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">角色名称</label>
         <div class="layui-input-inline">
-            <input type="input" id="roleName" name="roleName" placeholder="请输入角色名称" lay-verify="required"
-                   class="layui-input"/>
+            <div class="layui-form-mid layui-word-aux" ><span th:value="${role.roleName}"></span></div>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">添加权限</label>
+        <label class="layui-form-label">权限列表</label>
         <div class="layui-input-block">
-            <div id="permissionList"
+            <div id="permissionDetail"
                  style="width: 300px; height: 350px; overflow-y: scroll;border: 1px solid #e6e6e6;border-radius: 2px"></div>
         </div>
     </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <input type="button" class="layui-btn" lay-submit lay-filter="addRole" value="新增"></input>
-            <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-reply"></i></button>
+            <input type="button" class="layui-btn" lay-submit lay-filter="back" value="返回"></input>
         </div>
     </div>
 </form>
 <script>
     debugger;
-    var showType = '1';
+    var roleId = $("#roleId").val();
+    var showType = '3';
     layui.use(['form', 'authtree'], function () {
         var form = layui.form;
         var authtree = layui.authtree;
         $.ajax({
-            url: '/estimate/manage/role/permissionList?showType='+showType,
+            url: '/estimate/manage/role/permissionDetail?showType='+showType+'&roleId='+roleId,
             dataType: 'json',
             type: 'POST',
             success: function (data) {
                 var trees = data.data.trees;
                 // 如果后台返回的不是树结构，请使用 authtree.listConvert 转换
-                authtree.render('#permissionList', trees, {
+                authtree.render('#permissionDetail', trees, {
                     inputname: 'authids[]',
                     layfilter: 'permissionList',
                     openall: true,
-                    autowidth: true,
+                    autowidth: true
                 });
             }
         })

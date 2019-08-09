@@ -54,9 +54,26 @@ public class RoleController {
 
     @RequestMapping(value = "/permissionList")
     @ResponseBody
-    public String permissionList() {
+    public String permissionList(String showType) {
         List<Permission> permissions = permissionService.findAllPermission();
-        List list = getTreeData(permissions);
+        List list = getTreeData(permissions,null,showType);
+        Map map = new HashMap();
+        map.put("trees", list);
+
+        Map returnMap = new LinkedHashMap<>();
+        returnMap.put("code", "0");
+        returnMap.put("msg", "获取成功");
+        returnMap.put("data", map);
+        String jsonString = JSONArray.toJSONString(returnMap);
+        return jsonString;
+    }
+
+    @RequestMapping(value = "/permissionDetail")
+    @ResponseBody
+    public String permissionDetail(Long roleId, String showType) {
+        List<Permission> permissions = permissionService.findAllPermission();
+        List<Role_Permission> rolePermission = roleService.findPermissionByRoleId(roleId);
+        List list = getTreeData(permissions, rolePermission, showType);
         Map map = new HashMap();
         map.put("trees", list);
 
@@ -80,16 +97,14 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/roleDetail", method = RequestMethod.GET)
-    @ResponseBody
     public String roleDetail(Long id, Model model) {
         Role role = roleService.findRoleById(id);
-//        List<Role_Permission> list = roleService.findPermissionByRoleId(id);
 
         model.addAttribute("role", role);
-        return "/manage/role/addRole";
+        return "/manage/role/roleDetail";
     }
 
-    private List<Object> getTreeData(List<Permission> permissions) {
+    private List<Object> getTreeData(List<Permission> permissions, List<Role_Permission> rolePermission, String showType) {
         Map<String, Object> map = new LinkedHashMap<>();
         String[] perParArr = new String[permissions.size()];
         for (int i = 0; i < permissions.size(); i++) {
@@ -103,8 +118,18 @@ public class RoleController {
                 Map<String, Object> parMap = new LinkedHashMap<>();
                 parMap.put("name", permission.getName());
                 parMap.put("value", permission.getId());
+                if (showType == "2" || showType == "3") {
+                    for (Role_Permission role_permission : rolePermission) {
+                        if (role_permission.getPermissionId() == permission.getId()) {
+                            parMap.put("checked", true);
+                        }
+                    }
+                    if (showType == "3") {
+                        parMap.put("disabled", true);
+                    }
+                }
 
-                parMap = getChildPermission(parMap, permission, permissions, perParlist);
+                parMap = getChildPermission(parMap, permission, permissions, perParlist, rolePermission, showType);
                 list.add(parMap);
 
             }
@@ -112,16 +137,26 @@ public class RoleController {
         return list;
     }
 
-    private Map<String, Object> getChildPermission(Map<String, Object> map, Permission tPer, List<Permission> permissions, List perParlist) {
+    private Map<String, Object> getChildPermission(Map<String, Object> map, Permission tPer, List<Permission> permissions, List perParlist, List<Role_Permission> rolePermission, String showType) {
         ArrayList<Object> list = new ArrayList<>();
         for (Permission permission : permissions) {
             Map<String, Object> childMap = new LinkedHashMap<>();
             if (permission.getParentId() == tPer.getId()) {
                 childMap.put("name", permission.getName());
                 childMap.put("value", permission.getId());
+                if (showType == "2" || showType == "3") {
+                    for (Role_Permission role_permission : rolePermission) {
+                        if (role_permission.getPermissionId() == permission.getId()) {
+                            childMap.put("checked", true);
+                        }
+                    }
+                    if (showType == "3") {
+                        childMap.put("disabled", true);
+                    }
+                }
                 String id = String.valueOf(permission.getId());
                 if (perParlist.contains(id)) {
-                    childMap = getChildPermission(childMap, permission, permissions, perParlist);
+                    childMap = getChildPermission(childMap, permission, permissions, perParlist, rolePermission, showType);
                 }
 
             }
