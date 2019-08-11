@@ -17,7 +17,7 @@ public interface RoleService {
     @Transactional
     Long saveRole(Role role,String[] permissionArr);
 
-    Long updateRole(Role role);
+    Long updateRole(Role role,String[] permissionArr);
 
     Long deleteRole(Long id);
 

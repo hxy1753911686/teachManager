@@ -8,6 +8,12 @@
         <result column="role_name" property="roleName" />
     </resultMap>
 
+    <resultMap id="rolePermission" type="com.school.estimate.domain.Role_Permission">
+        <result column="id" property="id"  />
+        <result column="role_id" property="roleId" />
+        <result column="permission_id" property="permissionId" />
+    </resultMap>
+
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
     <parameterMap id="Role" type="com.school.estimate.domain.Role" />
 
@@ -78,7 +84,7 @@
         </foreach>
     </insert>
 
-    <select id="findPermissionByRoleId" parameterType="java.lang.Long" resultType="java.util.List">
+    <select id="findPermissionByRoleId" parameterType="java.lang.Long" resultMap="rolePermission">
         select
             permission_id
         from estimate.role_permission

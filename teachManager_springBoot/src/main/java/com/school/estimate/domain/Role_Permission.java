@@ -3,14 +3,14 @@ package com.school.estimate.domain;
 public class Role_Permission {
     private Integer id;
     private Integer roleId;
-    private Integer permissionId;
+    private String permissionIds;
 
     public Role_Permission() {
     }
 
-    public Role_Permission(Integer roleId, Integer permissionId) {
+    public Role_Permission(Integer roleId, String permissionIds) {
         this.roleId = roleId;
-        this.permissionId = permissionId;
+        this.permissionIds = permissionIds;
     }
 
     public Integer getId() {
@@ -29,11 +29,11 @@ public class Role_Permission {
         this.roleId = roleId;
     }
 
-    public Integer getPermissionId() {
-        return permissionId;
+    public String getPermissionId() {
+        return permissionIds;
     }
 
-    public void setPermissionId(Integer permissionId) {
-        this.permissionId = permissionId;
+    public void setPermissionId(String permissionIds) {
+        this.permissionIds = permissionIds;
     }
 }

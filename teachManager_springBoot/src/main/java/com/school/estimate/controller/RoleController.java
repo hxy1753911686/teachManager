@@ -52,6 +52,33 @@ public class RoleController {
         return "/manage/role/addRole";
     }
 
+    @RequestMapping(value = "/addRole", method = RequestMethod.POST)
+    @ResponseBody
+    public String addRole(Role role, String[] authArr) {
+        Long aLong = roleService.saveRole(role, authArr);
+        if (aLong < 1) {
+            return aLong.toString();
+        }
+
+        return aLong.toString();
+    }
+
+    @RequestMapping(value = "/updateRole", method = RequestMethod.GET)
+    public String gotoUpdateUser() {
+        return "/manage/role/updateRole";
+    }
+
+    @RequestMapping(value = "/updateRole", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateRole(Role role, String[] authArr) {
+        Long aLong = roleService.updateRole(role, authArr);
+        if (aLong < 1) {
+            return aLong.toString();
+        }
+
+        return aLong.toString();
+    }
+
     @RequestMapping(value = "/permissionList")
     @ResponseBody
     public String permissionList(String showType) {
@@ -85,16 +112,7 @@ public class RoleController {
         return jsonString;
     }
 
-    @RequestMapping(value = "/addRole", method = RequestMethod.POST)
-    @ResponseBody
-    public String addRole(Role role, String[] authArr) {
-        Long aLong = roleService.saveRole(role, authArr);
-        if (aLong < 1) {
-            return aLong.toString();
-        }
 
-        return aLong.toString();
-    }
 
     @RequestMapping(value = "/roleDetail", method = RequestMethod.GET)
     public String roleDetail(Long id, Model model) {
@@ -118,13 +136,13 @@ public class RoleController {
                 Map<String, Object> parMap = new LinkedHashMap<>();
                 parMap.put("name", permission.getName());
                 parMap.put("value", permission.getId());
-                if (showType == "2" || showType == "3") {
+                if (showType.equals("2") || showType.equals("3")) {
                     for (Role_Permission role_permission : rolePermission) {
-                        if (role_permission.getPermissionId() == permission.getId()) {
+                        if (role_permission != null && role_permission.getPermissionId() == permission.getId()) {
                             parMap.put("checked", true);
                         }
                     }
-                    if (showType == "3") {
+                    if (showType.equals("3")) {
                         parMap.put("disabled", true);
                     }
                 }
@@ -144,13 +162,13 @@ public class RoleController {
             if (permission.getParentId() == tPer.getId()) {
                 childMap.put("name", permission.getName());
                 childMap.put("value", permission.getId());
-                if (showType == "2" || showType == "3") {
+                if (showType.equals("2") || showType.equals("3")) {
                     for (Role_Permission role_permission : rolePermission) {
-                        if (role_permission.getPermissionId() == permission.getId()) {
+                        if (role_permission != null && role_permission.getPermissionId() == permission.getId()) {
                             childMap.put("checked", true);
                         }
                     }
-                    if (showType == "3") {
+                    if (showType.equals("3")) {
                         childMap.put("disabled", true);
                     }
                 }

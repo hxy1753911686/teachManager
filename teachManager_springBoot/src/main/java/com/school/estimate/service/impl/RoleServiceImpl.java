@@ -50,7 +50,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Long updateRole(Role role) {
+    public Long updateRole(Role role,String[] permissionArr) {
+        Long aLong = roleDao.updateRole(role);
+        if (aLong < 1) {
+            return aLong;
+        }
+        //修改permission字符串
         return roleDao.updateRole(role);
     }
 
