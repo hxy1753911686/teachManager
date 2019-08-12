@@ -19,6 +19,9 @@ public interface RoleDao {
 
     Long getNewId();
 
-    Long saveRolePer(List<Role_Permission> list);
-    List<Role_Permission> findPermissionByRoleId(@Param("id")Long id);
+    Long saveRolePer(Role_Permission role_permission);
+    String findPermissionByRoleId(@Param("id")Long id);
+    Role_Permission findRolePerByRoleId(@Param("id")Long id);
+    Long updateRolePer(Role_Permission role_permission);
+    Long deleteRolePre(@Param("id")Long id);
 }

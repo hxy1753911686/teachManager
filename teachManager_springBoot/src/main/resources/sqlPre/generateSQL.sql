@@ -29,11 +29,11 @@ create table role
 
 create table role_permission
 (
-  id            int auto_increment
-    primary key,
-  role_id       int null,
-  permission_id int null
-)DEFAULT CHARSET=utf8;
+    id            int auto_increment
+        primary key,
+    role_id       int          null,
+    permission_id varchar(100) null
+);
 
 create table student
 (

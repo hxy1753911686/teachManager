@@ -29,11 +29,11 @@ public class Role_Permission {
         this.roleId = roleId;
     }
 
-    public String getPermissionId() {
+    public String getPermissionIds() {
         return permissionIds;
     }
 
-    public void setPermissionId(String permissionIds) {
+    public void setPermissionIds(String permissionIds) {
         this.permissionIds = permissionIds;
     }
 }

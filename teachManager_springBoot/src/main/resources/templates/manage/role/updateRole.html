@@ -25,98 +25,81 @@
 </head>
 <body>
 <form class="layui-form">
+    <input id="roleId" type="hidden" th:value="${role.id}" />
     <div class="layui-form-item">
-        <label class="layui-form-label">类型</label>
+        <label class="layui-form-label">角色代号</label>
         <div class="layui-input-inline">
-            <select id="permissionLevel" name="permissionLevel" lay-filter="level" disabled="disabled">
-                <option value="">请选择</option>
-                <option value="1" th:selected="${permission.permissionLevel == 1}?'true':'false'">一级菜单</option>
-                <option value="2" th:selected="${permission.permissionLevel == 2}?'true':'false'">二级菜单</option>
-                <option value="3" th:selected="${permission.permissionLevel == 3}?'true':'false'">三级菜单</option>
-            </select>
+            <input type="input" id="roleCode" name="roleCode"
+                   class="layui-input" th:value="${role.roleCode}"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">父级菜单</label>
-        <!--
-            1.预显示菜单为树形菜单（含所有level），点选后自动更新 类型
-            2.类型选择后，动态更新父级菜单下拉选项
-         -->
+        <label class="layui-form-label">角色名称</label>
         <div class="layui-input-inline">
-            <input type="text" id="parentId" name="parentId" lay-filter="parentId" class="layui-input" th:value="${far}"
-                   readonly="readonly"/>
+            <input type="input" id="roleName" name="roleName"
+                   class="layui-input" th:value="${role.roleName}"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">权限名称</label>
-        <div class="layui-input-inline">
-            <input type="input" id="name" name="name" placeholder="请输入权限名称" lay-verify="required"
-                   class="layui-input"/>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">url</label>
-        <div class="layui-input-inline">
-            <input type="input" id="url" name="url" placeholder="请输入url"
-                   class="layui-input"/>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">icon</label>
-        <div class="layui-input-inline">
-            <!--      后续换成列表选择      -->
-            <input type="input" id="icon" name="icon" class="layui-input"/>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">htmlID</label>
-        <div class="layui-input-inline">
-            <input type="input" id="htmlID" name="htmlID" class="layui-input" readonly="readonly"/>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">权限描述</label>
+        <label class="layui-form-label">权限列表</label>
         <div class="layui-input-block">
-            <textarea type="input" id="description" name="description" class="layui-textarea"
-                      placeholder="请输入权限描述"></textarea>
+            <div id="permissionDetail"
+                 style="width: 300px; height: 350px; overflow-y: scroll;border: 1px solid #e6e6e6;border-radius: 2px"></div>
         </div>
     </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <input type="button" class="layui-btn" lay-submit lay-filter="updatePermissionForm" value="确定"></input>
+            <input type="button" class="layui-btn" lay-submit lay-filter="updateRole" value="修改"></input>
             <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-reply"></i></button>
         </div>
     </div>
 </form>
 <script>
 
-
-    layui.use(['form'], function () {
+    var roleId = $("#roleId").val();
+    var showType = '2';
+    layui.use(['form', 'authtree'], function () {
         var form = layui.form;
-        form.on('submit(updatePermissionForm)', function (data) {
+        var authtree = layui.authtree;
+        $.ajax({
+            url: '/estimate/manage/role/permissionDetail?showType='+showType+'&roleId='+roleId,
+            dataType: 'json',
+            type: 'POST',
+            success: function (data) {
+                var trees = data.data.trees;
+                // 如果后台返回的不是树结构，请使用 authtree.listConvert 转换
+                authtree.render('#permissionDetail', trees, {
+                    inputname: 'authids[]',
+                    layfilter: 'permissionDetail',
+                    openall: true,
+                    autowidth: true,
+                });
+            }
+        })
+        form.on('submit(updateRole)', function (data) {
             debugger;
-            var parentStr = data.field.parentId;
-            var parentId = parentStr.split(':')[0];
+            var arrData = data.field;
+            var arr = Object.keys(data.field);
+            var authArr = new Array();
+            var k = 0;
+            for(var i = 0;i < arr.length;i++){
+                var key = arr[i].toString();
+                if(key.indexOf("authids") != -1){
+                    authArr[k++] = arrData[key];
+                }
+            }
             //监听提交
-            console.log(data);
             $.ajax({
                 type: "POST",
-                url: "/estimate/manage/permission/addPermission",
+                url: "/estimate/manage/role/updateRole",
                 data: {
-                    name: data.field.name,
-                    parentId: parentId,
-                    permissionLevel: data.field.permissionLevel,
-                    url: data.field.url,
-                    icon: data.field.icon,
-                    htmlID: data.field.htmlID,
-                    description: data.field.description
+                    id:roleId,
+                    roleCode: data.field.roleCode,
+                    roleName: data.field.roleName,
+                    authArr: authArr.toString()
                 },
                 success: function (result) {
                     //关闭新增用户界面
@@ -126,16 +109,7 @@
                 }
             })
         })
-
-        form.on('select(level)', function (data) {
-            if (data.value == 1) {
-                $('#parentId').val('0:NA');
-            }
-        })
-
-
     })
-
 
 </script>
 </body>

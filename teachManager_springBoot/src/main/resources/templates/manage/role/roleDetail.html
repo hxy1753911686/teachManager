@@ -30,14 +30,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label">角色代号</label>
         <div class="layui-input-inline">
-            <div class="layui-form-mid layui-word-aux" th:value="${role.roleCode}"></div>
+            <input type="input" id="roleCode" name="roleCode" readonly="readonly" disabled="disabled"
+                   class="layui-input" th:value="${role.roleCode}"/>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">角色名称</label>
         <div class="layui-input-inline">
-            <div class="layui-form-mid layui-word-aux" th:value="${role.roleName}"></div>
+            <input type="input" id="roleName" name="roleName" readonly="readonly" disabled="disabled"
+                   class="layui-input" th:value="${role.roleName}"/>
         </div>
     </div>
 

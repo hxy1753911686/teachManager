@@ -17,12 +17,14 @@ public interface RoleService {
     @Transactional
     Long saveRole(Role role,String[] permissionArr);
 
+    @Transactional
     Long updateRole(Role role,String[] permissionArr);
 
+    @Transactional
     Long deleteRole(Long id);
 
     //根据用户ID获取用户所有角色
     List<Role> findRolesOfUserId(Long id);
-    List<Role_Permission> findPermissionByRoleId(@Param("id")Long id);
+    String findPermissionByRoleId(@Param("id")Long id);
 
 }

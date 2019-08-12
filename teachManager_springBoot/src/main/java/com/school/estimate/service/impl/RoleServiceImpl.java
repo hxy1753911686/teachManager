@@ -34,19 +34,20 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Long saveRole(Role role,String[] permissionArr) {
-
+        role.setRoleCode("ROLE_" + role.getRoleCode());
         Long aLong = roleDao.saveRole(role);
         if (aLong < 1) {
             return aLong;
         }
 
         Long newId = roleDao.getNewId();
-        List<Role_Permission> list = new ArrayList<>();
+        String strlist = "";
         for (int i = 0; i < permissionArr.length; i++) {
-            Role_Permission r = new Role_Permission(newId.intValue(), Integer.parseInt(permissionArr[i]));
-            list.add(r);
+            strlist += permissionArr[i] + ",";
         }
-        return roleDao.saveRolePer(list);
+        strlist = strlist.substring(0,strlist.length() - 1);
+        Role_Permission role_permission = new Role_Permission(newId.intValue(), strlist);
+        return roleDao.saveRolePer(role_permission);
     }
 
     @Override
@@ -56,11 +57,22 @@ public class RoleServiceImpl implements RoleService {
             return aLong;
         }
         //修改permission字符串
-        return roleDao.updateRole(role);
+        Role_Permission role_permission = roleDao.findRolePerByRoleId(role.getId().longValue());
+        String strlist = "";
+        for (int i = 0; i < permissionArr.length; i++) {
+            strlist += permissionArr[i] + ",";
+        }
+        strlist = strlist.substring(0,strlist.length() - 1);
+        role_permission.setPermissionIds(strlist);
+        return roleDao.updateRolePer(role_permission);
     }
 
     @Override
     public Long deleteRole(Long id) {
+        Long aLong = roleDao.deleteRolePre(id);
+        if(aLong < 1){
+            return aLong;
+        }
         return roleDao.deleteRole(id);
     }
 
@@ -70,7 +82,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role_Permission> findPermissionByRoleId(Long id) {
+    public String findPermissionByRoleId(Long id) {
         return roleDao.findPermissionByRoleId(id);
     }
 

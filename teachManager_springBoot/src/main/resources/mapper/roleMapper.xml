@@ -16,6 +16,7 @@
 
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
     <parameterMap id="Role" type="com.school.estimate.domain.Role" />
+    <parameterMap id="Role_Permission" type="com.school.estimate.domain.Role_Permission" />
 
     <select id="findByName" resultType="Role" parameterType="java.lang.String">
         select
@@ -47,16 +48,29 @@
         update estimate.role
         set
         <if test="roleCode!=null">
-            role_code = #{roleCode},
+            role_code = #{roleCode}
         </if>
         <if test="roleName!=null">
-            role_name = #{roleName},
+            ,role_name = #{roleName}
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="updateRolePer" parameterMap="Role_Permission">
+        update estimate.role_permission
+        set
+        <if test="permissionIds!=null">
+            permission_id = #{permissionIds}
         </if>
         where id = #{id}
     </update>
 
     <delete id="deleteRole" parameterType="java.lang.Long">
         delete from estimate.role where id = #{id}
+    </delete>
+
+    <delete id="deleteRolePre" parameterType="java.lang.Long">
+        delete from estimate.role_permission where role_id = #{id}
     </delete>
 
     <select id="findRolesOfUserId" resultMap="BaseResultMap" resultType="Role" parameterType="java.lang.Long">
@@ -71,20 +85,23 @@
         select LAST_INSERT_ID();
     </select>
 
-    <insert id="saveRolePer" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveRolePer" parameterMap="Role_Permission" useGeneratedKeys="true" keyProperty="id">
         insert into estimate.role_permission
         ( id,role_id,permission_id)
         values
-        <foreach collection="list" item="item" index="index" separator=",">
-            (
-            #{item.id},
-            #{item.roleId},
-            #{item.permissionId}
-            )
-        </foreach>
+            (#{id},
+            #{roleId},
+            #{permissionIds});
     </insert>
 
-    <select id="findPermissionByRoleId" parameterType="java.lang.Long" resultMap="rolePermission">
+    <select id="findRolePerByRoleId" parameterType="java.lang.Long" resultType="com.school.estimate.domain.Role_Permission">
+        select
+            *
+        from estimate.role_permission
+        where role_id = #{id}
+    </select>
+
+    <select id="findPermissionByRoleId" parameterType="java.lang.Long" resultType="java.lang.String">
         select
             permission_id
         from estimate.role_permission

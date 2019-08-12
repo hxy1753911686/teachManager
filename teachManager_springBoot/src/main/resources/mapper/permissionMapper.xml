@@ -87,7 +87,7 @@
         select
             p.id,p.p_name,p.parent_id,p.p_level,p.url,p.icon,p.html_id,p.data_id,p.description
         from estimate.permission p,role_permission r
-        where r.role_id = #{id} and r.permission_id = p.id
+        where r.role_id = #{id} and  FIND_IN_SET(p.id,r.permission_id) > 0
         order by p.id;
     </select>
 
@@ -113,12 +113,11 @@
 
     </select>
 
-<!--    TODO:修改-->
     <select id="getRolesByPermissionId" resultMap="Role" parameterType="java.lang.Long">
         select
              e.id,e.role_code,e.role_name
         from estimate.role e,role_permission r
-        where r.permission_id = #{id}
+        where FIND_IN_SET(#{id},r.permission_id) > 0
         and e.id = r.role_id
         order by e.id;
     </select>
@@ -128,7 +127,7 @@
             p.id,p.p_name,p.parent_id,p.p_level,p.url,p.icon,p.html_id,p.data_id,p.description
         from estimate.permission p,role_permission e,role r
         where r.role_code = #{roleName}
-          and r.id = e.role_id and p.id = e.permission_id;
+          and r.id = e.role_id and FIND_IN_SET(p.id,e.permission_id) > 0
     </select>
 
     <select id="getNewId" resultType="java.lang.Long">
