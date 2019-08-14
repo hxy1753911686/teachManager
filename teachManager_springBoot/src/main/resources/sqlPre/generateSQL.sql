@@ -33,7 +33,7 @@ create table role_permission
         primary key,
     role_id       int          null,
     permission_id varchar(100) null
-);
+)DEFAULT CHARSET=utf8;
 
 create table student
 (
@@ -48,10 +48,10 @@ create table student
 
 create table user_role
 (
-  id      int auto_increment
-    primary key,
-  user_id int null,
-  role_id int null
+    id      int auto_increment
+        primary key,
+    user_id int null,
+    role_id varchar(100) null
 )DEFAULT CHARSET=utf8;
 
 create table users

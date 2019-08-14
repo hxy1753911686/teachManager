@@ -30,7 +30,7 @@ public class LoginController {
         return "/login";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"/index",""}, method = RequestMethod.GET)
     public String gotoIndex(String username, Model model) {
         //获取当前登录的用户
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
@@ -59,9 +59,8 @@ public class LoginController {
 
             }
 
-            model.addAttribute("permissionList", permissionList);
         }
-
+        model.addAttribute("permissionList", permissionList);
 
         return "/index";
     }
