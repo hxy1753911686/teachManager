@@ -16,6 +16,7 @@
 
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
     <parameterMap id="User" type="com.school.estimate.domain.User" />
+    <parameterMap id="UserRole" type="com.school.estimate.domain.User_Role" />
 
     <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
@@ -51,6 +52,10 @@
         insert into users(id,username,password,phone,email,create_time,login_time,last_login_time,count) values(#{id},#{username},#{password},#{phone},#{email},now(),null,null,0);
     </insert>
 
+    <insert id="saveUserRole" parameterMap="UserRole" useGeneratedKeys="true" keyProperty="id">
+        insert into estimate.user_role(id,user_id,role_id) values(#{id},#{userId},#{roleIds});
+    </insert>
+
     <update id="updateUser" parameterType="com.school.estimate.domain.User">
         update estimate.users
         set
@@ -81,5 +86,9 @@
     <delete id="deleteUser" parameterType="java.lang.Long">
         delete from estimate.users where id = #{id}
     </delete>
+
+    <select id="getNewId" resultType="java.lang.Long">
+        select LAST_INSERT_ID();
+    </select>
 
 </mapper>

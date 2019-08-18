@@ -1,6 +1,7 @@
 package com.school.estimate.dao;
 
 import com.school.estimate.domain.User;
+import com.school.estimate.domain.User_Role;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,8 +17,11 @@ public interface UserDao {
     List<User> findUserByPage(@Param("start")Integer start,@Param("size")Integer size);
 
     Long saveUser(User user);
+    Long saveUserRole(User_Role user_role);
 
     Long updateUser(User user);
 
     Long deleteUser(@Param("id") Long id);
+
+    Long getNewId();
 }

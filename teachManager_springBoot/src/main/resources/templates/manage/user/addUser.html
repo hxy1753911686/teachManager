@@ -12,7 +12,7 @@
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
     <style>
-        body{
+        body {
             width: auto;
             position: absolute;
             top: 100px;
@@ -43,10 +43,20 @@
     <div class="layui-form-item">
         <label class="layui-form-label">邮箱</label>
         <div class="layui-input-block">
-        <input type="email" id="email" name="email" placeholder="请输入邮箱"
-               class="layui-input" lay-verify="email"/>
+            <input type="email" id="email" name="email" placeholder="请输入邮箱"
+                   class="layui-input" lay-verify="email"/>
         </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <th:block th:each="role : ${roleList}">
+                <input type="checkbox" th:name="|role[${role.roleCode}]|" th:title="${role.roleName}"
+                       th:value="${role.id}">
+            </th:block>
         </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -59,25 +69,39 @@
     layui.use('form', function () {
         var form = layui.form;
 
-         form.on('submit(addUserForm)', function (data) {
-             //监听提交
-             console.log(data);
-             $.ajax({
-                 type: "POST",
-                 url: "/estimate/manage/user/addUser",
-                 data: {
-                     username: data.field.username,
-                     phone: data.field.phone,
-                     email: data.field.email
-                 },
-                 success: function (result) {
+        form.on('submit(addUserForm)', function (data) {
+            //监听提交
+            debugger;
+            console.log(data);
+            var roleIds = '';
+            var arrData = data.field;
+            var arr = Object.keys(data.field);
+            for (var i = 0; i < arr.length; i++) {
+                var key = arr[i].toString();
+                if (key.indexOf("ROLE") != -1) {
+                    roleIds = roleIds + arrData[key] + ',';
+                }
+            }
+            if (roleIds != '') {
+                roleIds = roleIds.substring(0, roleIds.length - 1);
+            }
+            $.ajax({
+                type: "POST",
+                url: "/estimate/manage/user/addUser",
+                data: {
+                    username: data.field.username,
+                    phone: data.field.phone,
+                    email: data.field.email,
+                    roleIds: roleIds
+                },
+                success: function (result) {
                     //关闭新增用户界面
-                     debugger;
-                     var index = parent.layer.getFrameIndex(window.name);
-                     parent.layer.close(index);
-                 }
-             })
-         })
+                    debugger;
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }
+            })
+        })
     })
 </script>
 </body>

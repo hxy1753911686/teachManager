@@ -1,7 +1,9 @@
 package com.school.estimate.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.school.estimate.domain.Role;
 import com.school.estimate.domain.User;
+import com.school.estimate.service.RoleService;
 import com.school.estimate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String gotoIndex() {
@@ -46,7 +51,6 @@ public class UserController {
     @RequestMapping(value = "/delMulUser", method = RequestMethod.POST)
     @ResponseBody
     public String delMulUser(String idList) throws Exception {
-//        System.err.println(idList);
         try {
             String[] idArr = idList.split(",");
             for (String s : idArr) {
@@ -67,14 +71,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
-    public String gotoAddUser() {
+    public String gotoAddUser(Map map) {
+        List<Role> allRole = roleService.findAllRole();
+        map.put("roleList", allRole);
         return "manage/user/addUser";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public String addUser(User user) {
-        Long successLine = userService.saveUser(user);
+    public String addUser(User user,String roleIds) {
+        Long successLine = userService.saveUser(user,roleIds);
         //service中存储通用密码
         return successLine.toString();
     }

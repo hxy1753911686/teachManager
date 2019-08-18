@@ -15,7 +15,7 @@ public interface UserService {
     List<User> findUserByPage(Integer start, Integer size);
 
     @Transactional
-    Long saveUser(User user);
+    Long saveUser(User user,String roleIds);
 
     @Transactional
     Long updateUser(User user);
