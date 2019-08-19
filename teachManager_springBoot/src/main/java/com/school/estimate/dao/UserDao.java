@@ -20,8 +20,11 @@ public interface UserDao {
     Long saveUserRole(User_Role user_role);
 
     Long updateUser(User user);
+    Long updateUserRole(User_Role user_role);
 
     Long deleteUser(@Param("id") Long id);
 
     Long getNewId();
+
+    User_Role findUserRoleOfUserId(@Param("id")Long id);
 }

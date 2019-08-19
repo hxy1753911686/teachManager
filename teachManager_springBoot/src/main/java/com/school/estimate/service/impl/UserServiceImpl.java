@@ -37,33 +37,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long saveUser(User user,String roleIds) {
+    public Long saveUser(User user, String roleIds) {
         Long line = null;
-        try {
-            //使用BCryptPasswordEncoder保存初始密码
-            String encode = new BCryptPasswordEncoder().encode("666666");
-            user.setPassword(encode);
-            line = userDao.saveUser(user);
-            if(line < 0){
-                return line;
-            }
-            Long newId = userDao.getNewId();
-            User_Role user_role = new User_Role();
-            user_role.setUserId(newId.intValue());
-            user_role.setRoleIds(roleIds);
-            line = userDao.saveUserRole(user_role);
-
-        } catch (Exception e) {
-            //已添加事务注解，输出日志
-            System.err.println(e);
-            return new Long(0);
+        //使用BCryptPasswordEncoder保存初始密码
+        String encode = new BCryptPasswordEncoder().encode("666666");
+        user.setPassword(encode);
+        line = userDao.saveUser(user);
+        if (line < 1) {
+            return line;
         }
+        Long newId = userDao.getNewId();
+        User_Role user_role = new User_Role();
+        user_role.setUserId(newId.intValue());
+        user_role.setRoleIds(roleIds);
+        line = userDao.saveUserRole(user_role);
+
         return line;
     }
 
     @Override
-    public Long updateUser(User user) {
-        return userDao.updateUser(user);
+    public Long updateUser(User user, String roleIds, Integer userRoleId) {
+        Long line = userDao.updateUser(user);
+        if (line < 1) {
+            return line;
+        }
+
+        User_Role user_role = new User_Role();
+        user_role.setRoleIds(roleIds);
+        user_role.setId(userRoleId);
+        line = userDao.updateUserRole(user_role);
+        return line;
     }
 
     @Override
@@ -72,5 +75,10 @@ public class UserServiceImpl implements UserService {
             throw new Exception("不能删除");
         }
         return userDao.deleteUser(id);
+    }
+
+    @Override
+    public User_Role findUserRoleOfUserId(Long id) {
+        return userDao.findUserRoleOfUserId(id);
     }
 }

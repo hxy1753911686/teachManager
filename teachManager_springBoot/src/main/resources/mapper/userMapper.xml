@@ -3,20 +3,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.school.estimate.dao.UserDao">
     <resultMap id="BaseResultMap" type="com.school.estimate.domain.User">
-        <result column="id" property="id"  />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="phone" property="phone" />
-        <result column="email" property="email" />
-        <result column="create_time" property="createTime" />
-        <result column="login_time" property="loginTime" />
-        <result column="last_login_time" property="lastLoginTime" />
-        <result column="count" property="count" />
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="create_time" property="createTime"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="count" property="count"/>
+    </resultMap>
+
+    <resultMap id="UserRoleMap" type="com.school.estimate.domain.User_Role">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="role_id" property="roleIds"/>
     </resultMap>
 
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
-    <parameterMap id="User" type="com.school.estimate.domain.User" />
-    <parameterMap id="UserRole" type="com.school.estimate.domain.User_Role" />
+    <parameterMap id="User" type="com.school.estimate.domain.User"/>
+    <parameterMap id="UserRole" type="com.school.estimate.domain.User_Role"/>
 
     <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
@@ -31,6 +37,13 @@
             id,username,password,phone,email,create_time,login_time,last_login_time,count
         from estimate.users
         where id = #{id}
+    </select>
+
+    <select id="findUserRoleOfUserId" parameterType="java.lang.Long" resultMap="UserRoleMap">
+        select
+            id,user_id,role_id
+        from estimate.user_role
+        where user_id = #{id}
     </select>
 
     <select id="findAllUser" resultMap="BaseResultMap" resultType="User">
@@ -58,28 +71,42 @@
 
     <update id="updateUser" parameterType="com.school.estimate.domain.User">
         update estimate.users
-        set
-        <if test="username!=null">
-            username = #{username}
-        </if>
-        <if test="password!=null">
-            , password = #{password}
-        </if>
-        <if test="phone!=null">
-            , phone = #{phone}
-        </if>
-        <if test="email!=null">
-            , email = #{email}
-        </if>
-        <if test="loginTime!=null">
-            , login_time = #{loginTime}
-        </if>
-        <if test="lastLoginTime!=null">
-            , last_login_time = #{lastLoginTime}
-        </if>
-        <if test="count!=null">
-            , count = #{count}
-        </if>
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username!=null">
+                username = #{username},
+            </if>
+            <if test="password!=null">
+                password = #{password},
+            </if>
+            <if test="phone!=null">
+                phone = #{phone},
+            </if>
+            <if test="email!=null">
+                email = #{email},
+            </if>
+            <if test="loginTime!=null">
+                login_time = #{loginTime},
+            </if>
+            <if test="lastLoginTime!=null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="count!=null">
+                count = #{count},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateUserRole" parameterType="com.school.estimate.domain.User_Role">
+        update estimate.user_role
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId!=null">
+                user_id = #{userId},
+            </if>
+            <if test="roleIds!=null">
+                role_id = #{roleIds},
+            </if>
+        </trim>
         where id = #{id}
     </update>
 

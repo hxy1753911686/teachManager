@@ -24,6 +24,7 @@
 <body>
 <form class="layui-form">
     <input type="hidden" id="id" name="id" th:value="${user.id}"/>
+    <input type="hidden" id="userRoleId" name="userRoleId" th:value="${userRoleId}"/>
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
@@ -49,6 +50,16 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <th:block th:each="role : ${roleList}">
+                <input type="checkbox" th:name="|role[${role.roleCode}]|" th:title="${role.roleName}"
+                       th:value="${role.id}" th:checked="${#lists.contains(roles,role.id)}">
+            </th:block>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <div class="layui-input-block">
             <input type="button" class="layui-btn" lay-submit lay-filter="updateUserForm" value="确定"></input>
             <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-reply"></i></button>
@@ -62,6 +73,18 @@
         form.on('submit(updateUserForm)', function (data) {
             //监听提交
             console.log(data);
+            var roleIds = '';
+            var arrData = data.field;
+            var arr = Object.keys(data.field);
+            for (var i = 0; i < arr.length; i++) {
+                var key = arr[i].toString();
+                if (key.indexOf("ROLE") != -1) {
+                    roleIds = roleIds + arrData[key] + ',';
+                }
+            }
+            if (roleIds != '') {
+                roleIds = roleIds.substring(0, roleIds.length - 1);
+            }
             $.ajax({
                 type: "POST",
                 url: "/estimate/manage/user/updateUser",
@@ -69,7 +92,9 @@
                     id: data.field.id,
                     username: data.field.username,
                     phone: data.field.phone,
-                    email: data.field.email
+                    email: data.field.email,
+                    roleIds:roleIds,
+                    userRoleId:data.field.userRoleId
                 },
                 success: function (result) {
                     //关闭编辑用户界面
