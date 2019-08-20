@@ -70,11 +70,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long deleteUser(Long id) throws Exception {
-        if (id.intValue() == 8) {
-            throw new Exception("不能删除");
+    public Long deleteUser(Long id) {
+        Long aLong = userDao.deleteUserRole(id);
+        if (aLong < 1) {
+            return aLong;
         }
         return userDao.deleteUser(id);
+    }
+
+    @Override
+    public Long delMulUser(String idList) {
+        String[] idArr = idList.split(",");
+        int i = 0;
+        for (String s : idArr) {
+            deleteUser(Long.parseLong(s));
+            i++;
+        }
+        return Long.valueOf(i);
     }
 
     @Override

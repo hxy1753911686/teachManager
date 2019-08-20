@@ -23,6 +23,7 @@ public interface UserDao {
     Long updateUserRole(User_Role user_role);
 
     Long deleteUser(@Param("id") Long id);
+    Long deleteUserRole(@Param("id")Long userId);
 
     Long getNewId();
 

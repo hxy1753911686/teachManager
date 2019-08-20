@@ -104,6 +104,13 @@ public class PermissionController {
         return "/manage/permission/updatePermission";
     }
 
+    @RequestMapping(value = "updatePermission",method = RequestMethod.POST)
+    @ResponseBody
+    public String updatePermission(Permission permission){
+        return permissionService.updatePermission(permission).toString();
+
+    }
+
     private List getChild(Long farId) {
         List list = new ArrayList();
         List<Permission> childPermission = permissionService.getPermissionByLevel(farId, null);

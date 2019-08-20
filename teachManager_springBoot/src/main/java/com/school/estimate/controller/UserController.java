@@ -53,16 +53,7 @@ public class UserController {
     @RequestMapping(value = "/delMulUser", method = RequestMethod.POST)
     @ResponseBody
     public String delMulUser(String idList) throws Exception {
-        try {
-            String[] idArr = idList.split(",");
-            for (String s : idArr) {
-                userService.deleteUser(Long.parseLong(s));
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-
-        return "200";
+        return userService.delMulUser(idList).toString();
     }
 
     @RequestMapping(value = "delUser", method = RequestMethod.POST)
@@ -97,7 +88,9 @@ public class UserController {
         if(user_role != null){
             String[] split = user_role.getRoleIds().split(",");
             for (String s : split) {
-                list.add(Integer.parseInt(s));
+                if(s != null && !"".equals(s)){
+                    list.add(Integer.parseInt(s));
+                }
             }
             model.addAttribute("userRoleId",user_role.getId());
         }

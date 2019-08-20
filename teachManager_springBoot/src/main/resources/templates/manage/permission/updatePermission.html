@@ -25,6 +25,7 @@
 </head>
 <body>
 <form class="layui-form">
+    <input type="hidden" id="id" name="id" class="layui-input" th:value="${permission.id}"/>
     <div class="layui-form-item">
         <label class="layui-form-label">类型</label>
         <div class="layui-input-inline">
@@ -53,6 +54,7 @@
         <label class="layui-form-label">权限名称</label>
         <div class="layui-input-inline">
             <input type="input" id="name" name="name" placeholder="请输入权限名称" lay-verify="required"
+                   th:value="${permission.name}"
                    class="layui-input"/>
         </div>
     </div>
@@ -61,7 +63,7 @@
         <label class="layui-form-label">url</label>
         <div class="layui-input-inline">
             <input type="input" id="url" name="url" placeholder="请输入url"
-                   class="layui-input"/>
+                   class="layui-input" th:value="${permission.url}"/>
         </div>
     </div>
 
@@ -69,14 +71,15 @@
         <label class="layui-form-label">icon</label>
         <div class="layui-input-inline">
             <!--      后续换成列表选择      -->
-            <input type="input" id="icon" name="icon" class="layui-input"/>
+            <input type="input" id="icon" name="icon" class="layui-input" th:value="${permission.icon}"/>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">htmlID</label>
         <div class="layui-input-inline">
-            <input type="input" id="htmlID" name="htmlID" class="layui-input" readonly="readonly"/>
+            <input type="input" id="htmlID" name="htmlID" class="layui-input" readonly="readonly"
+                   th:value="${permission.htmlID}"/>
         </div>
     </div>
 
@@ -84,6 +87,7 @@
         <label class="layui-form-label">权限描述</label>
         <div class="layui-input-block">
             <textarea type="input" id="description" name="description" class="layui-textarea"
+                      th:text="${permission.description}"
                       placeholder="请输入权限描述"></textarea>
         </div>
     </div>
@@ -108,8 +112,9 @@
             console.log(data);
             $.ajax({
                 type: "POST",
-                url: "/estimate/manage/permission/addPermission",
+                url: "/estimate/manage/permission/updatePermission",
                 data: {
+                    id:data.field.id,
                     name: data.field.name,
                     parentId: parentId,
                     permissionLevel: data.field.permissionLevel,

@@ -22,7 +22,9 @@ public interface UserService {
     Long updateUser(User user,String roleIds,Integer userRoleId);
 
     @Transactional
-    Long deleteUser(Long id) throws Exception;
+    Long deleteUser(Long id);
+    @Transactional
+    Long delMulUser(String idList);
 
     User_Role findUserRoleOfUserId(Long id);
 }

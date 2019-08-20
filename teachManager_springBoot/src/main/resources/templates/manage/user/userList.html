@@ -48,6 +48,7 @@
         <button class="layui-btn layui-btn-sm" lay-event="newUser">新增</button>
         <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">查看</button>-->
         <button class="layui-btn layui-btn-sm" lay-event="delList">批量删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addList">批量新增</button>
     </div>
 </script>
 
@@ -117,6 +118,19 @@
                         type: 2,
                         title: '新增用户',
                         content: '/estimate/manage/user/addUser',
+                        area: ['800px', '600px'],
+                        maxmin: true,
+                        end: function () {
+                            table.reload('userList');
+                        }
+                    })
+                    break;
+                case 'addList':
+                    layer.open({
+                        id: 'addList',
+                        type: 2,
+                        title: '批量新增',
+                        content: '/estimate/manage/user/addList',
                         area: ['800px', '600px'],
                         maxmin: true,
                         end: function () {
