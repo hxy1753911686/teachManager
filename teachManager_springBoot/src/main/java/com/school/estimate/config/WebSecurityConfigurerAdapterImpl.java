@@ -50,8 +50,7 @@ public class WebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapt
         //如果要继续添加，则继续跟.and().withUser().....
 
         //另一种方式为通过userDetailsService接口获取
-        //.passwordEncoder(new BCryptPasswordEncoder())  暂时先不使用加密
-        auth.userDetailsService(userDetailsService).passwordEncoder(new NotCheckPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 
     }
 
