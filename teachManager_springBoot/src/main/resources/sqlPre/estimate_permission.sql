@@ -1,8 +1,6 @@
 INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (1, '首页', 0, 1, '/index', 'am-icon-home', 'homePage', 1, null);
 INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (2, '管理员业务', 0, 1, null, 'am-icon-cubes', 'Manager', 2, null);
 INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (3, '信息管理', 2, 2, '', 'am-icon-users', 'messManage', 3, '管理员所属的信息管理');
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (4, '用户管理', 3, 3, '/manage/user', 'am-icon-user', 'userManage', 4, '管理登录用户，为用户分配角色');
+INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (4, '用户管理', 3, 3, '/manage/user', 'am-icon-user', 'userManage', 4, '管理登录用户');
 INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (5, '角色管理', 3, 3, '/manage/role', null, 'roleManage', 5, '管理角色，为角色分配权限');
 INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (6, '权限管理', 3, 3, '/manage/permission', null, 'permissionManage', 6, '管理权限');
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (24, '教务处1', 0, 1, '', '', 'taskManage', 24, '1234');
-INSERT INTO estimate.permission (id, p_name, parent_id, p_level, url, icon, html_id, data_id, description) VALUES (25, '教务处业务', 0, 1, '', '', 'taskManage', 25, '教务处排课，教学内容，最新资讯的编辑处');
