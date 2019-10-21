@@ -24,7 +24,6 @@
 <body>
 <form class="layui-form">
     <input type="hidden" id="id" name="id" th:value="${user.id}"/>
-    <input type="hidden" id="userRoleId" name="userRoleId" th:value="${userRoleId}"/>
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
@@ -93,8 +92,7 @@
                     username: data.field.username,
                     phone: data.field.phone,
                     email: data.field.email,
-                    roleIds:roleIds,
-                    userRoleId:data.field.userRoleId
+                    roleIds:roleIds
                 },
                 success: function (result) {
                     //关闭编辑用户界面

@@ -13,20 +13,21 @@
         <result column="html_id" property="htmlID" />
         <result column="data_id" property="dataID" />
         <result column="description" property="description" />
-    </resultMap>
-    <resultMap id="Role" type="com.school.estimate.domain.Role">
-        <id column="id" property="id"  />
-        <result column="role_code" property="roleCode" />
-        <result column="role_name" property="roleName" />
+
+        <association property="roles" javaType="com.school.estimate.domain.Role">
+            <id column="id" property="id"  />
+            <result column="role_code" property="roleCode" />
+            <result column="role_name" property="roleName" />
+        </association>
+
     </resultMap>
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
     <parameterMap id="Permission" type="com.school.estimate.domain.Permission" />
 
-
     <select id="findByName" resultType="Permission" parameterType="java.lang.String">
         select
             id,p_name,parent_id,p_level,url,icon,html_id,data_id,description
-        from estimate.permission
+        from permission
         where p_name like CONCAT(CONCAT('%', #{name}), '%')
         order by id;
     </select>
@@ -34,23 +35,26 @@
     <select id="findPermissionById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
             id,p_name,parent_id,p_level,url,icon,html_id,data_id,description
-        from estimate.permission
+        from permission
         where id = #{id}
     </select>
 
     <select id="findAllPermission" resultMap="BaseResultMap" resultType="Permission">
         select
             id,p_name,parent_id,p_level,url,icon,html_id,data_id,description
-        from estimate.permission
+        from permission
         order by id;
     </select>
 
-    <insert id="savePermission" parameterMap="Permission" useGeneratedKeys="true" keyProperty="id">
+    <insert id="savePermission" parameterType="Permission">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID();
+        </selectKey>
         insert into permission(id,p_name,parent_id,p_level,url,icon,html_id,data_id,description) values(#{id},#{name},#{parentId},#{permissionLevel},#{url},#{icon},#{htmlID},#{dataID},#{description});
     </insert>
 
-    <update id="updatePermission" parameterMap="Permission">
-        update estimate.permission
+    <update id="updatePermission" parameterType="Permission">
+        update permission
         set
         <if test="name!=null">
             p_name = #{name}
@@ -80,28 +84,30 @@
     </update>
 
     <delete id="deletePermission" parameterType="java.lang.Long">
-        delete from estimate.permission where id = #{id}
+        delete from permission where id = #{id}
     </delete>
 
-    <select id="findPermissionsOfRoleId" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.Long">
+    <select id="findPermissionsOfRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
-            p.id,p.p_name,p.parent_id,p.p_level,p.url,p.icon,p.html_id,p.data_id,p.description
-        from estimate.permission p,role_permission r
-        where r.role_id = #{id} and  FIND_IN_SET(p.id,r.permission_id) > 0
+            *
+        from permission p
+        left join role_permission rp on rp.permission_id = p.id
+        left join role r on r.id = rp.role_id
+        where r.role_id = #{id}
         order by p.id;
     </select>
 
     <select id="getPermissionByUrl" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.String">
         select
             id,p_name,parent_id,p_level,url,icon,html_id,data_id,description
-        from estimate.permission
+        from permission
         where permission.url = #{url};
     </select>
 
     <select id="getPermissionByLevel" resultMap="BaseResultMap" resultType="Permission" parameterType="Map">
         select
             id,p_name,parent_id,p_level,url,icon,html_id,data_id,description
-        from estimate.permission
+        from permission
         where 1=1
         <if test="parentId!=null">
             and permission.parent_id = #{parentId}
@@ -113,26 +119,13 @@
 
     </select>
 
-    <select id="getRolesByPermissionId" resultMap="Role" parameterType="java.lang.Long">
-        select
-             e.id,e.role_code,e.role_name
-        from estimate.role e,role_permission r
-        where FIND_IN_SET(#{id},r.permission_id) > 0
-        and e.id = r.role_id
-        order by e.id;
-    </select>
-
     <select id="findPermissByRoleName" resultMap="BaseResultMap" resultType="Permission" parameterType="java.lang.String">
         select
             p.id,p.p_name,p.parent_id,p.p_level,p.url,p.icon,p.html_id,p.data_id,p.description
-        from estimate.permission p,role_permission e,role r
+        from permission p
+        left join role_permission e on p.id = e.permission_id
+        left join role r on e.role_id = r.id
         where r.role_code = #{roleName}
-          and r.id = e.role_id and FIND_IN_SET(p.id,e.permission_id) > 0
     </select>
-
-    <select id="getNewId" resultType="java.lang.Long">
-        select LAST_INSERT_ID();
-    </select>
-
 
 </mapper>

@@ -2,12 +2,13 @@ package com.school.estimate.service.impl;
 
 import com.school.estimate.dao.UserDao;
 import com.school.estimate.domain.User;
-import com.school.estimate.domain.User_Role;
 import com.school.estimate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -46,51 +47,61 @@ public class UserServiceImpl implements UserService {
         if (line < 1) {
             return line;
         }
-        Long newId = userDao.getNewId();
-        User_Role user_role = new User_Role();
-        user_role.setUserId(newId.intValue());
-        user_role.setRoleIds(roleIds);
-        line = userDao.saveUserRole(user_role);
+        Integer newId = user.getId();
+        String[] roleArr = roleIds.split(",");
+        List<String> roleList = Arrays.asList(roleArr);
+        line = userDao.saveUserRole(newId.longValue(),roleList);
 
         return line;
     }
 
     @Override
-    public Long updateUser(User user, String roleIds, Integer userRoleId) {
+    public Long updateUser(User user, String roleIds) {
         Long line = userDao.updateUser(user);
         if (line < 1) {
             return line;
         }
 
-        User_Role user_role = new User_Role();
-        user_role.setRoleIds(roleIds);
-        user_role.setId(userRoleId);
-        line = userDao.updateUserRole(user_role);
+        List<Integer> userList = new ArrayList<>();
+        userList.add(user.getId());
+        userDao.deleteUserRole(userList);
+
+        Integer updateId = user.getId();
+        String[] roleArr = roleIds.split(",");
+        List<String> roleList = Arrays.asList(roleArr);
+        line = userDao.saveUserRole(updateId.longValue(),roleList);
         return line;
     }
 
     @Override
     public Long deleteUser(Long id) {
-        Long aLong = userDao.deleteUserRole(id);
+        List<Integer> userList = new ArrayList<>();
+        userList.add(id.intValue());
+        Long aLong = userDao.deleteUserRole(userList);
         if (aLong < 1) {
             return aLong;
         }
-        return userDao.deleteUser(id);
+        return userDao.deleteUser(userList);
     }
 
     @Override
     public Long delMulUser(String idList) {
+        List<Integer> userList = new ArrayList<>();
         String[] idArr = idList.split(",");
-        int i = 0;
         for (String s : idArr) {
-            deleteUser(Long.parseLong(s));
-            i++;
+            userList.add(Integer.valueOf(s));
         }
-        return Long.valueOf(i);
+
+        Long aLong = userDao.deleteUserRole(userList);
+        if (aLong < 1) {
+            return aLong;
+        }
+
+        return userDao.deleteUser(userList);
     }
 
     @Override
-    public User_Role findUserRoleOfUserId(Long id) {
-        return userDao.findUserRoleOfUserId(id);
+    public List<Integer> findRoleIdByUserId(Long id) {
+        return userDao.findRoleIdByUserId(id);
     }
 }

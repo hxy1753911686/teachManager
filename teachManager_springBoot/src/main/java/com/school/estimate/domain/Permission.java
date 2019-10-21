@@ -1,6 +1,8 @@
 package com.school.estimate.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Permission implements Serializable {
     private Integer id;
@@ -12,6 +14,16 @@ public class Permission implements Serializable {
     private String htmlID;
     private Integer dataID;
     private String description;
+
+    private Set<Role> roles = new HashSet<Role>();
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public Permission() {
     }

@@ -40,9 +40,8 @@ public class PermissionServiceImpl implements PermissionService {
         if(aLong < 1){
             return aLong;
         }
-
-        Long newId = permissionDao.getNewId();
-        return newId;
+        Integer id = permission.getId();
+        return id.longValue();
     }
 
     @Override

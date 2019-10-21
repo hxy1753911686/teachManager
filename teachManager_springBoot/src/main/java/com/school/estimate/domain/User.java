@@ -2,6 +2,8 @@ package com.school.estimate.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class User implements Serializable {
     private Integer id;
@@ -13,6 +15,15 @@ public class User implements Serializable {
     private Date loginTime;
     private Date lastLoginTime;
     private Integer count;
+    private Set<Role> roles = new HashSet<Role>();
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public User() {
     }

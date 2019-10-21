@@ -3,18 +3,15 @@ package com.school.estimate.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.school.estimate.domain.Role;
 import com.school.estimate.domain.User;
-import com.school.estimate.domain.User_Role;
 import com.school.estimate.service.RoleService;
 import com.school.estimate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,30 +79,19 @@ public class UserController {
     public String gotoUpdateUser(Long id, Model model) {
         User user = userService.findUserById(id);
         List<Role> allRole = roleService.findAllRole();
-        User_Role user_role = userService.findUserRoleOfUserId(id);
-        List<Integer> list = new ArrayList<>();
-
-        if(user_role != null){
-            String[] split = user_role.getRoleIds().split(",");
-            for (String s : split) {
-                if(s != null && !"".equals(s)){
-                    list.add(Integer.parseInt(s));
-                }
-            }
-            model.addAttribute("userRoleId",user_role.getId());
-        }
+        List<Integer> roleIds = userService.findRoleIdByUserId(id);
 
         model.addAttribute("user", user);
         model.addAttribute("roleList", allRole);
-        model.addAttribute("roles",list);
+        model.addAttribute("roles",roleIds);
 
         return "manage/user/updateUser";
     }
 
     @RequestMapping(value = "updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public String updateUser(User user,String roleIds,Integer userRoleId) {
-        userService.updateUser(user,roleIds,userRoleId);
+    public String updateUser(User user,String roleIds) {
+        userService.updateUser(user,roleIds);
         return "200";
     }
 }

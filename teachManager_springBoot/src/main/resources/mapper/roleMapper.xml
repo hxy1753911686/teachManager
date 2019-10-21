@@ -6,17 +6,34 @@
         <result column="id" property="id"  />
         <result column="role_code" property="roleCode" />
         <result column="role_name" property="roleName" />
-    </resultMap>
 
-    <resultMap id="rolePermission" type="com.school.estimate.domain.Role_Permission">
-        <result column="id" property="id"  />
-        <result column="role_id" property="roleId" />
-        <result column="permission_id" property="permissionId" />
+        <association property="permissions" javaType="com.school.estimate.domain.Permission">
+            <id column="id" property="id"  />
+            <result column="p_name" property="name" />
+            <result column="parent_id" property="parentId" />
+            <result column="p_level" property="permissionLevel" />
+            <result column="url" property="url" />
+            <result column="icon" property="icon" />
+            <result column="html_id" property="htmlID" />
+            <result column="data_id" property="dataID" />
+            <result column="description" property="description" />
+        </association>
+
+        <association property="users" javaType="com.school.estimate.domain.User">
+            <result column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="password" property="password"/>
+            <result column="phone" property="phone"/>
+            <result column="email" property="email"/>
+            <result column="create_time" property="createTime"/>
+            <result column="login_time" property="loginTime"/>
+            <result column="last_login_time" property="lastLoginTime"/>
+            <result column="count" property="count"/>
+        </association>
     </resultMap>
 
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
     <parameterMap id="Role" type="com.school.estimate.domain.Role" />
-    <parameterMap id="Role_Permission" type="com.school.estimate.domain.Role_Permission" />
 
     <select id="findByName" resultType="Role" parameterType="java.lang.String">
         select
@@ -29,23 +46,38 @@
     <select id="findRoleById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
             id,role_code,role_name
-        from estimate.role
+        from role
         where id = #{id}
     </select>
 
     <select id="findAllRole" resultMap="BaseResultMap" resultType="Role">
         select
             id,role_code,role_name
-        from estimate.role
+        from role
         order by id;
     </select>
 
-    <insert id="saveRole" parameterMap="Role" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveRole" parameterMap="Role">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID();
+        </selectKey>
         insert into role(id,role_code,role_name) values(#{id},#{roleCode},#{roleName});
     </insert>
 
+    <insert id="saveRolePer" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into role_permission
+        ( role_id,permission_id)
+        values
+        <foreach collection="permissionList" item="item" index="index" separator=",">
+            (
+            #{roleId},
+            #{item}
+            )
+        </foreach>
+    </insert>
+
     <update id="updateRole" parameterMap="Role">
-        update estimate.role
+        update role
         set
         <if test="roleCode!=null">
             role_code = #{roleCode}
@@ -56,56 +88,42 @@
         where id = #{id}
     </update>
 
-    <update id="updateRolePer" parameterMap="Role_Permission">
-        update estimate.role_permission
-        set
-        <if test="permissionIds!=null">
-            permission_id = #{permissionIds}
-        </if>
-        where id = #{id}
-    </update>
-
     <delete id="deleteRole" parameterType="java.lang.Long">
-        delete from estimate.role where id = #{id}
+        delete from role where id = #{id}
     </delete>
 
     <delete id="deleteRolePre" parameterType="java.lang.Long">
-        delete from estimate.role_permission where role_id = #{id}
+        delete from role_permission where role_id = #{id}
     </delete>
+
+    <select id="getRolesByPermissionId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+             *
+        from role e
+        left join role_permission r on r.role_id = e.id
+        left join permission p on p.id = r.permission_id
+        where p.id = #{id}
+        order by e.id;
+    </select>
 
     <select id="findRolesOfUserId" resultMap="BaseResultMap" resultType="Role" parameterType="java.lang.Long">
         select
-            r.id,r.role_code,r.role_name
-        from estimate.role r,user_role u
-        where u.user_id = #{id} and FIND_IN_SET(r.id,u.role_id) > 0
-        order by r.id;
-    </select>
-
-    <select id="getNewId" resultType="java.lang.Long">
-        select LAST_INSERT_ID();
-    </select>
-
-    <insert id="saveRolePer" parameterMap="Role_Permission" useGeneratedKeys="true" keyProperty="id">
-        insert into estimate.role_permission
-        ( id,role_id,permission_id)
-        values
-            (#{id},
-            #{roleId},
-            #{permissionIds});
-    </insert>
-
-    <select id="findRolePerByRoleId" parameterType="java.lang.Long" resultType="com.school.estimate.domain.Role_Permission">
-        select
             *
-        from estimate.role_permission
-        where role_id = #{id}
+        from role r
+        left join role_permission rp on r.id = rp.role_id
+        left join permission p on rp.permission_id = p.id
+        left join user_role u on FIND_IN_SET(r.id,u.role_id) > 0
+        where u.user_id = #{id}
+        order by r.id;
     </select>
 
     <select id="findPermissionByRoleId" parameterType="java.lang.Long" resultType="java.lang.String">
         select
-            permission_id
-        from estimate.role_permission
-        where role_id = #{id}
+            p.id
+        from role r
+        left join role_permission rp on r.id = rp.role_id
+        left join permission p on p.id = rp.permission_id
+        where r.id = #{id}
     </select>
 
 </mapper>

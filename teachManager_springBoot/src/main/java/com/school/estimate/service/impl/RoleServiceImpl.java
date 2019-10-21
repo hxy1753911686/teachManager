@@ -2,12 +2,11 @@ package com.school.estimate.service.impl;
 
 import com.school.estimate.dao.RoleDao;
 import com.school.estimate.domain.Role;
-import com.school.estimate.domain.Role_Permission;
 import com.school.estimate.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //TODO: 加入redis
@@ -40,14 +39,9 @@ public class RoleServiceImpl implements RoleService {
             return aLong;
         }
 
-        Long newId = roleDao.getNewId();
-        String strlist = "";
-        for (int i = 0; i < permissionArr.length; i++) {
-            strlist += permissionArr[i] + ",";
-        }
-        strlist = strlist.substring(0,strlist.length() - 1);
-        Role_Permission role_permission = new Role_Permission(newId.intValue(), strlist);
-        return roleDao.saveRolePer(role_permission);
+        Integer newId = role.getId();
+        List<String> permissionList = Arrays.asList(permissionArr);
+        return roleDao.saveRolePer(newId.longValue(),permissionList);
     }
 
     @Override
@@ -56,15 +50,13 @@ public class RoleServiceImpl implements RoleService {
         if (aLong < 1) {
             return aLong;
         }
-        //修改permission字符串
-        Role_Permission role_permission = roleDao.findRolePerByRoleId(role.getId().longValue());
-        String strlist = "";
-        for (int i = 0; i < permissionArr.length; i++) {
-            strlist += permissionArr[i] + ",";
-        }
-        strlist = strlist.substring(0,strlist.length() - 1);
-        role_permission.setPermissionIds(strlist);
-        return roleDao.updateRolePer(role_permission);
+
+        //删除原中间表中关联的permission，并插入新的数据
+        roleDao.deleteRolePre(role.getId().longValue());
+
+        Integer updateId = role.getId();
+        List<String> permissionList = Arrays.asList(permissionArr);
+        return roleDao.saveRolePer(updateId.longValue(),permissionList);
     }
 
     @Override
@@ -82,8 +74,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public String findPermissionByRoleId(Long id) {
+    public List<String> findPermissionByRoleId(Long id) {
         return roleDao.findPermissionByRoleId(id);
     }
+
+    @Override
+    public List<Role> getRolesByPermissionId(Long id) {
+        return roleDao.getRolesByPermissionId(id);
+    }
+
 
 }

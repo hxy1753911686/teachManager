@@ -113,9 +113,7 @@ public class RoleController {
     @ResponseBody
     public String permissionDetail(Long roleId, String showType) {
         List<Permission> permissions = permissionService.findAllPermission();
-        String permissionStr = roleService.findPermissionByRoleId(roleId);
-        String[] split = permissionStr.split(",");
-        List<String> permissionList = Arrays.asList(split);
+        List<String> permissionList = roleService.findPermissionByRoleId(roleId);
 
         List list = getTreeData(permissions, permissionList, showType);
         Map map = new HashMap();

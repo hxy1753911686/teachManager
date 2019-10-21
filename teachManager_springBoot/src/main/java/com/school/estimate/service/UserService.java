@@ -1,7 +1,6 @@
 package com.school.estimate.service;
 
 import com.school.estimate.domain.User;
-import com.school.estimate.domain.User_Role;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,12 +18,12 @@ public interface UserService {
     Long saveUser(User user,String roleIds);
 
     @Transactional
-    Long updateUser(User user,String roleIds,Integer userRoleId);
+    Long updateUser(User user,String roleIds);
 
     @Transactional
     Long deleteUser(Long id);
     @Transactional
     Long delMulUser(String idList);
 
-    User_Role findUserRoleOfUserId(Long id);
+    List<Integer> findRoleIdByUserId(Long id);
 }

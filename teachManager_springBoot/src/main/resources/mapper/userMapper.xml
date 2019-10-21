@@ -12,22 +12,21 @@
         <result column="login_time" property="loginTime"/>
         <result column="last_login_time" property="lastLoginTime"/>
         <result column="count" property="count"/>
-    </resultMap>
 
-    <resultMap id="UserRoleMap" type="com.school.estimate.domain.User_Role">
-        <result column="id" property="id"/>
-        <result column="user_id" property="userId"/>
-        <result column="role_id" property="roleIds"/>
+        <association property="roles" javaType="com.school.estimate.domain.Role">
+            <result column="id" property="id"  />
+            <result column="role_code" property="roleCode" />
+            <result column="role_name" property="roleName" />
+        </association>
     </resultMap>
 
     <!-- 如果不用parameterMap,直接在以下的parameterMap中寫類路徑，會報錯 -->
     <parameterMap id="User" type="com.school.estimate.domain.User"/>
-    <parameterMap id="UserRole" type="com.school.estimate.domain.User_Role"/>
 
     <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
             id,username,password,phone,email,create_time,login_time,last_login_time,count
-        from estimate.users
+        from users
         where username like CONCAT(CONCAT('%', #{name}), '%')
         order by id;
     </select>
@@ -35,42 +34,55 @@
     <select id="findUserById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
             id,username,password,phone,email,create_time,login_time,last_login_time,count
-        from estimate.users
+        from users
         where id = #{id}
     </select>
 
-    <select id="findUserRoleOfUserId" parameterType="java.lang.Long" resultMap="UserRoleMap">
+    <select id="findRoleIdByUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select
-            id,user_id,role_id
-        from estimate.user_role
-        where user_id = #{id}
+            r.id
+        from users u
+        left join user_role ur on ur.user_id = u.id
+        left join role r on r.id = ur.role_id
+        where u.id = #{id}
     </select>
 
     <select id="findAllUser" resultMap="BaseResultMap" resultType="User">
         select
             id,username,password,phone,email,create_time,login_time,last_login_time,count
-        from estimate.users
+        from users
         order by id
     </select>
 
     <select id="findUserByPage" resultMap="BaseResultMap" resultType="User">
         select
             id,username,password,phone,email,create_time,login_time,last_login_time,count
-        from estimate.users
+        from users
         order by id
         limit #{start},#{size}
     </select>
 
     <insert id="saveUser" parameterMap="User" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID();
+        </selectKey>
         insert into users(id,username,password,phone,email,create_time,login_time,last_login_time,count) values(#{id},#{username},#{password},#{phone},#{email},now(),null,null,0);
     </insert>
 
-    <insert id="saveUserRole" parameterMap="UserRole" useGeneratedKeys="true" keyProperty="id">
-        insert into estimate.user_role(id,user_id,role_id) values(#{id},#{userId},#{roleIds});
+    <insert id="saveUserRole" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into user_role
+        ( user_id,role_id)
+        values
+        <foreach collection="roleList" item="item" index="index" separator=",">
+            (
+            #{userId},
+            #{item}
+            )
+        </foreach>
     </insert>
 
     <update id="updateUser" parameterType="com.school.estimate.domain.User">
-        update estimate.users
+        update users
         <trim prefix="set" suffixOverrides=",">
             <if test="username!=null">
                 username = #{username},
@@ -97,29 +109,20 @@
         where id = #{id}
     </update>
 
-    <update id="updateUserRole" parameterType="com.school.estimate.domain.User_Role">
-        update estimate.user_role
-        <trim prefix="set" suffixOverrides=",">
-            <if test="userId!=null">
-                user_id = #{userId},
-            </if>
-            <if test="roleIds!=null">
-                role_id = #{roleIds},
-            </if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <delete id="deleteUser" parameterType="java.lang.Long">
-        delete from estimate.users where id = #{id}
+    <delete id="deleteUser" parameterType="java.util.List">
+        delete from users where 1>2
+              or id in
+        <foreach collection="list"  item="item" open="(" separator="," close=")"  >
+              #{item}
+        </foreach>
     </delete>
 
-    <delete id="deleteUserRole" parameterType="java.lang.Long">
-        delete from estimate.user_role where user_id = #{id}
+    <delete id="deleteUserRole" parameterType="java.util.List">
+        delete from user_role where 1>2
+              or user_id in
+        <foreach collection="list"  item="item" open="(" separator="," close=")"  >
+              #{item}
+        </foreach>
     </delete>
-
-    <select id="getNewId" resultType="java.lang.Long">
-        select LAST_INSERT_ID();
-    </select>
 
 </mapper>

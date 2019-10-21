@@ -3,6 +3,7 @@ package com.school.estimate.component;
 import com.school.estimate.domain.Permission;
 import com.school.estimate.domain.Role;
 import com.school.estimate.service.PermissionService;
+import com.school.estimate.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -18,6 +19,9 @@ import java.util.List;
 public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource {
     @Autowired
     private PermissionService permissionService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
@@ -35,7 +39,7 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
             return SecurityConfig.createList("ROLE_LOGIN");
         }
 
-        List<Role> roles = permissionService.getRolesByPermissionId(permission.getId().longValue());
+        List<Role> roles = roleService.getRolesByPermissionId(permission.getId().longValue());
         int size = roles.size();
         String[] values = new String[size];
         for (int i = 0; i < size; i++) {

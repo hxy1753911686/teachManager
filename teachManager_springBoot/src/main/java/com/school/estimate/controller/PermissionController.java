@@ -52,11 +52,9 @@ public class PermissionController {
         if(aLong < 1){
             return aLong.toString();
         }
-        Permission p = new Permission();
-        p.setName(permission.getName());
-        p.setId(aLong.intValue());
-        p.setDataID(aLong.intValue());
-        aLong = permissionService.updatePermission(p);
+
+        permission.setDataID(aLong.intValue());
+        aLong = permissionService.updatePermission(permission);
         return aLong.toString();
     }
 
@@ -120,7 +118,6 @@ public class PermissionController {
                 permissionMap.put("id", permission.getId());
                 permissionMap.put("name", permission.getName());
                 permissionMap.put("level",permission.getPermissionLevel());
-//                permissionMap.put("spread", "false");
                 //获取child
                 List childMap = getChild(permission.getId().longValue());
                 if (childMap != null && childMap.size() > 0) {

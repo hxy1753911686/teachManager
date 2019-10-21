@@ -1,7 +1,6 @@
 package com.school.estimate.dao;
 
 import com.school.estimate.domain.Role;
-import com.school.estimate.domain.Role_Permission;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,11 +16,9 @@ public interface RoleDao {
     //根据用户ID获取用户所有角色
     List<Role> findRolesOfUserId(@Param("id") Long id);
 
-    Long getNewId();
-
-    Long saveRolePer(Role_Permission role_permission);
-    String findPermissionByRoleId(@Param("id")Long id);
-    Role_Permission findRolePerByRoleId(@Param("id")Long id);
-    Long updateRolePer(Role_Permission role_permission);
+    Long saveRolePer(@Param("roleId")Long roleId,List<String> permissionList);
+    List<String> findPermissionByRoleId(@Param("id")Long id);
     Long deleteRolePre(@Param("id")Long id);
+
+    List<Role> getRolesByPermissionId(@Param("id") Long id);
 }
